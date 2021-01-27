@@ -17,14 +17,14 @@ public abstract class GameObject {
 	private UUID internalId;
 	
 	private List<Component> components;
-	private Map<Class<Component>, Component> cache;
+	private Map<Class<?>, Component> cache;
 	
 	public GameObject(String name) {
 		internalId = UUID.randomUUID();
 		this.name = name;
 		
 		components = new ArrayList<Component>();
-		cache = new HashMap<Class<Component>, Component>();
+		cache = new HashMap<Class<?>, Component>();
 	}
 	
 	public void update(double delta) {
@@ -35,7 +35,7 @@ public abstract class GameObject {
 		components.add(component);
 	}
 	
-	public Optional<Component> getComponent(Class<Component> clazz) {
+	public <T> Optional<T> getComponent(Class<T> clazz) {
 		Component cachedComponent = cache.get(clazz);
 		if (cachedComponent != null) {
 			return Optional.ofNullable(clazz.cast(cachedComponent));
@@ -51,7 +51,7 @@ public abstract class GameObject {
 		return Optional.empty();
 	}
 	
-	public boolean hasComponent(Class<Component> clazz) {
+	public boolean hasComponent(Class<? extends Component> clazz) {
 		if (cache.containsKey(clazz)) return true;
 		
 		for (Component component : components) {

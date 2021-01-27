@@ -14,6 +14,7 @@ import static org.lwjgl.glfw.GLFW.glfwShowWindow;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
@@ -33,6 +34,7 @@ public class DisplayManager {
 			throw new IllegalStateException("Unable to initiate GLFW");
 
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+//		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
 		windowId = glfwCreateWindow(windowWidth, _windowHeight, "Grapa Voxel Test", 0, 0);
 		if (windowId == 0)
 			throw new IllegalStateException("Window not created properly");
@@ -43,6 +45,8 @@ public class DisplayManager {
 		glfwShowWindow(windowId);
 
 		glfwMakeContextCurrent(windowId);
+		
+		GLFW.glfwSwapInterval(0);
 
 		GL.createCapabilities();
 
