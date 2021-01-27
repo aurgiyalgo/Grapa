@@ -31,6 +31,7 @@ public class Grapa {
 	private void init() {
 		displayManager = new DisplayManager();
 		displayManager.createDisplay();
+		displayManager.setClearColor(0.75f, 0.5f, 0.5f, 1);
 		
 		displayManager.setOnResize(new Runnable() {
 			
@@ -54,15 +55,16 @@ public class Grapa {
 	
 	private void loop() {
 		long lastTime = System.nanoTime();
+		GL30.glClearColor(0.75f, 0.5f, 0.5f, 1);
 		
 		while (!GLFW.glfwWindowShouldClose(displayManager.windowId)) {
 			long time = System.nanoTime();
 			double delta = (time - lastTime) / 1000000000d;
 			lastTime = time;
 			System.out.println("Delta: " + delta + "s");
-
-			GL30.glClear(GL30.GL_COLOR_BUFFER_BIT|GL30.GL_DEPTH_BUFFER_BIT);
-			GL30.glClearColor(0.75f, 0.5f, 0.5f, 1);
+			System.out.println("FPS: " + 1.0 / delta);
+			
+			displayManager.clearDisplay();
 			
 			worldEngine.update(delta);
 			

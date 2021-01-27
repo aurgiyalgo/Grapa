@@ -19,6 +19,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 public class DisplayManager {
 
@@ -72,6 +73,14 @@ public class DisplayManager {
 	// Dispose window when program ends
 	public void dispose() {
 
+	}
+	
+	public void clearDisplay() {
+		GL30.glClear(GL30.GL_COLOR_BUFFER_BIT|GL30.GL_DEPTH_BUFFER_BIT);
+	}
+	
+	public void setClearColor(float r, float g, float b, float a) {
+		GL30.glClearColor(r, g, b, a);
 	}
 	
 	public void setOnResize(Runnable onResize) {
