@@ -25,27 +25,14 @@ import java.nio.IntBuffer;
 import org.lwjgl.system.MemoryStack;
 
 /**
- * This class represents a texture.
- *
- * @author Heiko Brumme
+ * Handles a texture and its functions.
  */
 public class Texture {
-
-    /**
-     * Stores the handle of the texture.
-     */
-    private final int id;
-
-    /**
-     * Width of the texture.
-     */
+	
+    private int id;
     private int width;
-    /**
-     * Height of the texture.
-     */
     private int height;
 
-    /** Creates a texture. */
     public Texture() {
         id = glGenTextures();
     }
@@ -58,7 +45,7 @@ public class Texture {
     }
 
     /**
-     * Sets a parameter of the texture.
+     * Sets a parameter for the texture.
      *
      * @param name  Name of the parameter
      * @param value Value to set
@@ -100,8 +87,6 @@ public class Texture {
     }
 
     /**
-     * Gets the texture width.
-     *
      * @return Texture width
      */
     public int getWidth() {
@@ -120,8 +105,6 @@ public class Texture {
     }
 
     /**
-     * Gets the texture height.
-     *
      * @return Texture height
      */
     public int getHeight() {
@@ -176,12 +159,10 @@ public class Texture {
         ByteBuffer image;
         int width, height;
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            /* Prepare image buffers */
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
             IntBuffer comp = stack.mallocInt(1);
 
-            /* Load image */
             stbi_set_flip_vertically_on_load(true);
             image = stbi_load(path, w, h, comp, 4);
             if (image == null) {
@@ -189,7 +170,6 @@ public class Texture {
                                            + System.lineSeparator() + stbi_failure_reason());
             }
 
-            /* Get width and height of image */
             width = w.get();
             height = h.get();
         }

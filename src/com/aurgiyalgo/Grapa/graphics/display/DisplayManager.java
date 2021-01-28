@@ -26,27 +26,29 @@ import org.lwjgl.opengl.GL30;
  */
 public class DisplayManager {
 
-	private static int windowWidth = 1280, windowHeight = 720;
-
 	public long windowId;
+	
+	private static int width, height;
 	
 	private Runnable onWindowResize;
 
 	/**
 	 * Creates display and GL context.
+	 * @param width Window width in pixels
+	 * @param height Window height in pixels
 	 */
-	public void createDisplay() {
+	public void createDisplay(int width, int height) {
 		if (!glfwInit())
 			throw new IllegalStateException("Unable to initiate GLFW");
 
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 //		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
-		windowId = glfwCreateWindow(windowWidth, windowHeight, "Grapa Voxel Test", 0, 0);
+		windowId = glfwCreateWindow(width, height, "Grapa Voxel Test", 0, 0);
 		if (windowId == 0)
 			throw new IllegalStateException("Window not created properly");
 
 		GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		glfwSetWindowPos(windowId, (videoMode.width() - windowWidth) / 2, (videoMode.height() - windowHeight) / 2);
+		glfwSetWindowPos(windowId, (videoMode.width() - width) / 2, (videoMode.height() - height) / 2);
 
 		glfwShowWindow(windowId);
 
@@ -60,8 +62,8 @@ public class DisplayManager {
 
 			@Override
 			public void invoke(long windowsId, int width, int height) {
-				windowWidth = width;
-				windowHeight = height;
+				DisplayManager.width = width;
+				DisplayManager.height = height;
 				onWindowResize.run();
 				GL11.glViewport(0, 0, width, height);
 			}
@@ -116,14 +118,14 @@ public class DisplayManager {
 	 * @return Window width in pixels.
 	 */
 	public static int getWindowWidth() {
-		return windowWidth;
+		return width;
 	}
 
 	/**
 	 * @return Window height in pixels.
 	 */
 	public static int getWindowHeight() {
-		return windowHeight;
+		return height;
 	}
 
 }

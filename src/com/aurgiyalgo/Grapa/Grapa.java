@@ -33,7 +33,7 @@ public class Grapa {
 	 */
 	private void init() {
 		displayManager = new DisplayManager();
-		displayManager.createDisplay();
+		displayManager.createDisplay(1280, 720);
 		displayManager.setClearColor(0.75f, 0.5f, 0.5f, 1);
 		
 		displayManager.setOnResize(new Runnable() {
