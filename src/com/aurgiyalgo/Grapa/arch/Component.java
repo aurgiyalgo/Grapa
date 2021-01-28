@@ -1,5 +1,8 @@
 package com.aurgiyalgo.Grapa.arch;
 
+/**
+ * Raw data and behaviour to apply to a {@link GameObject}.
+ */
 public abstract class Component {
 	
 	protected GameObject gameObject;

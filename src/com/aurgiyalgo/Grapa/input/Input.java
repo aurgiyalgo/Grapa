@@ -4,6 +4,9 @@ import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 
+/**
+ * Handles and allows to get user input (temporary).
+ */
 public class Input {
 
 	private double lastMouseX = 0, lastMouseY = 0;

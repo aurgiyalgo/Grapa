@@ -5,6 +5,9 @@ import org.lwjgl.glfw.GLFW;
 
 import com.aurgiyalgo.Grapa.input.Input;
 
+/**
+ * A simple camera class (temporary).
+ */
 public class Camera {
 	
 	private Vector3f position;

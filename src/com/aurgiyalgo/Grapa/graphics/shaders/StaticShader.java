@@ -7,6 +7,9 @@ import com.aurgiyalgo.Grapa.graphics.generic.Camera;
 import com.aurgiyalgo.Grapa.graphics.generic.Light;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
 
+/**
+ * Temporary shader program to test new engine functions.
+ */
 public class StaticShader extends Shader {
 	
 	private static final String VERTEX_FILE = "src/com/aurgiyalgo/Grapa/graphics/shaders/vertexShader.txt";

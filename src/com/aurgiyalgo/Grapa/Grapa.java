@@ -28,6 +28,9 @@ public class Grapa {
 		grapa.loop();
 	}
 	
+	/**
+	 * Initializes the engine and the sub-systems.
+	 */
 	private void init() {
 		displayManager = new DisplayManager();
 		displayManager.createDisplay();
@@ -53,6 +56,9 @@ public class Grapa {
 		worldEngine = new WorldEngine();
 	}
 	
+	/**
+	 * Executes the main engine loop.
+	 */
 	private void loop() {
 		long lastTime = System.nanoTime();
 		GL30.glClearColor(0.75f, 0.5f, 0.5f, 1);

@@ -12,12 +12,14 @@ import com.aurgiyalgo.Grapa.graphics.shaders.StaticShader;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
 import com.aurgiyalgo.Grapa.world.data.Chunk;
 
-public class WorldRenderer extends Component {
+/**
+ * Handles the rendering of all the chunks in a world.
+ */
+public class ChunkRenderer extends Component {
 	
 	private static final float FAR_PLANE = 1000;
 	private static final float NEAR_PLANE = 0.01f;
 	private static final float SCREEN_LIMIT = 16f;
-//	private static float RELATION;
 	
 	private Matrix4f projectionMatrix;
 	
@@ -25,7 +27,7 @@ public class WorldRenderer extends Component {
 	
 	private ChunkHandler chunkHandler;
 
-	public WorldRenderer(GameObject object) {
+	public ChunkRenderer(GameObject object) {
 		super(object);
 		createProjectionMatrix();
 		

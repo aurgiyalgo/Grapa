@@ -6,6 +6,9 @@ import java.util.List;
 import com.aurgiyalgo.Grapa.graphics.generic.Vertex;
 import com.aurgiyalgo.Grapa.world.data.Chunk;
 
+/**
+ * Class to build a chunk mesh using its block data. Made to replace {@link ModelBuilder}.
+ */
 public class ChunkModelBuilder {
 	
 	public static Model buildChunkModel(int[] data) {

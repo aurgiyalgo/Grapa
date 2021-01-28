@@ -21,27 +21,32 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+/**
+ * Handles basic display and window functions.
+ */
 public class DisplayManager {
 
-	private static int windowWidth = 1280, _windowHeight = 720;
+	private static int windowWidth = 1280, windowHeight = 720;
 
 	public long windowId;
 	
 	private Runnable onWindowResize;
 
-	// Create display and GL context
+	/**
+	 * Creates display and GL context.
+	 */
 	public void createDisplay() {
 		if (!glfwInit())
 			throw new IllegalStateException("Unable to initiate GLFW");
 
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 //		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
-		windowId = glfwCreateWindow(windowWidth, _windowHeight, "Grapa Voxel Test", 0, 0);
+		windowId = glfwCreateWindow(windowWidth, windowHeight, "Grapa Voxel Test", 0, 0);
 		if (windowId == 0)
 			throw new IllegalStateException("Window not created properly");
 
 		GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		glfwSetWindowPos(windowId, (videoMode.width() - windowWidth) / 2, (videoMode.height() - _windowHeight) / 2);
+		glfwSetWindowPos(windowId, (videoMode.width() - windowWidth) / 2, (videoMode.height() - windowHeight) / 2);
 
 		glfwShowWindow(windowId);
 
@@ -56,7 +61,7 @@ public class DisplayManager {
 			@Override
 			public void invoke(long windowsId, int width, int height) {
 				windowWidth = width;
-				_windowHeight = height;
+				windowHeight = height;
 				onWindowResize.run();
 				GL11.glViewport(0, 0, width, height);
 			}
@@ -64,35 +69,61 @@ public class DisplayManager {
 		});
 	}
 
-	// Update GLFW events (called at the end of every frame)
+	/**
+	 * Update GLFW events.
+	 * To be called at the end of every frame.
+	 */
 	public void updateDisplay() {
 		glfwSwapBuffers(windowId);
 		glfwPollEvents();
 	}
 
-	// Dispose window when program ends
+	/**
+	 * Clears memory when program ends.
+	 */
 	public void dispose() {
 
 	}
 	
+	/**
+	 * Clears the display with the color specified in {@link DisplayManager#setClearColor(float, float, float, float)}.
+	 * To be called at the beginning of every frame.
+	 */
 	public void clearDisplay() {
 		GL30.glClear(GL30.GL_COLOR_BUFFER_BIT|GL30.GL_DEPTH_BUFFER_BIT);
 	}
 	
+	/**
+	 * Sets the color to clear the display with.
+	 * @param r Red channel value
+	 * @param g Green channel value
+	 * @param b Blue channel value
+	 * @param a Alpha channel value
+	 */
 	public void setClearColor(float r, float g, float b, float a) {
 		GL30.glClearColor(r, g, b, a);
 	}
 	
+	/**
+	 * Sets a {@link Runnable#run()} to be run when the window is resized.
+	 * @param onResize
+	 */
 	public void setOnResize(Runnable onResize) {
 		this.onWindowResize = onResize;
 	}
-
+	
+	/**
+	 * @return Window width in pixels.
+	 */
 	public static int getWindowWidth() {
 		return windowWidth;
 	}
 
+	/**
+	 * @return Window height in pixels.
+	 */
 	public static int getWindowHeight() {
-		return _windowHeight;
+		return windowHeight;
 	}
 
 }

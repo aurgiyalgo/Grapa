@@ -9,6 +9,9 @@ import com.aurgiyalgo.Grapa.graphics.model.ModelLoader;
 
 import lombok.Getter;
 
+/**
+ * Object to hold the data and model of a single chunk ({@value Chunk#CHUNK_WIDTH} blocks ^ 3).
+ */
 public class Chunk {
 	
 	public static final int CHUNK_WIDTH = 8;

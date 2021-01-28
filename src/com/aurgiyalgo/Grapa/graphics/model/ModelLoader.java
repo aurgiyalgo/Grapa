@@ -7,6 +7,10 @@ import org.lwjgl.opengl.GL30;
 
 import com.aurgiyalgo.Grapa.Grapa;
 
+/**
+ * Utility class to load model data to the GPU. Will be replaced by more flexible classes.
+ */
+@Deprecated
 public class ModelLoader {
 	
 	private static List<Integer> vaos = new ArrayList<Integer>();

@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * General purpose object to be handled by an {@link Engine}.
+ */
 public abstract class GameObject {
 	
 	public Transform transform;

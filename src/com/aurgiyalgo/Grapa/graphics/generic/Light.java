@@ -5,6 +5,9 @@ import org.lwjgl.glfw.GLFW;
 
 import com.aurgiyalgo.Grapa.input.Input;
 
+/**
+ * A simple Light class (temporary).
+ */
 public class Light {
 	
 	private Vector3f position;

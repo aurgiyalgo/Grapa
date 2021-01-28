@@ -1,5 +1,8 @@
 package com.aurgiyalgo.Grapa.graphics.model;
 
+/**
+ * Basic data to load a render a model from GPU.
+ */
 public class ModelData {
 	
 	private int vaoID;

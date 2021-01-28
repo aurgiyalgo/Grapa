@@ -3,6 +3,10 @@ package com.aurgiyalgo.Grapa.graphics.generic;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 
+/**
+ * Class to hold basic vertex data.
+ */
+@Deprecated
 public class Vertex {
 	
 	public Vector3f position;

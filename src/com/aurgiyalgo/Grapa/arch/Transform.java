@@ -2,6 +2,9 @@ package com.aurgiyalgo.Grapa.arch;
 
 import org.joml.Vector3f;
 
+/**
+ * Utility class with position, rotation and scale data.
+ */
 public class Transform {
 	
 	public Vector3f position;

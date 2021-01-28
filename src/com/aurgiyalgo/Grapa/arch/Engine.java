@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+/**
+ * System to handle a collection of multiple {@link GameObject}.
+ */
 public abstract class Engine {
 	
 	private List<GameObject> gameObjects;
