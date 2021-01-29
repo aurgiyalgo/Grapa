@@ -56,6 +56,7 @@ public class Chunk {
 			}
 		}
 		
+		long timer = System.nanoTime();
 		ModelBuilder modelBuilder = new ModelBuilder();
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
 			for (int y = 0; y < CHUNK_WIDTH; y++) {
@@ -64,7 +65,9 @@ public class Chunk {
 				}
 			}
 		}
+		System.out.println((System.nanoTime() - timer) / 1000000000d);
 		ModelData modelData = modelBuilder.getModelData();
+//		ModelData modelData = ModelLoader.loadModelFromData(positions, textureCoords, normals);
 		model = new Model(modelData, new Transform());
 	}
 

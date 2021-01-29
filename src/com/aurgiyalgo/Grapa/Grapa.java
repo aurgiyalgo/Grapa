@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL30;
 import com.aurgiyalgo.Grapa.arch.Engine;
 import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
 import com.aurgiyalgo.Grapa.graphics.textures.Texture;
+import com.aurgiyalgo.Grapa.input.Input;
 import com.aurgiyalgo.Grapa.ui.UIEngine;
 import com.aurgiyalgo.Grapa.world.WorldEngine;
 
@@ -47,6 +48,9 @@ public class Grapa {
 		
 		TEXTURE = Texture.loadTexture("resources/res/BLOCKS.png");
 		
+		Input.createInstance(displayManager.windowId);
+		Input.hideCursor();
+		
 		uiEngine = new UIEngine();
 //		Button button = new Button();
 //		Text text = new Text();
@@ -62,6 +66,7 @@ public class Grapa {
 	private void loop() {
 		long lastTime = System.nanoTime();
 		GL30.glClearColor(0.75f, 0.5f, 0.5f, 1);
+		GL30.glEnable(GL30.GL_DEPTH_TEST);
 		
 		while (!GLFW.glfwWindowShouldClose(displayManager.windowId)) {
 			long time = System.nanoTime();
@@ -69,6 +74,8 @@ public class Grapa {
 			lastTime = time;
 			System.out.println("Delta: " + delta + "s");
 			System.out.println("FPS: " + 1.0 / delta);
+			
+			Input.update();
 			
 			displayManager.clearDisplay();
 			

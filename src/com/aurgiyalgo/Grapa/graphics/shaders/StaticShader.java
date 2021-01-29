@@ -15,11 +15,11 @@ public class StaticShader extends Shader {
 	private static final String VERTEX_FILE = "src/com/aurgiyalgo/Grapa/graphics/shaders/vertexShader.txt";
 	private static final String FRAGMENT_FILE = "src/com/aurgiyalgo/Grapa/graphics/shaders/fragmentShader.txt";
 	
-	private int location_transformationMatrix;
-	private int location_projectionMatrix;
-	private int location_viewMatrix;
-	private int location_lightPosition;
-	private int location_lightColor;
+	private int locationTransformationMatrix;
+	private int locationProjectionMatrix;
+	private int locationViewMatrix;
+	private int locationLightPosition;
+	private int locationLightColor;
 
 	public StaticShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -34,29 +34,30 @@ public class StaticShader extends Shader {
 
 	@Override
 	protected void getAllUniformLocations() {
-		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
-		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
-		location_viewMatrix = super.getUniformLocation("viewMatrix");
-		location_lightPosition = super.getUniformLocation("lightPosition");
-		location_lightColor = super.getUniformLocation("lightColor");
+		locationTransformationMatrix = super.getUniformLocation("transformationMatrix");
+		locationProjectionMatrix = super.getUniformLocation("projectionMatrix");
+		locationViewMatrix = super.getUniformLocation("viewMatrix");
+		locationLightPosition = super.getUniformLocation("lightPosition");
+		locationLightColor = super.getUniformLocation("lightColor");
 	}
 	
 	public void loadTransformationMatrix(Matrix4f transformationMatrix) {
-		super.loadMatrix(location_transformationMatrix, transformationMatrix);
+		super.loadMatrix(locationTransformationMatrix, transformationMatrix);
 	}
 	
 	public void loadProjectionMatrix(Matrix4f projectionMatrix) {
-		super.loadMatrix(location_projectionMatrix, projectionMatrix);
+		super.loadMatrix(locationProjectionMatrix, projectionMatrix);
+		System.out.println("Loaded " + projectionMatrix);
 	}
 	
 	public void loadViewMatrix(Camera camera) {
-		Matrix4f viewMatrix = GrapaMaths.createViewMatrix(camera.getPosition().x, camera.getPosition().y, camera.getPosition().z, camera.getRx(), camera.getRy());
-		super.loadMatrix(location_viewMatrix, viewMatrix);
+		Matrix4f viewMatrix = GrapaMaths.createViewMatrix(camera.transform);
+		super.loadMatrix(locationViewMatrix, viewMatrix);
 	}
 	
 	public void loadLight(Light light) {
-		super.loadVector3f(location_lightPosition, light.getPosition());
-		super.loadVector3f(location_lightColor, light.getColor());
+		super.loadVector3f(locationLightPosition, light.getPosition());
+		super.loadVector3f(locationLightColor, light.getColor());
 	}
 
 }

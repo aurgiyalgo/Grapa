@@ -20,7 +20,7 @@ public class ChunkHandler extends Component {
 		super(object);
 		
 		loadedChunks = new ArrayList<Chunk>();
-		loadedChunks.add(new Chunk(new Vector3i(0, 0, -5)));
+		loadedChunks.add(new Chunk(new Vector3i(0, 0, -1)));
 	}
 
 	@Override

@@ -25,6 +25,7 @@ public abstract class GameObject {
 	public GameObject(String name) {
 		internalId = UUID.randomUUID();
 		this.name = name;
+		this.transform = new Transform();
 		
 		components = new ArrayList<Component>();
 		cache = new HashMap<Class<?>, Component>();

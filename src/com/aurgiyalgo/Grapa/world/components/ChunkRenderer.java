@@ -7,6 +7,7 @@ import com.aurgiyalgo.Grapa.Grapa;
 import com.aurgiyalgo.Grapa.arch.Component;
 import com.aurgiyalgo.Grapa.arch.GameObject;
 import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
+import com.aurgiyalgo.Grapa.graphics.generic.Camera;
 import com.aurgiyalgo.Grapa.graphics.model.Model;
 import com.aurgiyalgo.Grapa.graphics.shaders.StaticShader;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
@@ -26,10 +27,16 @@ public class ChunkRenderer extends Component {
 	private StaticShader shader = new StaticShader();
 	
 	private ChunkHandler chunkHandler;
+	
+	private Camera camera;
 
-	public ChunkRenderer(GameObject object) {
+	public ChunkRenderer(GameObject object, Camera camera) {
 		super(object);
+		
+		this.camera = camera;
+		
 		createProjectionMatrix();
+		System.out.println(projectionMatrix);
 		
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
@@ -41,6 +48,7 @@ public class ChunkRenderer extends Component {
 	@Override
 	public void update(double delta) {
 		shader.start();
+		shader.loadViewMatrix(camera);
 		
 		for (Chunk c : chunkHandler.getChunks()) {
 			Model model = c.getModel();
@@ -69,6 +77,7 @@ public class ChunkRenderer extends Component {
 	public void createProjectionMatrix() {
 		projectionMatrix = new Matrix4f();
 		float RELATION = (float) DisplayManager.getWindowHeight() / (float) DisplayManager.getWindowWidth();
+		System.out.println("Relation: " + RELATION);
 		projectionMatrix.setOrtho(-SCREEN_LIMIT/2, SCREEN_LIMIT/2, -SCREEN_LIMIT * RELATION/2, SCREEN_LIMIT * RELATION/2, NEAR_PLANE, FAR_PLANE);
 	}
 

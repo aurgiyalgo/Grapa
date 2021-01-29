@@ -1,54 +1,23 @@
 package com.aurgiyalgo.Grapa.graphics.generic;
 
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
 
-import com.aurgiyalgo.Grapa.input.Input;
+import com.aurgiyalgo.Grapa.arch.GameObject;
+import com.aurgiyalgo.Grapa.arch.generic.InputComponent;
 
 /**
- * A simple camera class (temporary).
+ * A simple camera class.
  */
-public class Camera {
-	
-	private Vector3f position;
-	private float rx, ry, rz;
+public class Camera extends GameObject {
 	
 	public Camera() {
-		position = new Vector3f(-24, 24, -24);
-		this.rx = 30;
-		this.ry = 135;
-		this.rz = 0;
-	}
-	
-	public void move() {
-		if (Input.getKey(GLFW.GLFW_KEY_W)) {
-			position.z -= 0.01f;
-		}
-		if (Input.getKey(GLFW.GLFW_KEY_S)) {
-			position.z += 0.01f;
-		}
-		if (Input.getKey(GLFW.GLFW_KEY_A)) {
-			position.x -= 0.01f;
-		}
-		if (Input.getKey(GLFW.GLFW_KEY_D)) {
-			position.x += 0.01f;
-		}
-	}
-
-	public Vector3f getPosition() {
-		return position;
-	}
-
-	public float getRx() {
-		return rx;
-	}
-
-	public float getRy() {
-		return ry;
-	}
-
-	public float getRz() {
-		return rz;
+		super("Camera");
+		transform.position = new Vector3f(-24, 24, -24);
+//		transform.position.z = -1f;
+		transform.rotation.x = 30;
+		transform.rotation.y = 135;
+		transform.rotation.z = 0;
+		addComponent(new InputComponent(this));
 	}
 
 }

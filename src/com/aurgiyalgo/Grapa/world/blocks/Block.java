@@ -32,7 +32,7 @@ public abstract class Block {
 			modelBuilder.uv(texture.getU2(), texture.getV2());
 			modelBuilder.vertex(1 + x, 1 + y, 0 + z);
 		}
-		if (drawUp) {
+		if (drawRight) {
 			modelBuilder.normal(0, 0, -1);
 			modelBuilder.uv(texture.getU1(), texture.getV1());
 			modelBuilder.vertex(0 + x, 0 + y, 1 + z);
@@ -48,7 +48,7 @@ public abstract class Block {
 			modelBuilder.uv(texture.getU2(), texture.getV2());
 			modelBuilder.vertex(0 + x, 1 + y, 0 + z);
 		}
-		if (drawRight) {
+		if (drawUp) {
 			modelBuilder.normal(0, 1, 0);
 			modelBuilder.uv(texture.getU1(), texture.getV1());
 			modelBuilder.vertex(0 + x, 1 + y, 0 + z);

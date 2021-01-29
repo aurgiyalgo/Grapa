@@ -40,6 +40,9 @@ public class DisplayManager {
 	public void createDisplay(int width, int height) {
 		if (!glfwInit())
 			throw new IllegalStateException("Unable to initiate GLFW");
+		
+		DisplayManager.width = width;
+		DisplayManager.height = height;
 
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 //		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
