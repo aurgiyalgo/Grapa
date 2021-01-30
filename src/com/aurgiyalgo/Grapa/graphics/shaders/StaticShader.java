@@ -12,8 +12,8 @@ import com.aurgiyalgo.Grapa.utils.GrapaMaths;
  */
 public class StaticShader extends Shader {
 	
-	private static final String VERTEX_FILE = "src/com/aurgiyalgo/Grapa/graphics/shaders/vertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/com/aurgiyalgo/Grapa/graphics/shaders/fragmentShader.txt";
+	private static final String VERTEX_FILE = "src/com/aurgiyalgo/Grapa/graphics/shaders/vertexShader.glsl";
+	private static final String FRAGMENT_FILE = "src/com/aurgiyalgo/Grapa/graphics/shaders/fragmentShader.glsl";
 	
 	private int locationTransformationMatrix;
 	private int locationProjectionMatrix;
