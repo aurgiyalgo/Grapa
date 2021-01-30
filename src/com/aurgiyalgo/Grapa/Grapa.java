@@ -3,7 +3,6 @@ package com.aurgiyalgo.Grapa;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL30;
 
-import com.aurgiyalgo.Grapa.arch.Engine;
 import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
 import com.aurgiyalgo.Grapa.graphics.textures.Texture;
 import com.aurgiyalgo.Grapa.input.Input;
@@ -20,8 +19,8 @@ public class Grapa {
 	
 	private DisplayManager displayManager;
 	
-	private Engine uiEngine;
-	private Engine worldEngine;
+	private UIEngine uiEngine;
+	private WorldEngine worldEngine;
 	
 	public static void main(String[] args) {
 		Grapa grapa = new Grapa();
@@ -42,6 +41,7 @@ public class Grapa {
 			@Override
 			public void run() {
 				System.out.println("Window was resized!");
+				worldEngine.updateProjectionMatrix();
 			}
 			
 		});

@@ -36,7 +36,6 @@ public class ChunkRenderer extends Component {
 		this.camera = camera;
 		
 		createProjectionMatrix();
-		System.out.println(projectionMatrix);
 		
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
@@ -79,8 +78,11 @@ public class ChunkRenderer extends Component {
 	public void createProjectionMatrix() {
 		projectionMatrix = new Matrix4f();
 		float RELATION = (float) DisplayManager.getWindowHeight() / (float) DisplayManager.getWindowWidth();
-		System.out.println("Relation: " + RELATION);
 		projectionMatrix.setOrtho(-SCREEN_LIMIT/2, SCREEN_LIMIT/2, -SCREEN_LIMIT * RELATION/2, SCREEN_LIMIT * RELATION/2, NEAR_PLANE, FAR_PLANE);
+		
+		shader.start();
+		shader.loadProjectionMatrix(projectionMatrix);
+		shader.stop();
 	}
 
 }

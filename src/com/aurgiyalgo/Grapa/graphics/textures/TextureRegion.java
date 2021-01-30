@@ -20,7 +20,6 @@ public class TextureRegion {
 	public TextureRegion(int i) {
 		int x = i % REGIONS_PER_SIDE;
 		int y = i / REGIONS_PER_SIDE;
-		System.out.println("ID: " + i + " - X: " + x + " Y: " + y);
 		u1 = x * TEXTURE_RELATION;
 		u2 = u1 + TEXTURE_RELATION;
 
