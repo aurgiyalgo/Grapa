@@ -1,8 +1,10 @@
 package com.aurgiyalgo.Grapa.input;
 
+import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
+import org.lwjgl.glfw.GLFWMouseButtonCallbackI;
 
 /**
  * Handles and allows to get user input (temporary).
@@ -12,16 +14,18 @@ public class Input {
 	private double lastMouseX = 0, lastMouseY = 0;
 	private double deltaMouseX = 0, deltaMouseY = 0;
 	private boolean[] keys;
-	private long window;
+	private boolean[] mouse;
+	private long windowId;
 	
 	private static Input instance;
 	
-	private Input(long window) {
+	private Input(long windowId) {
 		
-		this.window = window;
+		this.windowId = windowId;
 		keys = new boolean[349];
+		mouse = new boolean[5];
 		
-		GLFW.glfwSetKeyCallback(window, new GLFWKeyCallbackI() {
+		GLFW.glfwSetKeyCallback(windowId, new GLFWKeyCallbackI() {
 			
 			@Override
 			public void invoke(long window, int key, int arg2, int action, int arg4) {
@@ -29,6 +33,15 @@ public class Input {
 					keys[key] = (action != GLFW.GLFW_RELEASE);
 				}
 			}
+		});
+		
+		GLFW.glfwSetMouseButtonCallback(windowId, new GLFWMouseButtonCallbackI() {
+			
+			@Override
+			public void invoke(long window, int button, int action, int mods) {
+				mouse[button] = (action == GLFW.GLFW_PRESS);
+			}
+			
 		});
 	}
 	
@@ -39,13 +52,20 @@ public class Input {
 	public static void update() {
 		double[] mouseX = new double[1];
 		double[] mouseY = new double[1];
-		GLFW.glfwGetCursorPos(instance.window, mouseX, mouseY);
+		GLFW.glfwGetCursorPos(instance.windowId, mouseX, mouseY);
 		mouseX[0] /= 2;
 		mouseY[0] /= 2;
 		instance.deltaMouseX = mouseX[0] - instance.lastMouseX;
 		instance.deltaMouseY = mouseY[0] - instance.lastMouseY;
 		instance.lastMouseX = mouseX[0];
 		instance.lastMouseY = mouseY[0];
+	}
+	
+	public static Vector2d getMousePosition() {
+		double[] mouseX = new double[1];
+		double[] mouseY = new double[1];
+		GLFW.glfwGetCursorPos(instance.windowId, mouseX, mouseY);
+		return new Vector2d(mouseX[0], mouseY[0]);
 	}
 	
 	public static double getDeltaMouseX() {
@@ -70,6 +90,6 @@ public class Input {
 	}
 	
 	public static void hideCursor() {
-		GLFW.glfwSetInputMode(instance.window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
+		GLFW.glfwSetInputMode(instance.windowId, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 	}
 }

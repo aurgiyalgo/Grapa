@@ -22,13 +22,14 @@ public class ChunkHandler extends Component {
 		loadedChunks = new ArrayList<Chunk>();
 		
 		//Temporary stress test code
-		for (int i = 0; i < 100; i++) {
-			loadedChunks.add(new Chunk(new Vector3i((i % 10) - 5, 0, (i / 10) - 5).mul(Chunk.CHUNK_WIDTH)));
+		for (int i = 0; i < 1; i++) {
+			loadedChunks.add(new Chunk(new Vector3i(0, 0, 0).mul(Chunk.CHUNK_WIDTH)));
 		}
 	}
 
 	@Override
-	public void update(double delta) {}
+	public void update(double delta) {
+	}
 	
 	public List<Chunk> getChunks() {
 		return loadedChunks;

@@ -67,8 +67,8 @@ public class Grapa {
 			long time = System.nanoTime();
 			double delta = (time - lastTime) / 1000000d;
 			lastTime = time;
-			System.out.println("Delta: " + delta + "ms");
-			System.out.println("FPS: " + 1.0 / delta);
+//			System.out.println("Delta: " + delta + "ms");
+//			System.out.println("FPS: " + 1.0 / delta);
 			
 			Input.update();
 			

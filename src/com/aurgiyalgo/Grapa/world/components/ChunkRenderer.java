@@ -8,6 +8,7 @@ import com.aurgiyalgo.Grapa.arch.Component;
 import com.aurgiyalgo.Grapa.arch.GameObject;
 import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
 import com.aurgiyalgo.Grapa.graphics.generic.Camera;
+import com.aurgiyalgo.Grapa.graphics.generic.CameraRaycast;
 import com.aurgiyalgo.Grapa.graphics.model.Model;
 import com.aurgiyalgo.Grapa.graphics.shaders.StaticShader;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
@@ -29,6 +30,8 @@ public class ChunkRenderer extends Component {
 	private ChunkHandler chunkHandler;
 	
 	private Camera camera;
+	
+	private CameraRaycast raycast;
 
 	public ChunkRenderer(GameObject object, Camera camera) {
 		super(object);
@@ -40,12 +43,16 @@ public class ChunkRenderer extends Component {
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
+
+		this.raycast = new CameraRaycast(camera, projectionMatrix);
 		
 		chunkHandler = object.getComponent(ChunkHandler.class).get();
 	}
 
 	@Override
 	public void update(double delta) {
+		raycast.update();
+		
 		shader.start();
 		shader.loadViewMatrix(camera);
 		

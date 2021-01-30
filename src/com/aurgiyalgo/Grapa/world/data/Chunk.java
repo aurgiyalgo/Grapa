@@ -51,7 +51,7 @@ public class Chunk {
 				}
 			}
 		}
-		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
+//		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
 	}
