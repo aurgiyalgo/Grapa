@@ -29,6 +29,12 @@ public class InputComponent extends Component {
 		if (Input.getKey(GLFW.GLFW_KEY_D)) {
 			gameObject.transform.position.x += 0.01f * delta;
 		}
+		if (Input.getKey(GLFW.GLFW_KEY_SPACE)) {
+			gameObject.transform.position.y += 0.01f * delta;
+		}
+		if (Input.getKey(GLFW.GLFW_KEY_LEFT_SHIFT)) {
+			gameObject.transform.position.y -= 0.01f * delta;
+		}
 	}
 
 }

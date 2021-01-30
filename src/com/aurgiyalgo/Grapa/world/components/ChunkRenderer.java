@@ -21,7 +21,7 @@ public class ChunkRenderer extends Component {
 	
 	private static final float FAR_PLANE = 1000;
 	private static final float NEAR_PLANE = 0.01f;
-	private static final float SCREEN_LIMIT = 32f;
+	private static final float SCREEN_LIMIT = 16f;
 	
 	private Matrix4f projectionMatrix;
 	
