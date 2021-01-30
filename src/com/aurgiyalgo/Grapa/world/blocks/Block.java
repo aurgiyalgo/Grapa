@@ -11,7 +11,7 @@ public abstract class Block {
 	
 	public Block(int id) {
 		this.id = id;
-		texture = new TextureRegion(2);
+		texture = new TextureRegion(id);
 	}
 	
 	public void createModel(ModelBuilder modelBuilder, int x, int y, int z, boolean drawLeft, boolean drawUp, boolean drawRight) {

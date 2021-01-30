@@ -4,7 +4,7 @@ public class TextureRegion {
 	
 	public static final int TEXTURE_ATLAS_SIDE = 32;
 	public static final int REGION_SIDE = 8;
-	public static final int REGIONS_PER_SIDE = 8;
+	public static final int REGIONS_PER_SIDE = TEXTURE_ATLAS_SIDE / REGION_SIDE;
 	private static final float TEXTURE_RELATION = REGION_SIDE / (float) TEXTURE_ATLAS_SIDE;
 	
 	private float u1, v1, u2, v2;
@@ -13,18 +13,19 @@ public class TextureRegion {
 		u1 = x * TEXTURE_RELATION;
 		u2 = u1 + TEXTURE_RELATION;
 
-		v1 = y * TEXTURE_RELATION + TEXTURE_RELATION;
-		v2 = v1 - TEXTURE_RELATION;
+		v1 = 1 - y * TEXTURE_RELATION - TEXTURE_RELATION;
+		v2 = v1 + TEXTURE_RELATION;
 	}
 	
 	public TextureRegion(int i) {
 		int x = i % REGIONS_PER_SIDE;
 		int y = i / REGIONS_PER_SIDE;
+		System.out.println("ID: " + i + " - X: " + x + " Y: " + y);
 		u1 = x * TEXTURE_RELATION;
 		u2 = u1 + TEXTURE_RELATION;
 
-		v1 = y * TEXTURE_RELATION + TEXTURE_RELATION;
-		v2 = v1 - TEXTURE_RELATION;
+		v1 = 1 - y * TEXTURE_RELATION - TEXTURE_RELATION;
+		v2 = v1 + TEXTURE_RELATION;
 	}
 
 	public float getU1() {

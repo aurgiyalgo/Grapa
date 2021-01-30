@@ -2,10 +2,10 @@ package com.aurgiyalgo.Grapa.world.blocks.materials;
 
 import com.aurgiyalgo.Grapa.world.blocks.Block;
 
-public class Dirt extends Block {
+public class Stone extends Block {
 
-	public Dirt() {
-		super(4);
+	public Stone() {
+		super(1);
 	}
 
 }

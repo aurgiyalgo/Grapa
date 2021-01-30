@@ -26,32 +26,18 @@ public class Chunk {
 		this.position = position;
 		this.data = new int[CHUNK_WIDTH][CHUNK_WIDTH][CHUNK_WIDTH];
 		
-//		float[] positions = new float[] {
-//				0.5f, 0.5f, 0f,
-//				0.5f, -0.5f, 0f,
-//				-0.5f, 0.5f, 0f,
-//				-0.5f, 0.5f, 0f,
-//				0.5f, -0.5f, 0f,
-//				-0.5f, -0.5f, 0f
-//		};
-//		float[] textureCoords = new float[] {
-//				1f, 1f,
-//				1f, 0f,
-//				0f, 1f,
-//				0f, 1f,
-//				1f, 0f,
-//				0f, 0f
-//		};
-//		float[] normals = new float[] {
-//				0f, 0f, 1f,
-//				0f, 0f, 1f,
-//				0f, 0f, 1f
-//		};
-		
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
 			for (int y = 0; y < CHUNK_WIDTH; y++) {
 				for (int z = 0; z < CHUNK_WIDTH; z++) {
-					data[x][y][z] = 3;
+					if (y == 0) {
+						data[x][y][z] = 5;
+						continue;
+					}
+					if (y == 7) {
+						data[x][y][z] = 4;
+						continue;
+					}
+					data[x][y][z] = 1;
 				}
 			}
 		}
@@ -65,9 +51,8 @@ public class Chunk {
 				}
 			}
 		}
-		System.out.println((System.nanoTime() - timer) / 1000000000d);
+		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
 		ModelData modelData = modelBuilder.getModelData();
-//		ModelData modelData = ModelLoader.loadModelFromData(positions, textureCoords, normals);
 		model = new Model(modelData, new Transform());
 	}
 

@@ -20,7 +20,7 @@ public class ChunkRenderer extends Component {
 	
 	private static final float FAR_PLANE = 1000;
 	private static final float NEAR_PLANE = 0.01f;
-	private static final float SCREEN_LIMIT = 16f;
+	private static final float SCREEN_LIMIT = 32f;
 	
 	private Matrix4f projectionMatrix;
 	
@@ -50,6 +50,10 @@ public class ChunkRenderer extends Component {
 		shader.start();
 		shader.loadViewMatrix(camera);
 		
+		GL30.glActiveTexture(GL30.GL_TEXTURE0);
+		Grapa.TEXTURE.bind();
+		
+		long timer = System.nanoTime();
 		for (Chunk c : chunkHandler.getChunks()) {
 			Model model = c.getModel();
 			GL30.glBindVertexArray(model.getData().getVaoId());
@@ -57,14 +61,12 @@ public class ChunkRenderer extends Component {
 			GL30.glEnableVertexAttribArray(Grapa.TEXTURE_VERTEX_ATTRIB_INDEX);
 			GL30.glEnableVertexAttribArray(Grapa.NORMALS_VERTEX_ATTRIB_INDEX);
 			
-			GL30.glActiveTexture(GL30.GL_TEXTURE0);
-			Grapa.TEXTURE.bind();
-			
 			Matrix4f transformationMatrix = GrapaMaths.createTransformationMatrix(c.getPosition());
 			shader.loadTransformationMatrix(transformationMatrix);
 			
 			GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, model.getData().getVertexCount());
 		}
+		System.out.println("Draw time: " + (System.nanoTime() - timer)/1000000d + "ms");
 		
 		GL30.glDisableVertexAttribArray(Grapa.POSITION_VERTEX_ATTRIB_INDEX);
 		GL30.glDisableVertexAttribArray(Grapa.TEXTURE_VERTEX_ATTRIB_INDEX);

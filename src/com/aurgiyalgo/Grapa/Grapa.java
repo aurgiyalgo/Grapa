@@ -49,13 +49,8 @@ public class Grapa {
 		TEXTURE = Texture.loadTexture("resources/res/BLOCKS.png");
 		
 		Input.createInstance(displayManager.windowId);
-		Input.hideCursor();
 		
 		uiEngine = new UIEngine();
-//		Button button = new Button();
-//		Text text = new Text();
-//		uiEngine.addGameObject(button);
-//		uiEngine.addGameObject(text);
 		
 		worldEngine = new WorldEngine();
 	}
@@ -70,9 +65,9 @@ public class Grapa {
 		
 		while (!GLFW.glfwWindowShouldClose(displayManager.windowId)) {
 			long time = System.nanoTime();
-			double delta = (time - lastTime) / 1000000000d;
+			double delta = (time - lastTime) / 1000000d;
 			lastTime = time;
-			System.out.println("Delta: " + delta + "s");
+			System.out.println("Delta: " + delta + "ms");
 			System.out.println("FPS: " + 1.0 / delta);
 			
 			Input.update();

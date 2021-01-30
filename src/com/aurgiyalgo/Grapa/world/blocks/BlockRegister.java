@@ -1,23 +1,28 @@
 package com.aurgiyalgo.Grapa.world.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.aurgiyalgo.Grapa.world.blocks.materials.Air;
+import com.aurgiyalgo.Grapa.world.blocks.materials.BaseRock;
 import com.aurgiyalgo.Grapa.world.blocks.materials.Dirt;
+import com.aurgiyalgo.Grapa.world.blocks.materials.Stone;
 
 public class BlockRegister {
 	
-	public static Block[] blocks = new Block[256];
+	private static List<Block> BLOCKS;
 	
 	static {
-		blocks[0] = new Air();
-		blocks[1] = new Dirt();
-//		blocks[2] = new Stone();
-//		blocks[3] = new BaseRock();
+		BLOCKS = new ArrayList<Block>();
+		BLOCKS.add(new Air());
+		BLOCKS.add(new Dirt());
+		BLOCKS.add(new BaseRock());
+		BLOCKS.add(new Stone());
 	}
 	
 	public static Block getBlock(int id) {
-		for (int i = 0; i < blocks.length; i++) {
-			if (blocks[i] == null) continue;
-			if (blocks[i].getId() == id) return blocks[i];
+		for (int i = 0; i < BLOCKS.size(); i++) {
+			if (BLOCKS.get(i).getId() == id) return BLOCKS.get(i);
 		}
 		return null;
 	}
