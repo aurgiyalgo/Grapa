@@ -55,5 +55,13 @@ public class Chunk {
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
 	}
+	
+	public int getBlock(int x, int y, int z) {
+		return data[x][y][z];
+	}
+	
+	public void setBlock(int id, int x, int y, int z) {
+		data[x][y][z] = id;
+	}
 
 }

@@ -14,6 +14,8 @@ import com.aurgiyalgo.Grapa.graphics.shaders.StaticShader;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
 import com.aurgiyalgo.Grapa.world.data.Chunk;
 
+import lombok.Getter;
+
 /**
  * Handles the rendering of all the chunks in a world.
  */
@@ -23,6 +25,7 @@ public class ChunkRenderer extends Component {
 	private static final float NEAR_PLANE = 0.01f;
 	private static final float SCREEN_LIMIT = 16f;
 	
+	@Getter
 	private Matrix4f projectionMatrix;
 	
 	private StaticShader shader = new StaticShader();
@@ -72,7 +75,7 @@ public class ChunkRenderer extends Component {
 			
 			GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, model.getData().getVertexCount());
 		}
-		System.out.println("Draw time: " + (System.nanoTime() - timer)/1000000d + "ms");
+//		System.out.println("Draw time: " + (System.nanoTime() - timer)/1000000d + "ms");
 		
 		GL30.glDisableVertexAttribArray(Grapa.POSITION_VERTEX_ATTRIB_INDEX);
 		GL30.glDisableVertexAttribArray(Grapa.TEXTURE_VERTEX_ATTRIB_INDEX);
@@ -86,6 +89,7 @@ public class ChunkRenderer extends Component {
 		projectionMatrix = new Matrix4f();
 		float RELATION = (float) DisplayManager.getWindowHeight() / (float) DisplayManager.getWindowWidth();
 		projectionMatrix.setOrtho(-SCREEN_LIMIT/2, SCREEN_LIMIT/2, -SCREEN_LIMIT * RELATION/2, SCREEN_LIMIT * RELATION/2, NEAR_PLANE, FAR_PLANE);
+//		projectionMatrix.perspective((float) Math.toRadians(30), RELATION, NEAR_PLANE, FAR_PLANE);
 		
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);

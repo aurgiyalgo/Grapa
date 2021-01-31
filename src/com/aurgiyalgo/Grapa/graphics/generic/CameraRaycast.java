@@ -30,7 +30,7 @@ public class CameraRaycast {
 	public void update() {
 		viewMatrix = GrapaMaths.createViewMatrix(camera.transform);
 		currentRay = calculateMathsRay();
-		System.out.println(currentRay);
+//		System.out.println(currentRay);
 	}
 
 	private Vector3f calculateMathsRay() {
@@ -61,7 +61,7 @@ public class CameraRaycast {
 	private Vector2f getNormalizedScreenCoords(float mouseX, float mouseY) {
 		float x = (float) ((2.0f * mouseX) / DisplayManager.getWindowWidth() - 1.0f);
 		float y = (float) ((2.0f * mouseY) / DisplayManager.getWindowHeight() - 1.0f);
-		System.out.println(new Vector2f(x, y));
+//		System.out.println(new Vector2f(x, y));
 		return new Vector2f(x, y);
 	}
 

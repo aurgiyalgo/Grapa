@@ -31,6 +31,27 @@ public class ChunkHandler extends Component {
 	public void update(double delta) {
 	}
 	
+	public int getBlock(int x, int y, int z) {
+		for (Chunk c : loadedChunks) {
+			if (x / Chunk.CHUNK_WIDTH != c.getPosition().x) continue;
+			if (y / Chunk.CHUNK_WIDTH != c.getPosition().y) continue;
+			if (z / Chunk.CHUNK_WIDTH != c.getPosition().z) continue;
+			return c.getBlock(x / Chunk.CHUNK_WIDTH, y / Chunk.CHUNK_WIDTH, z / Chunk.CHUNK_WIDTH);
+		}
+		System.out.println("Block not found!");
+		return 0;
+	}
+	
+	public void setBlock(int id, int x, int y, int z) {
+		for (Chunk c : loadedChunks) {
+			if (x / Chunk.CHUNK_WIDTH != c.getPosition().x) continue;
+			if (y / Chunk.CHUNK_WIDTH != c.getPosition().y) continue;
+			if (z / Chunk.CHUNK_WIDTH != c.getPosition().z) continue;
+		    c.setBlock(id, x / Chunk.CHUNK_WIDTH, y / Chunk.CHUNK_WIDTH, z / Chunk.CHUNK_WIDTH);
+		}
+		System.out.println("Block not found!");
+	}
+	
 	public List<Chunk> getChunks() {
 		return loadedChunks;
 	}

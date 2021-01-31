@@ -18,22 +18,22 @@ public class InputComponent extends Component {
 	@Override
 	public void update(double delta) {
 		if (Input.getKey(GLFW.GLFW_KEY_W)) {
-			gameObject.transform.position.z -= 0.01f * delta;
+			gameObject.transform.position.z -= 5f * delta;
 		}
 		if (Input.getKey(GLFW.GLFW_KEY_S)) {
-			gameObject.transform.position.z += 0.01f * delta;
+			gameObject.transform.position.z += 5f * delta;
 		}
 		if (Input.getKey(GLFW.GLFW_KEY_A)) {
-			gameObject.transform.position.x -= 0.01f * delta;
+			gameObject.transform.position.x -= 5f * delta;
 		}
 		if (Input.getKey(GLFW.GLFW_KEY_D)) {
-			gameObject.transform.position.x += 0.01f * delta;
+			gameObject.transform.position.x += 5f * delta;
 		}
 		if (Input.getKey(GLFW.GLFW_KEY_SPACE)) {
-			gameObject.transform.position.y += 0.01f * delta;
+			gameObject.transform.position.y += 5f * delta;
 		}
 		if (Input.getKey(GLFW.GLFW_KEY_LEFT_SHIFT)) {
-			gameObject.transform.position.y -= 0.01f * delta;
+			gameObject.transform.position.y -= 5 * delta;
 		}
 	}
 
