@@ -42,6 +42,10 @@ public class Chunk {
 			}
 		}
 		
+		updateModel();
+	}
+	
+	private void updateModel() {
 		long timer = System.nanoTime();
 		ModelBuilder modelBuilder = new ModelBuilder();
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
@@ -52,6 +56,7 @@ public class Chunk {
 			}
 		}
 //		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
+		
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
 	}
@@ -62,6 +67,7 @@ public class Chunk {
 	
 	public void setBlock(int id, int x, int y, int z) {
 		data[x][y][z] = id;
+		updateModel();
 	}
 
 }

@@ -47,7 +47,6 @@ public class StaticShader extends Shader {
 	
 	public void loadProjectionMatrix(Matrix4f projectionMatrix) {
 		super.loadMatrix(locationProjectionMatrix, projectionMatrix);
-		System.out.println("Loaded " + projectionMatrix);
 	}
 	
 	public void loadViewMatrix(Camera camera) {
