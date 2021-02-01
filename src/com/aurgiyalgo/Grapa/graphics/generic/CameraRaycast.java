@@ -29,15 +29,26 @@ public class CameraRaycast {
 
 	public void update() {
 		viewMatrix = GrapaMaths.createViewMatrix(camera.transform);
-		currentRay = calculateMathsRay();
+		currentRay = calculateRay();
 //		System.out.println(currentRay);
 	}
 
-	private Vector3f calculateMathsRay() {
+	private Vector3f calculateRay() {
 		float mouseX = (float) Input.getMousePosition().x;
 		float mouseY = (float) Input.getMousePosition().y;
-		Vector2f normalizedCoords = getNormalizedScreenCoords(mouseX, mouseY);
-		Vector4f clipCoords = new Vector4f(normalizedCoords.x, normalizedCoords.y, -1f, 1f);
+		Vector2f screenCoords = getNormalizedScreenCoords(mouseX, mouseY);
+		Vector2f rotatedScreenCoords = new Vector2f();
+		float rotation = camera.transform.rotation.z;
+		rotatedScreenCoords.x = (float) (Math.cos(rotation) * screenCoords.x - Math.sin(rotation) * screenCoords.y);
+		rotatedScreenCoords.y = (float) (Math.sin(rotation) * screenCoords.x + Math.cos(rotation) * screenCoords.y);
+		System.out.println(screenCoords);
+		System.out.println(rotatedScreenCoords);
+		
+		Vector3f startPosition = new Vector3f();
+		startPosition.x = (float) (camera.transform.position.x + rotatedScreenCoords.x * Math.cos(camera.transform.rotation.y));
+		startPosition.y = (float) (camera.transform.position.y + rotatedScreenCoords.y * Math.cos(camera.transform.rotation.x));
+		
+		Vector4f clipCoords = new Vector4f(screenCoords.x, screenCoords.y, -1f, 1f);
 		Vector4f eyeCoords = toEyeCoords(clipCoords);
 		Vector3f worldRay = toWorldCoords(eyeCoords);
 		return worldRay;

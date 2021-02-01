@@ -43,6 +43,7 @@ public class GrapaMaths {
 		matrix.identity();
 		matrix.rotate((float) Math.toRadians(rx), 1, 0, 0);
 		matrix.rotate((float) Math.toRadians(ry), 0, 1, 0);
+		matrix.rotate((float) Math.toRadians(rz), 0, 0, 1);
 		matrix.translate(-x, -y, -z);
 		return matrix;
 	}
@@ -52,6 +53,7 @@ public class GrapaMaths {
 		matrix.identity();
 		matrix.rotate((float) Math.toRadians(transform.rotation.x), 1, 0, 0);
 		matrix.rotate((float) Math.toRadians(transform.rotation.y), 0, 1, 0);
+		matrix.rotate((float) Math.toRadians(transform.rotation.z), 0, 0, 1);
 		matrix.translate(-transform.position.x, -transform.position.y, -transform.position.z);
 		return matrix;
 	}

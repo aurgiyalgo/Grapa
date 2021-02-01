@@ -15,6 +15,7 @@ public class Camera extends GameObject {
 		transform.position = new Vector3f(-24, 32, -24);
 		transform.rotation.x = (float) Math.toDegrees(Math.atan(1d/Math.sqrt(2)));
 		transform.rotation.y = 135;
+//		transform.rotation.z = 45;
 		addComponent(new InputComponent(this));
 	}
 
