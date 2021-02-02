@@ -22,8 +22,8 @@ public class ChunkHandler extends Component {
 		loadedChunks = new ArrayList<Chunk>();
 		
 		//Temporary stress test code
-		for (int i = 0; i < 100; i++) {
-			loadedChunks.add(new Chunk(new Vector3i(i%10 - 5, 0, i/10 -5).mul(Chunk.CHUNK_WIDTH)));
+		for (int i = 0; i < 1; i++) {
+			loadedChunks.add(new Chunk(new Vector3i(i, 0, i).mul(Chunk.CHUNK_WIDTH)));
 		}
 	}
 

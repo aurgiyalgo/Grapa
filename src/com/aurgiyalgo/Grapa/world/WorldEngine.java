@@ -27,7 +27,7 @@ public class WorldEngine extends Engine {
 		raycast.update();
 		
 //		System.out.println("Position: " + camera.transform.position);
-		world.raycast(camera.transform.position, raycast.getCurrentRay(), 64);
+		world.raycast(raycast.getStartPosition(), raycast.getCurrentRay(), 64);
 	}
 
 }

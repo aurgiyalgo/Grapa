@@ -9,9 +9,13 @@ import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
 import com.aurgiyalgo.Grapa.input.Input;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
 
+import lombok.Getter;
+
 public class CameraRaycast {
 
 	private Vector3f currentRay;
+	@Getter
+	private Vector3f startPosition;
 
 	private Matrix4f projectionMatrix;
 	private Matrix4f viewMatrix;
@@ -44,9 +48,12 @@ public class CameraRaycast {
 		System.out.println(screenCoords);
 		System.out.println(rotatedScreenCoords);
 		
-		Vector3f startPosition = new Vector3f();
-		startPosition.x = (float) (camera.transform.position.x + rotatedScreenCoords.x * Math.cos(camera.transform.rotation.y));
+		startPosition = new Vector3f();
+		startPosition.x = (float) (camera.transform.position.x + rotatedScreenCoords.x * Math.sin(camera.transform.rotation.y));
 		startPosition.y = (float) (camera.transform.position.y + rotatedScreenCoords.y * Math.cos(camera.transform.rotation.x));
+		startPosition.z = camera.transform.position.z;
+		
+		System.out.println("Cam pos: " + camera.transform.position + " | Point pos: " + startPosition);
 		
 		Vector4f clipCoords = new Vector4f(screenCoords.x, screenCoords.y, -1f, 1f);
 		Vector4f eyeCoords = toEyeCoords(clipCoords);
