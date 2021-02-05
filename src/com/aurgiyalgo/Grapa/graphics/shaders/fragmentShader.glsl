@@ -1,7 +1,7 @@
 #version 400 core
 
 in vec2 passTextureCoords;
-in vec3 surfaceNormal;
+in vec3 surfaceNormals;
 in vec3 toLightVector;
 
 out vec4 outColor;

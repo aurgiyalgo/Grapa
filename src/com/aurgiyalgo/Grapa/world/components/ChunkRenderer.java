@@ -21,9 +21,10 @@ import lombok.Getter;
  */
 public class ChunkRenderer extends Component {
 	
-	private static final float FAR_PLANE = 1000;
-	private static final float NEAR_PLANE = 0.01f;
-	private static final float SCREEN_LIMIT = 16f;
+	public static final float FAR_PLANE = 1000;
+	public static final float NEAR_PLANE = 0.01f;
+	public static final float SCREEN_LIMIT = 16f;
+	public static float RELATION = 1f;
 	
 	@Getter
 	private Matrix4f projectionMatrix;
@@ -70,7 +71,7 @@ public class ChunkRenderer extends Component {
 			GL30.glEnableVertexAttribArray(Grapa.TEXTURE_VERTEX_ATTRIB_INDEX);
 			GL30.glEnableVertexAttribArray(Grapa.NORMALS_VERTEX_ATTRIB_INDEX);
 			
-			Matrix4f transformationMatrix = GrapaMaths.createTransformationMatrix(c.getPosition());
+			Matrix4f transformationMatrix = GrapaMaths.createTransformationMatrix(c.getWorldPosition());
 			shader.loadTransformationMatrix(transformationMatrix);
 			
 			GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, model.getData().getVertexCount());
@@ -87,7 +88,7 @@ public class ChunkRenderer extends Component {
 	
 	public void createProjectionMatrix() {
 		projectionMatrix = new Matrix4f();
-		float RELATION = (float) DisplayManager.getWindowHeight() / (float) DisplayManager.getWindowWidth();
+		RELATION = (float) DisplayManager.getWindowHeight() / (float) DisplayManager.getWindowWidth();
 		projectionMatrix.setOrtho(-SCREEN_LIMIT/2, SCREEN_LIMIT/2, -SCREEN_LIMIT * RELATION/2, SCREEN_LIMIT * RELATION/2, NEAR_PLANE, FAR_PLANE);
 //		projectionMatrix.perspective((float) Math.toRadians(30), RELATION, NEAR_PLANE, FAR_PLANE);
 		

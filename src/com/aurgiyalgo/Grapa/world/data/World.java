@@ -28,69 +28,14 @@ public class World extends GameObject {
 		System.out.println("Start: " + position);
 		System.out.println("Direction: " + direction);
 		
-		for (float i = 0; i < distance; i+= 0.125f) {
+		for (float i = 0; i < distance; i+= 0.001f) {
 			start.add(stepVector);
 			if (chunkHandler.getBlock((int) start.x, (int) start.y, (int) start.z) != 0) {
 				System.out.println("Block found | ID: " + chunkHandler.getBlock((int) start.x, (int) start.y, (int) start.z) + " | Pos: " + start.x + " " + start.y + " " + start.z);
-				chunkHandler.setBlock(0, (int) start.x, (int) start.y, (int) start.x);
+				chunkHandler.setBlock(0, (int) start.x, (int) start.y, (int) start.z);
 				break;
 			}
 		}
-		
-//		int xPos = (int) Math.floor(position.x);
-//		int yPos = (int) Math.floor(position.y);
-//		int zPos = (int) Math.floor(position.z);
-//		int stepX = (int) Math.signum(direction.x);
-//		int stepY = (int) Math.signum(direction.y);
-//		int stepZ = (int) Math.signum(direction.z);
-//		
-//		Vector3f tMax = new Vector3f(GrapaMaths.intbound(position.x, direction.x), GrapaMaths.intbound(position.x, direction.x), GrapaMaths.intbound(position.x, direction.x));
-//		Vector3f tDelta = new Vector3f((float) stepX / direction.x, (float) stepY / direction.y, (float) stepZ / direction.z);
-//		
-//		float faceX, faceY, faceZ;
-//		
-//		do {
-//			if (chunkHandler.getBlock(xPos, yPos, zPos) != 0) {
-//				System.out.println("Block found | ID: " + chunkHandler.getBlock(xPos, yPos, zPos));
-//				chunkHandler.setBlock(0, xPos, yPos, zPos);
-//				break;
-//			}
-//			if (tMax.x < tMax.y) {
-//	            if (tMax.x < tMax.z) {
-//	                if (tMax.x > distance) break;
-//
-//	                xPos += stepX;
-//	                tMax.x += tDelta.x;
-//
-//	                faceX = -stepX;
-//	                faceY = 0;
-//	                faceZ = 0;
-//	            } else {
-//	                if (tMax.z > distance) break;
-//	                zPos += stepZ;
-//	                tMax.z += tDelta.z;
-//	                faceX = 0;
-//	                faceY = 0;
-//	                faceZ = -stepZ;
-//	            }
-//	        } else {
-//	            if (tMax.y < tMax.z) {
-//	                if (tMax.y > distance) break;
-//	                yPos += stepY;
-//	                tMax.y += tDelta.y;
-//	                faceX = 0;
-//	                faceY = -stepY;
-//	                faceZ = 0;
-//	            } else {
-//	                if (tMax.z > distance) break;
-//	                zPos += stepZ;
-//	                tMax.z += tDelta.z;
-//	                faceX = 0;
-//	                faceY = 0;
-//	                faceZ = -stepZ;
-//	            }
-//	        }
-//		} while (true);
 	}
 
 }

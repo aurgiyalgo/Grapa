@@ -29,7 +29,7 @@ public class StaticShader extends Shader {
 	protected void bindAttributes() {
 		super.bindAttribute(Grapa.POSITION_VERTEX_ATTRIB_INDEX, "position");
 		super.bindAttribute(Grapa.TEXTURE_VERTEX_ATTRIB_INDEX, "textureCoords");
-		super.bindAttribute(Grapa.NORMALS_VERTEX_ATTRIB_INDEX, "normal");
+		super.bindAttribute(Grapa.NORMALS_VERTEX_ATTRIB_INDEX, "normals");
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.aurgiyalgo.Grapa.world.data;
 
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import com.aurgiyalgo.Grapa.arch.Transform;
@@ -20,10 +21,12 @@ public class Chunk {
 	
 	@Getter private Model model;
 	private int[][][] data;
-	@Getter private Vector3i position;
+	@Getter private Vector3i gridPosition;
+	@Getter private Vector3f worldPosition;
 	
-	public Chunk(Vector3i position) {
-		this.position = position;
+	public Chunk(Vector3i gridPosition) {
+		this.gridPosition = gridPosition;
+		this.worldPosition = new Vector3f(gridPosition.x, gridPosition.y, gridPosition.z).mul(Chunk.CHUNK_WIDTH);
 		this.data = new int[CHUNK_WIDTH][CHUNK_WIDTH][CHUNK_WIDTH];
 		
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
@@ -62,11 +65,14 @@ public class Chunk {
 	}
 	
 	public int getBlock(int x, int y, int z) {
+		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return 0;
 		return data[x][y][z];
 	}
 	
 	public void setBlock(int id, int x, int y, int z) {
+		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return;
 		data[x][y][z] = id;
+		System.out.println(data[x][y][z]);
 		updateModel();
 	}
 

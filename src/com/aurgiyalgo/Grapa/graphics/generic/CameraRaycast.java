@@ -8,6 +8,7 @@ import org.joml.Vector4f;
 import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
 import com.aurgiyalgo.Grapa.input.Input;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
+import com.aurgiyalgo.Grapa.world.components.ChunkRenderer;
 
 import lombok.Getter;
 
@@ -41,21 +42,33 @@ public class CameraRaycast {
 		float mouseX = (float) Input.getMousePosition().x;
 		float mouseY = (float) Input.getMousePosition().y;
 		Vector2f screenCoords = getNormalizedScreenCoords(mouseX, mouseY);
-		Vector2f rotatedScreenCoords = new Vector2f();
-		float rotation = camera.transform.rotation.z;
-		rotatedScreenCoords.x = (float) (Math.cos(rotation) * screenCoords.x - Math.sin(rotation) * screenCoords.y);
-		rotatedScreenCoords.y = (float) (Math.sin(rotation) * screenCoords.x + Math.cos(rotation) * screenCoords.y);
-		System.out.println(screenCoords);
-		System.out.println(rotatedScreenCoords);
+//		Vector2f rotatedScreenCoords = new Vector2f();
+//		float rotation = camera.transform.rotation.z;
+//		rotatedScreenCoords.x = (float) (Math.cos(Math.toRadians(rotation)) * screenCoords.x - Math.sin(Math.toRadians(rotation)) * screenCoords.y);
+//		rotatedScreenCoords.y = (float) (Math.sin(Math.toRadians(rotation)) * screenCoords.x + Math.cos(Math.toRadians(rotation)) * screenCoords.y);
+////		System.out.println(screenCoords);
+////		System.out.println(rotatedScreenCoords);
 		
 		startPosition = new Vector3f();
-		startPosition.x = (float) (camera.transform.position.x + rotatedScreenCoords.x * Math.sin(camera.transform.rotation.y));
-		startPosition.y = (float) (camera.transform.position.y + rotatedScreenCoords.y * Math.cos(camera.transform.rotation.x));
-		startPosition.z = camera.transform.position.z;
+		startPosition.x = (float) (camera.transform.position.x + screenCoords.x * Math.cos(Math.toRadians(camera.transform.rotation.y)) * ChunkRenderer.SCREEN_LIMIT/2);
+		startPosition.y = (float) (camera.transform.position.y - screenCoords.y * Math.sin(Math.toRadians(camera.transform.rotation.x)) * ChunkRenderer.SCREEN_LIMIT/2);
+		startPosition.z = (float) (camera.transform.position.z + screenCoords.x * Math.sin(Math.toRadians(camera.transform.rotation.y)) * ChunkRenderer.SCREEN_LIMIT/2);
+//		startPosition = camera.transform.position;
+//		startPosition = new Vector3f(3f, 12, 3f);
 		
-		System.out.println("Cam pos: " + camera.transform.position + " | Point pos: " + startPosition);
+//		System.out.println("Cam pos: " + camera.transform.position + " | Point pos: " + startPosition);
 		
-		Vector4f clipCoords = new Vector4f(screenCoords.x, screenCoords.y, -1f, 1f);
+//		Vector3f direction = new Vector3f();
+//		direction.x = (float) (Math.cos(Math.toRadians(camera.transform.rotation.y)) * Math.cos(Math.toRadians(camera.transform.rotation.x)));
+//		direction.y = (float) Math.sin(Math.toRadians(camera.transform.rotation.x));
+//		direction.z = (float) (Math.sin(Math.toRadians(camera.transform.rotation.y)) * Math.cos(Math.toRadians(camera.transform.rotation.x)));
+//		
+//		direction.normalize();
+		
+//		direction = new Vector3f(0, -1, 0);
+		
+//		return direction;
+		Vector4f clipCoords = new Vector4f(0, 0, -1f, 1f);
 		Vector4f eyeCoords = toEyeCoords(clipCoords);
 		Vector3f worldRay = toWorldCoords(eyeCoords);
 		return worldRay;
