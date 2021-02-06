@@ -22,8 +22,8 @@ public class ChunkHandler extends Component {
 		loadedChunks = new ArrayList<Chunk>();
 		
 		//Temporary stress test code
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < 1; i++) {
+			for (int j = 0; j < 1; j++) {
 				loadedChunks.add(new Chunk(new Vector3i(i, 0, j)));
 			}
 		}
@@ -33,26 +33,36 @@ public class ChunkHandler extends Component {
 	public void update(double delta) {
 	}
 	
+	/**
+	 * @param x The X component of the coordinates
+	 * @param y The Y component of the coordinates
+	 * @param z The Z component of the coordinates
+	 * @return ID of the block at the coordinates, or 0 if the block is air or not found
+	 */
 	public int getBlock(int x, int y, int z) {
 		for (Chunk c : loadedChunks) {
-			if (x / Chunk.CHUNK_WIDTH != c.getGridPosition().x) continue;
-			if (y / Chunk.CHUNK_WIDTH != c.getGridPosition().y) continue;
-			if (z / Chunk.CHUNK_WIDTH != c.getGridPosition().z) continue;
-			return c.getBlock(x % Chunk.CHUNK_WIDTH, y % Chunk.CHUNK_WIDTH, z % Chunk.CHUNK_WIDTH);
+			if (Math.floor(x / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().x) continue;
+			if (Math.floor(y / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().y) continue;
+			if (Math.floor(z / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().z) continue;
+			return c.getBlock(Math.abs(x) % Chunk.CHUNK_WIDTH, Math.abs(y) % Chunk.CHUNK_WIDTH, Math.abs(z) % Chunk.CHUNK_WIDTH);
 		}
 		return 0;
 	}
 	
+	/**
+	 * @param id ID of the block to set
+	 * @param x The X component of the coordinates
+	 * @param y The Y component of the coordinates
+	 * @param z The Z component of the coordinates
+	 */
 	public void setBlock(int id, int x, int y, int z) {
-		System.out.println(x + " " + y + " " + z);
 		for (Chunk c : loadedChunks) {
-			if (x / Chunk.CHUNK_WIDTH != c.getGridPosition().x) continue;
-			if (y / Chunk.CHUNK_WIDTH != c.getGridPosition().y) continue;
-			if (z / Chunk.CHUNK_WIDTH != c.getGridPosition().z) continue;
-		    c.setBlock(id, x % Chunk.CHUNK_WIDTH, y % Chunk.CHUNK_WIDTH, z % Chunk.CHUNK_WIDTH);
+			if (Math.floor(x / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().x) continue;
+			if (Math.floor(y / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().y) continue;
+			if (Math.floor(z / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().z) continue;
+		    c.setBlock(id, Math.abs(x) % Chunk.CHUNK_WIDTH, Math.abs(y) % Chunk.CHUNK_WIDTH, Math.abs(z) % Chunk.CHUNK_WIDTH);
 		    return;
 		}
-		System.out.println("Block not found!");
 	}
 	
 	public List<Chunk> getChunks() {

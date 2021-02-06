@@ -13,7 +13,8 @@ import com.aurgiyalgo.Grapa.world.components.ChunkRenderer;
 import lombok.Getter;
 
 public class CameraRaycast {
-
+	
+	@Getter
 	private Vector3f currentRay;
 	@Getter
 	private Vector3f startPosition;
@@ -28,17 +29,18 @@ public class CameraRaycast {
 		this.viewMatrix = GrapaMaths.createViewMatrix(camera.transform);
 	}
 
-	public Vector3f getCurrentRay() {
-		return currentRay;
-	}
-
+	/**
+	 * Recalculates the origin point and direction of the raycast
+	 */
 	public void update() {
 		viewMatrix = GrapaMaths.createViewMatrix(camera.transform);
-		currentRay = calculateRay();
-//		System.out.println(currentRay);
+		calculate();
 	}
 
-	private Vector3f calculateRay() {
+	/**
+	 * Calculates the origin point and direction of the raycast
+	 */
+	private void calculate() {
 		float mouseX = (float) Input.getMousePosition().x;
 		float mouseY = (float) Input.getMousePosition().y;
 		Vector2f screenCoords = getNormalizedScreenCoords(mouseX, mouseY);
@@ -50,9 +52,10 @@ public class CameraRaycast {
 ////		System.out.println(rotatedScreenCoords);
 		
 		startPosition = new Vector3f();
-		startPosition.x = (float) (camera.transform.position.x + screenCoords.x * Math.cos(Math.toRadians(camera.transform.rotation.y)) * ChunkRenderer.SCREEN_LIMIT/2);
-		startPosition.y = (float) (camera.transform.position.y - screenCoords.y * Math.sin(Math.toRadians(camera.transform.rotation.x)) * ChunkRenderer.SCREEN_LIMIT/2);
-		startPosition.z = (float) (camera.transform.position.z + screenCoords.x * Math.sin(Math.toRadians(camera.transform.rotation.y)) * ChunkRenderer.SCREEN_LIMIT/2);
+		startPosition.x = (float) (camera.transform.position.x + screenCoords.x * Math.cos(Math.toRadians(camera.transform.rotation.y)) * ChunkRenderer.SCREEN_LIMIT/2f);
+		startPosition.y = (float) (camera.transform.position.y - screenCoords.y * Math.cos(Math.toRadians(camera.transform.rotation.x)) * ChunkRenderer.SCREEN_LIMIT/2f);
+		startPosition.z = (float) (camera.transform.position.z + screenCoords.x * Math.sin(Math.toRadians(camera.transform.rotation.y)) * ChunkRenderer.SCREEN_LIMIT/2f);
+//		System.out.println(startPosition);
 //		startPosition = camera.transform.position;
 //		startPosition = new Vector3f(3f, 12, 3f);
 		
@@ -71,7 +74,7 @@ public class CameraRaycast {
 		Vector4f clipCoords = new Vector4f(0, 0, -1f, 1f);
 		Vector4f eyeCoords = toEyeCoords(clipCoords);
 		Vector3f worldRay = toWorldCoords(eyeCoords);
-		return worldRay;
+		currentRay = worldRay;
 	}
 
 	private Vector3f toWorldCoords(Vector4f eyeCoords) {

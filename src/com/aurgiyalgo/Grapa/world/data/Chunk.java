@@ -48,6 +48,9 @@ public class Chunk {
 		updateModel();
 	}
 	
+	/**
+	 * Updates the chunk model
+	 */
 	private void updateModel() {
 		long timer = System.nanoTime();
 		ModelBuilder modelBuilder = new ModelBuilder();
@@ -58,18 +61,31 @@ public class Chunk {
 				}
 			}
 		}
-//		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
+		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
 		
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
 	}
 	
+	/**
+	 * @param x The X coordinate of the block in the chunk
+	 * @param y The Y coordinate of the block in the chunk
+	 * @param z The Z coordinate of the block in the chunk
+	 * @return ID of the block at the coordinates, or 0 if the block is air or not found
+	 */
 	public int getBlock(int x, int y, int z) {
 		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return 0;
 		return data[x][y][z];
 	}
-	
+
+	/**
+	 * @param id ID of the block to set
+	 * @param x The X coordinate of the block in the chunk
+	 * @param y The Y coordinate of the block in the chunk
+	 * @param z The Z coordinate of the block in the chunk
+	 */
 	public void setBlock(int id, int x, int y, int z) {
+		System.out.println(x + " " + y + " " + z);
 		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return;
 		data[x][y][z] = id;
 		System.out.println(data[x][y][z]);

@@ -20,6 +20,11 @@ public class World extends GameObject {
 		addComponent(new ChunkRenderer(this, camera));
 	}
 	
+	/**
+	 * @param position Start position of the ray
+	 * @param direction Normalized {@link Vector3f} indicating the direction of the ray
+	 * @param distance Maximum distance of the ray
+	 */
 	public void raycast(Vector3f position, Vector3f direction, float distance) {
 		
 		Vector3f start = new Vector3f(position);

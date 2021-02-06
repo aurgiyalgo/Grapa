@@ -86,6 +86,9 @@ public class ChunkRenderer extends Component {
 		shader.stop();
 	}
 	
+	/**
+	 * Creates the projection matrix and loads it to the shader
+	 */
 	public void createProjectionMatrix() {
 		projectionMatrix = new Matrix4f();
 		RELATION = (float) DisplayManager.getWindowHeight() / (float) DisplayManager.getWindowWidth();
