@@ -27,7 +27,7 @@ public class ChunkHandler extends Component {
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 1; j++) {
 				for (int k = 0; k < 20; k++) {
-					loadedChunks.add(new Chunk(new Vector3i(i, j, k), this));
+					loadedChunks.add(new Chunk(new Vector3i(i - 10, j, k - 10), this));
 				}
 			}
 		}
@@ -56,10 +56,8 @@ public class ChunkHandler extends Component {
 	 */
 	public int getBlock(int x, int y, int z) {
 		for (Chunk c : loadedChunks) {
-			if (Math.floor(x / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().x) continue;
-			if (Math.floor(y / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().y) continue;
-			if (Math.floor(z / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().z) continue;
-			return c.getBlock(Math.abs(x) % Chunk.CHUNK_WIDTH, Math.abs(y) % Chunk.CHUNK_WIDTH, Math.abs(z) % Chunk.CHUNK_WIDTH);
+			if (!c.isInside(x, y, z)) continue;
+		    return c.getBlock(Math.abs(c.getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(c.getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(c.getGridPosition().z * Chunk.CHUNK_WIDTH - z));
 		}
 		return 0;
 	}
@@ -73,10 +71,8 @@ public class ChunkHandler extends Component {
 	 */
 	public boolean setBlock(int id, int x, int y, int z) {
 		for (Chunk c : loadedChunks) {
-			if (Math.floor(x / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().x) continue;
-			if (Math.floor(y / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().y) continue;
-			if (Math.floor(z / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().z) continue;
-		    return c.setBlock(id, Math.abs(x) % Chunk.CHUNK_WIDTH, Math.abs(y) % Chunk.CHUNK_WIDTH, Math.abs(z) % Chunk.CHUNK_WIDTH);
+			if (!c.isInside(x, y, z)) continue;
+		    return c.setBlock(id, Math.abs(c.getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(c.getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(c.getGridPosition().z * Chunk.CHUNK_WIDTH - z));
 		}
 		return false;
 	}

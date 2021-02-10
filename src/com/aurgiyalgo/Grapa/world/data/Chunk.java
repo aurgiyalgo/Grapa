@@ -107,6 +107,13 @@ public class Chunk {
 		return true;
 	}
 	
+	public boolean isInside(int x, int y, int z) {
+		if (Math.floor(x / (float) CHUNK_WIDTH) != gridPosition.x) return false;
+		if (Math.floor(y / (float) CHUNK_WIDTH) != gridPosition.y) return false;
+		if (Math.floor(z / (float) CHUNK_WIDTH) != gridPosition.z) return false;
+		return true;
+	}
+	
 	public void updateNextFrame() {
 		chunkHandler.addChunkForMeshing(this);
 	}
