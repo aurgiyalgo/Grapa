@@ -47,7 +47,7 @@ public class Grapa {
 
 		});
 
-		TEXTURE = Texture.loadTexture("resources/res/BLOCKS.png");
+		TEXTURE = Texture.loadTexture("resources/textures/BLOCKS.png");
 
 		Input.createInstance(displayManager.windowId);
 
@@ -89,7 +89,7 @@ public class Grapa {
 			displayManager.clearDisplay();
 
 			worldEngine.update(delta);
-			
+			worldEngine.updateChunkMeshes();
 
 			uiEngine.update(delta);
 

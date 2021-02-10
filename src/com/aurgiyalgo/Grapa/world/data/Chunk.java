@@ -8,6 +8,7 @@ import com.aurgiyalgo.Grapa.graphics.model.Model;
 import com.aurgiyalgo.Grapa.graphics.model.ModelBuilder;
 import com.aurgiyalgo.Grapa.graphics.model.ModelData;
 import com.aurgiyalgo.Grapa.world.blocks.BlockRegister;
+import com.aurgiyalgo.Grapa.world.components.ChunkHandler;
 
 import lombok.Getter;
 
@@ -30,8 +31,14 @@ public class Chunk {
 	@Getter
 	private boolean updateNextFrame;
 	
-	public Chunk(Vector3i gridPosition) {
+	@Getter
+	private boolean isModelLoaded = false;
+	
+	private ChunkHandler chunkHandler;
+	
+	public Chunk(Vector3i gridPosition, ChunkHandler chunkHandler) {
 		this.gridPosition = gridPosition;
+		this.chunkHandler = chunkHandler;
 		this.worldPosition = new Vector3f(gridPosition.x, gridPosition.y, gridPosition.z).mul(Chunk.CHUNK_WIDTH);
 		this.data = new int[CHUNK_WIDTH][CHUNK_WIDTH][CHUNK_WIDTH];
 		
@@ -71,7 +78,7 @@ public class Chunk {
 		
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
-		updateNextFrame = false;
+		isModelLoaded = true;
 	}
 	
 	/**
@@ -101,7 +108,7 @@ public class Chunk {
 	}
 	
 	public void updateNextFrame() {
-		updateNextFrame = true;
+		chunkHandler.addChunkForMeshing(this);
 	}
 
 }

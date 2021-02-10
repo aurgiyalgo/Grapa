@@ -15,17 +15,19 @@ import com.aurgiyalgo.Grapa.world.data.Chunk;
 public class ChunkHandler extends Component {
 	
 	private List<Chunk> loadedChunks;
+	private List<Chunk> chunksToMesh;
 
 	public ChunkHandler(GameObject object) {
 		super(object);
 		
 		loadedChunks = new ArrayList<Chunk>();
+		chunksToMesh = new ArrayList<Chunk>();
 		
 		//Temporary stress test code
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 1; j++) {
 				for (int k = 0; k < 20; k++) {
-					loadedChunks.add(new Chunk(new Vector3i(i, j, k)));
+					loadedChunks.add(new Chunk(new Vector3i(i, j, k), this));
 				}
 			}
 		}
@@ -33,6 +35,17 @@ public class ChunkHandler extends Component {
 
 	@Override
 	public void update(double delta) {
+	}
+	
+	public void updateChunkMeshes() {
+		for (Chunk chunk : chunksToMesh) {
+			chunk.updateModel();
+		}
+		chunksToMesh.clear();
+	}
+	
+	public void addChunkForMeshing(Chunk chunk) {
+		chunksToMesh.add(chunk);
 	}
 	
 	/**

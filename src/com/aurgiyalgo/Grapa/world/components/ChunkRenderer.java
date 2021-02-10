@@ -59,6 +59,7 @@ public class ChunkRenderer extends Component {
 		
 		long timer = System.nanoTime();
 		for (Chunk c : chunkHandler.getChunks()) {
+			if (!c.isModelLoaded()) continue;
 			Model model = c.getModel();
 			GL30.glBindVertexArray(model.getData().getVaoId());
 			GL30.glEnableVertexAttribArray(Grapa.POSITION_VERTEX_ATTRIB_INDEX);

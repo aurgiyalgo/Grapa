@@ -3,6 +3,7 @@ package com.aurgiyalgo.Grapa.graphics.shaders;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
 
 import org.joml.Matrix4f;
@@ -11,8 +12,6 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-
-import jdk.internal.org.jline.utils.InputStreamReader;
 
 public abstract class Shader {
 
