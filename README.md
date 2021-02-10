@@ -1,6 +1,6 @@
 # Grapa
 
-OpenGL Isometric Voxel Game Engine (Work in progress)
+OpenGL Voxel Game Engine (Work in progress)
 
 #### Current features
 
@@ -8,3 +8,4 @@ OpenGL Isometric Voxel Game Engine (Work in progress)
 - Cubic chunks system 
 - Texture loading
 - Camera raycast
+- Block breaking/placing
