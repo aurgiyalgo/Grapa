@@ -59,7 +59,7 @@ public class Grapa {
 
 			@Override
 			public void invoke(long window, int button, int action, int mods) {
-				if (action == GLFW.GLFW_PRESS) worldEngine.onClick();
+				if (action == GLFW.GLFW_PRESS) worldEngine.onClick(button);
 			}
 
 		});
@@ -70,7 +70,6 @@ public class Grapa {
 	 */
 	private void loop() {
 		long lastTime = System.nanoTime();
-		GL30.glClearColor(0.75f, 0.5f, 0.5f, 1);
 		GL30.glEnable(GL30.GL_DEPTH_TEST);
 		
 		GL30.glEnable(GL30.GL_CULL_FACE);
@@ -82,20 +81,21 @@ public class Grapa {
 			long time = System.nanoTime();
 			double delta = (time - lastTime) / 1000000000d;
 			lastTime = time;
-//			System.out.println("Delta: " + delta / 1000 + "ms");
-//			System.out.println("FPS: " + 1.0 / delta);
+			System.out.println("Delta: " + delta / 1000 + "ms");
+			System.out.println("FPS: " + 1.0 / delta);
 
 			Input.update();
 
 			displayManager.clearDisplay();
 
 			worldEngine.update(delta);
+			
 
 			uiEngine.update(delta);
 
 			displayManager.updateDisplay();
 			
-			if (Input.getKey(GLFW.GLFW_KEY_ESCAPE)) GLFW.glfwSetWindowShouldClose(displayManager.windowId, true);
+			if (Input.getKey(GLFW.GLFW_KEY_ESCAPE)) Input.showCursor();
 		}
 	}
 

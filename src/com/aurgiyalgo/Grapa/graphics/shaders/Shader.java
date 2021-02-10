@@ -12,6 +12,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import jdk.internal.org.jline.utils.InputStreamReader;
+
 public abstract class Shader {
 
 	private int programID;
@@ -23,6 +25,18 @@ public abstract class Shader {
 	public Shader(String vertexFile, String fragmentFile) {
 		vertexShaderID = loadShader(vertexFile, GL30.GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentFile, GL30.GL_FRAGMENT_SHADER);
+		programID = GL30.glCreateProgram();
+		GL30.glAttachShader(programID, vertexShaderID);
+		GL30.glAttachShader(programID, fragmentShaderID);
+		bindAttributes();
+		GL30.glLinkProgram(programID);
+		GL30.glValidateProgram(programID);
+		getAllUniformLocations();
+	}
+	
+	public Shader(String vertexFile, String fragmentFile, boolean isInternal) {
+		vertexShaderID = loadShaderInternal(vertexFile, GL30.GL_VERTEX_SHADER);
+		fragmentShaderID = loadShaderInternal(fragmentFile, GL30.GL_FRAGMENT_SHADER);
 		programID = GL30.glCreateProgram();
 		GL30.glAttachShader(programID, vertexShaderID);
 		GL30.glAttachShader(programID, fragmentShaderID);
@@ -81,6 +95,31 @@ public abstract class Shader {
 		StringBuilder shaderSource = new StringBuilder();
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				shaderSource.append(line).append("//\n");
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		int shaderID = GL20.glCreateShader(type);
+		GL20.glShaderSource(shaderID, shaderSource);
+		GL20.glCompileShader(shaderID);
+		if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
+			System.out.println(GL20.glGetShaderInfoLog(shaderID, 500));
+			System.err.println("Could not compile shader!");
+			System.exit(-1);
+		}
+		return shaderID;
+	}
+
+	private static int loadShaderInternal(String file, int type) {
+		StringBuilder shaderSource = new StringBuilder();
+		try {
+			InputStreamReader isr = new InputStreamReader(Class.class.getResourceAsStream(file));
+			BufferedReader reader = new BufferedReader(isr);
 			String line;
 			while ((line = reader.readLine()) != null) {
 				shaderSource.append(line).append("//\n");

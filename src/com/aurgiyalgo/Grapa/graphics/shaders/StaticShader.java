@@ -22,7 +22,7 @@ public class StaticShader extends Shader {
 	private int locationLightColor;
 
 	public StaticShader() {
-		super(VERTEX_FILE, FRAGMENT_FILE);
+		super(VERTEX_FILE, FRAGMENT_FILE, true);
 	}
 
 	@Override

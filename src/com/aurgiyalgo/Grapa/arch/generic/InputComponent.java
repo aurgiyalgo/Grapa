@@ -42,6 +42,11 @@ public class InputComponent extends Component {
 		}
 		gameObject.transform.rotation.x += Input.getDeltaMouseY() * 10f * delta;
 		gameObject.transform.rotation.y += Input.getDeltaMouseX() * 10f * delta;
+		
+		if (gameObject.transform.rotation.x > 90) gameObject.transform.rotation.x = 90;
+		if (gameObject.transform.rotation.x < -90) gameObject.transform.rotation.x = -90;
+		if (gameObject.transform.rotation.y > 360) gameObject.transform.rotation.y -= 360;
+		if (gameObject.transform.rotation.y < 0) gameObject.transform.rotation.y += 360;
 	}
 
 }

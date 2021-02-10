@@ -85,7 +85,7 @@ public class ChunkRenderer extends Component {
 	 */
 	public void createProjectionMatrix() {
 		projectionMatrix = new Matrix4f();
-		RELATION = (float) DisplayManager.getWindowHeight() / (float) DisplayManager.getWindowWidth();
+		RELATION = (float) DisplayManager.getWindowWidth() / (float) DisplayManager.getWindowHeight();
 //		projectionMatrix.setOrtho(-SCREEN_LIMIT/2, SCREEN_LIMIT/2, -SCREEN_LIMIT * RELATION/2, SCREEN_LIMIT * RELATION/2, NEAR_PLANE, FAR_PLANE);
 		projectionMatrix.perspective((float) Math.toRadians(90), RELATION, NEAR_PLANE, FAR_PLANE);
 		

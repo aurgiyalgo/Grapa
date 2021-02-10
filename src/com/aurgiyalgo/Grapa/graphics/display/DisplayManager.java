@@ -68,7 +68,7 @@ public class DisplayManager {
 				DisplayManager.width = width;
 				DisplayManager.height = height;
 				onWindowResize.run();
-				GL11.glViewport(0, 0, width, height);
+				GL11.glViewport(50, 50, width, height);
 			}
 
 		});

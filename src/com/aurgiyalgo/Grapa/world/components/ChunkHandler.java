@@ -23,9 +23,9 @@ public class ChunkHandler extends Component {
 		
 		//Temporary stress test code
 		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 20; j++) {
+			for (int j = 0; j < 1; j++) {
 				for (int k = 0; k < 20; k++) {
-					loadedChunks.add(new Chunk(new Vector3i(i - 10, j - 10, k - 10)));
+					loadedChunks.add(new Chunk(new Vector3i(i, j, k)));
 				}
 			}
 		}
@@ -56,7 +56,7 @@ public class ChunkHandler extends Component {
 	 * @param x The X component of the coordinates
 	 * @param y The Y component of the coordinates
 	 * @param z The Z component of the coordinates
-	 * @return <code>true</code> if block was succesfully set, <code>false</code> if not
+	 * @return <code>true</code> if block was successfully set, <code>false</code> if not
 	 */
 	public boolean setBlock(int id, int x, int y, int z) {
 		for (Chunk c : loadedChunks) {

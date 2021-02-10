@@ -19,10 +19,16 @@ public class Chunk {
 	public static final int CHUNK_WIDTH = 8;
 	public static final int TOTAL_BLOCKS = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
 	
-	@Getter private Model model;
+	@Getter
+	private Model model;
 	private int[][][] data;
-	@Getter private Vector3i gridPosition;
-	@Getter private Vector3f worldPosition;
+	@Getter
+	private Vector3i gridPosition;
+	@Getter
+	private Vector3f worldPosition;
+	
+	@Getter
+	private boolean updateNextFrame;
 	
 	public Chunk(Vector3i gridPosition) {
 		this.gridPosition = gridPosition;
@@ -45,13 +51,13 @@ public class Chunk {
 			}
 		}
 		
-		updateModel();
+		updateNextFrame();
 	}
 	
 	/**
 	 * Updates the chunk model
 	 */
-	private void updateModel() {
+	public void updateModel() {
 		long timer = System.nanoTime();
 		ModelBuilder modelBuilder = new ModelBuilder();
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
@@ -65,6 +71,7 @@ public class Chunk {
 		
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
+		updateNextFrame = false;
 	}
 	
 	/**
@@ -89,8 +96,12 @@ public class Chunk {
 		if (id == data[x][y][z]) return false;
 		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return false;
 		data[x][y][z] = id;
-		updateModel();
+		updateNextFrame();
 		return true;
+	}
+	
+	public void updateNextFrame() {
+		updateNextFrame = true;
 	}
 
 }

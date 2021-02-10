@@ -25,10 +25,10 @@ public class WorldEngine extends Engine {
 		world.getComponent(ChunkRenderer.class).get().createProjectionMatrix();
 	}
 	
-	public void onClick() {
+	public void onClick(int button) {
 		raycast.update();
 		
-		world.raycast(camera.transform.position, raycast.getCurrentRay(), 64);
+		world.raycast(camera.transform.position, raycast.getCurrentRay(), 5, button != 0);
 	}
 
 }
