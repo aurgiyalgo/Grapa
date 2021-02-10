@@ -57,7 +57,7 @@ public class Chunk {
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
 			for (int y = 0; y < CHUNK_WIDTH; y++) {
 				for (int z = 0; z < CHUNK_WIDTH; z++) {
-					BlockRegister.getBlock(data[x][y][z]).createModel(modelBuilder, x, y, z, z-1 < 0 || data[x][y][z-1] == 0, y+1 > 7 || data[x][y+1][z] == 0, x-1 < 0 || data[x-1][y][z] == 0);
+					BlockRegister.getBlock(data[x][y][z]).createModel(modelBuilder, x, y, z, data);
 				}
 			}
 		}
@@ -83,13 +83,14 @@ public class Chunk {
 	 * @param x The X coordinate of the block in the chunk
 	 * @param y The Y coordinate of the block in the chunk
 	 * @param z The Z coordinate of the block in the chunk
+	 * @return <code>true</code> if block was succesfully set, <code>false</code> if not
 	 */
-	public void setBlock(int id, int x, int y, int z) {
-		System.out.println(x + " " + y + " " + z);
-		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return;
+	public boolean setBlock(int id, int x, int y, int z) {
+		if (id == data[x][y][z]) return false;
+		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return false;
 		data[x][y][z] = id;
-		System.out.println(data[x][y][z]);
 		updateModel();
+		return true;
 	}
 
 }

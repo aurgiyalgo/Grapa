@@ -22,9 +22,11 @@ public class ChunkHandler extends Component {
 		loadedChunks = new ArrayList<Chunk>();
 		
 		//Temporary stress test code
-		for (int i = 0; i < 1; i++) {
-			for (int j = 0; j < 1; j++) {
-				loadedChunks.add(new Chunk(new Vector3i(i, 0, j)));
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 20; j++) {
+				for (int k = 0; k < 20; k++) {
+					loadedChunks.add(new Chunk(new Vector3i(i - 10, j - 10, k - 10)));
+				}
 			}
 		}
 	}
@@ -54,15 +56,16 @@ public class ChunkHandler extends Component {
 	 * @param x The X component of the coordinates
 	 * @param y The Y component of the coordinates
 	 * @param z The Z component of the coordinates
+	 * @return <code>true</code> if block was succesfully set, <code>false</code> if not
 	 */
-	public void setBlock(int id, int x, int y, int z) {
+	public boolean setBlock(int id, int x, int y, int z) {
 		for (Chunk c : loadedChunks) {
 			if (Math.floor(x / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().x) continue;
 			if (Math.floor(y / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().y) continue;
 			if (Math.floor(z / (float) Chunk.CHUNK_WIDTH) != c.getGridPosition().z) continue;
-		    c.setBlock(id, Math.abs(x) % Chunk.CHUNK_WIDTH, Math.abs(y) % Chunk.CHUNK_WIDTH, Math.abs(z) % Chunk.CHUNK_WIDTH);
-		    return;
+		    return c.setBlock(id, Math.abs(x) % Chunk.CHUNK_WIDTH, Math.abs(y) % Chunk.CHUNK_WIDTH, Math.abs(z) % Chunk.CHUNK_WIDTH);
 		}
+		return false;
 	}
 	
 	public List<Chunk> getChunks() {

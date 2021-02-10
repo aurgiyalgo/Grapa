@@ -8,7 +8,6 @@ import com.aurgiyalgo.Grapa.arch.Component;
 import com.aurgiyalgo.Grapa.arch.GameObject;
 import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
 import com.aurgiyalgo.Grapa.graphics.generic.Camera;
-import com.aurgiyalgo.Grapa.graphics.generic.CameraRaycast;
 import com.aurgiyalgo.Grapa.graphics.model.Model;
 import com.aurgiyalgo.Grapa.graphics.shaders.StaticShader;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
@@ -34,8 +33,6 @@ public class ChunkRenderer extends Component {
 	private ChunkHandler chunkHandler;
 	
 	private Camera camera;
-	
-	private CameraRaycast raycast;
 
 	public ChunkRenderer(GameObject object, Camera camera) {
 		super(object);
@@ -47,15 +44,12 @@ public class ChunkRenderer extends Component {
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
-
-		this.raycast = new CameraRaycast(camera, projectionMatrix);
 		
 		chunkHandler = object.getComponent(ChunkHandler.class).get();
 	}
 
 	@Override
 	public void update(double delta) {
-		raycast.update();
 		
 		shader.start();
 		shader.loadViewMatrix(camera);
@@ -76,7 +70,7 @@ public class ChunkRenderer extends Component {
 			
 			GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, model.getData().getVertexCount());
 		}
-//		System.out.println("Draw time: " + (System.nanoTime() - timer)/1000000d + "ms");
+		System.out.println("Draw time (" + chunkHandler.getChunks().size() + " chunks rendered): " + (System.nanoTime() - timer)/1000000d + "ms");
 		
 		GL30.glDisableVertexAttribArray(Grapa.POSITION_VERTEX_ATTRIB_INDEX);
 		GL30.glDisableVertexAttribArray(Grapa.TEXTURE_VERTEX_ATTRIB_INDEX);
@@ -92,8 +86,8 @@ public class ChunkRenderer extends Component {
 	public void createProjectionMatrix() {
 		projectionMatrix = new Matrix4f();
 		RELATION = (float) DisplayManager.getWindowHeight() / (float) DisplayManager.getWindowWidth();
-		projectionMatrix.setOrtho(-SCREEN_LIMIT/2, SCREEN_LIMIT/2, -SCREEN_LIMIT * RELATION/2, SCREEN_LIMIT * RELATION/2, NEAR_PLANE, FAR_PLANE);
-//		projectionMatrix.perspective((float) Math.toRadians(30), RELATION, NEAR_PLANE, FAR_PLANE);
+//		projectionMatrix.setOrtho(-SCREEN_LIMIT/2, SCREEN_LIMIT/2, -SCREEN_LIMIT * RELATION/2, SCREEN_LIMIT * RELATION/2, NEAR_PLANE, FAR_PLANE);
+		projectionMatrix.perspective((float) Math.toRadians(90), RELATION, NEAR_PLANE, FAR_PLANE);
 		
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);

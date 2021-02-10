@@ -10,12 +10,15 @@ public class WorldEngine extends Engine {
 	
 	private World world;
 	private Camera camera;
+	private CameraRaycast raycast;
 	
 	public WorldEngine() {
 		camera = new Camera();
 		world = new World(camera);
 		addGameObject(camera);
 		addGameObject(world);
+		
+		raycast = new CameraRaycast(camera);
 	}
 	
 	public void updateProjectionMatrix() {
@@ -23,11 +26,9 @@ public class WorldEngine extends Engine {
 	}
 	
 	public void onClick() {
-		CameraRaycast raycast = new CameraRaycast(camera, world.getComponent(ChunkRenderer.class).get().getProjectionMatrix());
 		raycast.update();
 		
-//		System.out.println("Position: " + camera.transform.position);
-		world.raycast(raycast.getStartPosition(), raycast.getCurrentRay(), 64);
+		world.raycast(camera.transform.position, raycast.getCurrentRay(), 64);
 	}
 
 }

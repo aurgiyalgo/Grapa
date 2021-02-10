@@ -87,7 +87,7 @@ public class DisplayManager {
 	 * Clears memory when program ends.
 	 */
 	public void dispose() {
-
+		
 	}
 	
 	/**

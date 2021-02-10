@@ -2,6 +2,7 @@ package com.aurgiyalgo.Grapa.world.blocks;
 
 import com.aurgiyalgo.Grapa.graphics.model.ModelBuilder;
 import com.aurgiyalgo.Grapa.graphics.textures.TextureRegion;
+import com.aurgiyalgo.Grapa.world.data.Chunk;
 
 public abstract class Block {
 	
@@ -14,53 +15,106 @@ public abstract class Block {
 		texture = new TextureRegion(id);
 	}
 	
-	public void createModel(ModelBuilder modelBuilder, int x, int y, int z, boolean drawLeft, boolean drawUp, boolean drawRight) {
+	public void createModel(ModelBuilder modelBuilder, int x, int y, int z, int[][][] data) {
 		
-		if (drawLeft) {
+		if (z-1 < 0 || data[x][y][z-1] == 0) {
 			modelBuilder.normal(-1, 0, 0);
 			modelBuilder.uv(texture.getU1(), texture.getV1());
 			modelBuilder.vertex(0 + x, 0 + y, 0 + z);
-			modelBuilder.uv(texture.getU2(), texture.getV1());
-			modelBuilder.vertex(1 + x, 0 + y, 0 + z);
 			modelBuilder.uv(texture.getU1(), texture.getV2());
 			modelBuilder.vertex(0 + x, 1 + y, 0 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV1());
+			modelBuilder.vertex(1 + x, 0 + y, 0 + z);
 
 			modelBuilder.uv(texture.getU1(), texture.getV2());
 			modelBuilder.vertex(0 + x, 1 + y, 0 + z);
-			modelBuilder.uv(texture.getU2(), texture.getV1());
-			modelBuilder.vertex(1 + x, 0 + y, 0 + z);
 			modelBuilder.uv(texture.getU2(), texture.getV2());
 			modelBuilder.vertex(1 + x, 1 + y, 0 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV1());
+			modelBuilder.vertex(1 + x, 0 + y, 0 + z);
 		}
-		if (drawRight) {
-			modelBuilder.normal(0, 0, -1);
+		
+		if (z+1 >= Chunk.CHUNK_WIDTH || data[x][y][z+1] == 0) {
+			modelBuilder.normal(-1, 0, 0);
 			modelBuilder.uv(texture.getU1(), texture.getV1());
 			modelBuilder.vertex(0 + x, 0 + y, 1 + z);
 			modelBuilder.uv(texture.getU2(), texture.getV1());
-			modelBuilder.vertex(0 + x, 0+ y, 0 + z);
+			modelBuilder.vertex(1 + x, 0 + y, 1 + z);
 			modelBuilder.uv(texture.getU1(), texture.getV2());
 			modelBuilder.vertex(0 + x, 1 + y, 1 + z);
 
 			modelBuilder.uv(texture.getU1(), texture.getV2());
 			modelBuilder.vertex(0 + x, 1 + y, 1 + z);
 			modelBuilder.uv(texture.getU2(), texture.getV1());
-			modelBuilder.vertex(0 + x, 0 + y, 0 + z);
+			modelBuilder.vertex(1 + x, 0 + y, 1 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV2());
+			modelBuilder.vertex(1 + x, 1 + y, 1 + z);
+		}
+		
+		if (x-1 < 0 || data[x-1][y][z] == 0) {
+			modelBuilder.normal(0, 0, -1);
+			modelBuilder.uv(texture.getU1(), texture.getV1());
+			modelBuilder.vertex(0 + x, 0 + y, 1 + z);
+			modelBuilder.uv(texture.getU1(), texture.getV2());
+			modelBuilder.vertex(0 + x, 1 + y, 1 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV1());
+			modelBuilder.vertex(0 + x, 0+ y, 0 + z);
+
+			modelBuilder.uv(texture.getU1(), texture.getV2());
+			modelBuilder.vertex(0 + x, 1 + y, 1 + z);
 			modelBuilder.uv(texture.getU2(), texture.getV2());
 			modelBuilder.vertex(0 + x, 1 + y, 0 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV1());
+			modelBuilder.vertex(0 + x, 0 + y, 0 + z);
 		}
-		if (drawUp) {
-			modelBuilder.normal(0, 1, 0);
+		
+		if (x+1 >= Chunk.CHUNK_WIDTH || data[x+1][y][z] == 0) {
+			modelBuilder.normal(0, 0, 1);
 			modelBuilder.uv(texture.getU1(), texture.getV1());
-			modelBuilder.vertex(0 + x, 1 + y, 0 + z);
+			modelBuilder.vertex(1 + x, 0 + y, 1 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV1());
+			modelBuilder.vertex(1 + x, 0+ y, 0 + z);
+			modelBuilder.uv(texture.getU1(), texture.getV2());
+			modelBuilder.vertex(1 + x, 1 + y, 1 + z);
+
+			modelBuilder.uv(texture.getU1(), texture.getV2());
+			modelBuilder.vertex(1 + x, 1 + y, 1 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV1());
+			modelBuilder.vertex(1 + x, 0 + y, 0 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV2());
+			modelBuilder.vertex(1 + x, 1 + y, 0 + z);
+		}
+		
+		if (y-1 < 0 || data[x][y-1][z] == 0) {
+			modelBuilder.normal(0, -1, 0);
+			modelBuilder.uv(texture.getU1(), texture.getV1());
+			modelBuilder.vertex(0 + x, 0 + y, 0 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV1());
+			modelBuilder.vertex(1 + x, 0 + y, 0 + z);
+			modelBuilder.uv(texture.getU1(), texture.getV2());
+			modelBuilder.vertex(0 + x, 0 + y, 1 + z);
+
+			modelBuilder.uv(texture.getU1(), texture.getV2());
+			modelBuilder.vertex(0 + x, 0 + y, 1 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV1());
+			modelBuilder.vertex(1 + x, 0 + y, 0 + z);
+			modelBuilder.uv(texture.getU2(), texture.getV2());
+			modelBuilder.vertex(1 + x, 0 + y, 1 + z);
+		}
+		
+		if (y+1 >= Chunk.CHUNK_WIDTH || data[x][y+1][z] == 0) {
+			modelBuilder.normal(0, 1, 0);
 			modelBuilder.uv(texture.getU2(), texture.getV1());
 			modelBuilder.vertex(1 + x, 1 + y, 0 + z);
+			modelBuilder.uv(texture.getU1(), texture.getV1());
+			modelBuilder.vertex(0 + x, 1 + y, 0 + z);
 			modelBuilder.uv(texture.getU1(), texture.getV2());
 			modelBuilder.vertex(0 + x, 1 + y, 1 + z);
 
-			modelBuilder.uv(texture.getU1(), texture.getV2());
-			modelBuilder.vertex(0 + x, 1 + y, 1 + z);
 			modelBuilder.uv(texture.getU2(), texture.getV1());
 			modelBuilder.vertex(1 + x, 1 + y, 0 + z);
+			modelBuilder.uv(texture.getU1(), texture.getV2());
+			modelBuilder.vertex(0 + x, 1 + y, 1 + z);
 			modelBuilder.uv(texture.getU2(), texture.getV2());
 			modelBuilder.vertex(1 + x, 1 + y, 1 + z);
 		}

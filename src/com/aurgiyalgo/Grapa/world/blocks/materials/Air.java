@@ -10,7 +10,6 @@ public class Air extends Block {
 	}
 	
 	@Override
-	public void createModel(ModelBuilder modelBuilder, int x, int y, int z, boolean drawLeft, boolean drawUp,
-			boolean drawRight) {}
-
+	public void createModel(ModelBuilder modelBuilder, int x, int y, int z, int[][][] data) {}
+	
 }

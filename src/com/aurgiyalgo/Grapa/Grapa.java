@@ -72,6 +72,11 @@ public class Grapa {
 		long lastTime = System.nanoTime();
 		GL30.glClearColor(0.75f, 0.5f, 0.5f, 1);
 		GL30.glEnable(GL30.GL_DEPTH_TEST);
+		
+		GL30.glEnable(GL30.GL_CULL_FACE);
+		GL30.glCullFace(GL30.GL_FRONT_FACE);
+		
+		Input.hideCursor();
 
 		while (!GLFW.glfwWindowShouldClose(displayManager.windowId)) {
 			long time = System.nanoTime();
@@ -89,6 +94,8 @@ public class Grapa {
 			uiEngine.update(delta);
 
 			displayManager.updateDisplay();
+			
+			if (Input.getKey(GLFW.GLFW_KEY_ESCAPE)) GLFW.glfwSetWindowShouldClose(displayManager.windowId, true);
 		}
 	}
 

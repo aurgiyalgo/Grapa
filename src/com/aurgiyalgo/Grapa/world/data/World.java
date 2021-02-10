@@ -29,18 +29,13 @@ public class World extends GameObject {
 		
 		Vector3f start = new Vector3f(position);
 		Vector3f stepVector = new Vector3f(direction).mul(0.125f);
-		
-		System.out.println("Start: " + position);
-		System.out.println("Direction: " + direction);
-		
-		for (float i = 0; i < distance; i+= 0.001f) {
+
+		long timer = System.nanoTime();
+		for (float i = 0; i < distance; i+= 0.1f) {
 			start.add(stepVector);
-			if (chunkHandler.getBlock((int) start.x, (int) start.y, (int) start.z) != 0) {
-				System.out.println("Block found | ID: " + chunkHandler.getBlock((int) start.x, (int) start.y, (int) start.z) + " | Pos: " + start.x + " " + start.y + " " + start.z);
-				chunkHandler.setBlock(0, (int) start.x, (int) start.y, (int) start.z);
-				break;
-			}
+			if (chunkHandler.setBlock(0, (int) start.x, (int) start.y, (int) start.z)) break;
 		}
+		System.out.println("Raycast time: " + (System.nanoTime() - timer) / 1000000d + "ms");
 	}
 
 }
