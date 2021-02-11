@@ -2,7 +2,7 @@ package com.aurgiyalgo.Grapa.graphics.textures;
 
 public class TextureRegion {
 	
-	public static final int TEXTURE_ATLAS_SIDE = 32;
+	public static final int TEXTURE_ATLAS_SIDE = 1024;
 	public static final int REGION_SIDE = 8;
 	public static final int REGIONS_PER_SIDE = TEXTURE_ATLAS_SIDE / REGION_SIDE;
 	private static final float TEXTURE_RELATION = REGION_SIDE / (float) TEXTURE_ATLAS_SIDE;

@@ -23,11 +23,14 @@ public class ChunkHandler extends Component {
 		loadedChunks = new ArrayList<Chunk>();
 		chunksToMesh = new ArrayList<Chunk>();
 		
+		int sideX = 5;
+		int sideZ = 5;
+		
 		//Temporary stress test code
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < sideX; i++) {
 			for (int j = 0; j < 1; j++) {
-				for (int k = 0; k < 20; k++) {
-					loadedChunks.add(new Chunk(new Vector3i(i - 10, j, k - 10), this));
+				for (int k = 0; k < sideZ; k++) {
+					loadedChunks.add(new Chunk(new Vector3i(i - sideX/2, j, k - sideZ/2), this));
 				}
 			}
 		}

@@ -97,11 +97,11 @@ public class Chunk {
 	 * @param x The X coordinate of the block in the chunk
 	 * @param y The Y coordinate of the block in the chunk
 	 * @param z The Z coordinate of the block in the chunk
-	 * @return <code>true</code> if block was succesfully set, <code>false</code> if not
+	 * @return <code>true</code> if block was successfully set, <code>false</code> if not
 	 */
 	public boolean setBlock(int id, int x, int y, int z) {
-		if (id == data[x][y][z]) return false;
 		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return false;
+		if (data[x][y][z] == id) return false;
 		data[x][y][z] = id;
 		updateNextFrame();
 		return true;

@@ -47,7 +47,7 @@ public class World extends GameObject {
 	    do {
 	        if (chunkHandler.getBlock((int)xPos, (int)yPos, (int)zPos) != 0) {
 	            if (!isPlace) chunkHandler.setBlock(0, (int)xPos, (int)yPos, (int)zPos);
-	            else chunkHandler.setBlock(1, (int)(xPos + faceX), (int)(yPos + faceY), (int)(zPos + faceZ));
+	            else chunkHandler.setBlock(6, (int)(xPos + faceX), (int)(yPos + faceY), (int)(zPos + faceZ));
 	            break;
 	        }
 	        if (tMax.x < tMax.y) {

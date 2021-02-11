@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.aurgiyalgo.Grapa.world.blocks.materials.Air;
 import com.aurgiyalgo.Grapa.world.blocks.materials.BaseRock;
+import com.aurgiyalgo.Grapa.world.blocks.materials.Brick;
 import com.aurgiyalgo.Grapa.world.blocks.materials.Dirt;
 import com.aurgiyalgo.Grapa.world.blocks.materials.Stone;
 
@@ -18,6 +19,7 @@ public class BlockRegister {
 		BLOCKS.add(new Dirt());
 		BLOCKS.add(new BaseRock());
 		BLOCKS.add(new Stone());
+		BLOCKS.add(new Brick());
 	}
 	
 	public static Block getBlock(int id) {

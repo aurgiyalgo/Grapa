@@ -9,3 +9,7 @@ OpenGL Voxel Game Engine (Work in progress)
 - Texture loading
 - Camera raycast
 - Block breaking/placing
+
+#### Credits
+
+- ["polyphorge's general use tileset"](https://polyphorge.itch.io/poly-tileset) as temporary textures for testing

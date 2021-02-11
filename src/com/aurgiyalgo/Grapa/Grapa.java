@@ -47,7 +47,7 @@ public class Grapa {
 
 		});
 
-		TEXTURE = Texture.loadTexture("resources/textures/BLOCKS.png");
+		TEXTURE = Texture.loadTexture("resources/textures/tileset.png");
 
 		Input.createInstance(displayManager.windowId);
 

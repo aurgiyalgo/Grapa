@@ -50,7 +50,6 @@ public class ChunkRenderer extends Component {
 
 	@Override
 	public void update(double delta) {
-		
 		shader.start();
 		shader.loadViewMatrix(camera);
 		
