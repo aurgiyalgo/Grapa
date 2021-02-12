@@ -15,8 +15,8 @@ public class Dirt extends Block {
 		texture = new TextureRegion(0);
 	}
 	
+	@Override
 	public void createModel(ModelBuilder modelBuilder, int x, int y, int z, int[][][] data) {
-		
 		if (z-1 < 0 || data[x][y][z-1] == 0) {
 			modelBuilder.normal(-1, 0, 0);
 			modelBuilder.uv(texture.getU1(), texture.getV1());
@@ -118,7 +118,6 @@ public class Dirt extends Block {
 			modelBuilder.uv(upTexture.getU2(), upTexture.getV2());
 			modelBuilder.vertex(1 + x, 1 + y, 1 + z);
 		}
-		
 	}
 
 }

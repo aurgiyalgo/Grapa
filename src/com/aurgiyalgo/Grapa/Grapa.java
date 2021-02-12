@@ -22,6 +22,8 @@ public class Grapa {
 
 	private UIEngine uiEngine;
 	private WorldEngine worldEngine;
+	
+	private Input input;
 
 	public static void main(String[] args) {
 		Grapa grapa = new Grapa();
@@ -48,14 +50,14 @@ public class Grapa {
 		});
 
 		TEXTURE = Texture.loadTexture("resources/textures/tileset.png");
-
-		Input.createInstance(displayManager.windowId);
+		
+		input = Input.getInstance();
 
 		uiEngine = new UIEngine();
 
 		worldEngine = new WorldEngine();
 
-		GLFW.glfwSetMouseButtonCallback(displayManager.windowId, new GLFWMouseButtonCallbackI() {
+		GLFW.glfwSetMouseButtonCallback(DisplayManager.getWindowId(), new GLFWMouseButtonCallbackI() {
 
 			@Override
 			public void invoke(long window, int button, int action, int mods) {
@@ -75,16 +77,19 @@ public class Grapa {
 		GL30.glEnable(GL30.GL_CULL_FACE);
 		GL30.glCullFace(GL30.GL_FRONT_FACE);
 		
-		Input.hideCursor();
+		input.hideCursor();
 
-		while (!GLFW.glfwWindowShouldClose(displayManager.windowId)) {
+		while (!GLFW.glfwWindowShouldClose(DisplayManager.getWindowId())) {
 			long time = System.nanoTime();
 			double delta = (time - lastTime) / 1000000000d;
 			lastTime = time;
 			System.out.println("Delta: " + delta / 1000 + "ms");
 			System.out.println("FPS: " + 1.0 / delta);
+			
+//			GLFW.glfwSetWindowTitle(DisplayManager.getWindowId(), "Grapa Voxel Test (FPS: " + (int) (1.0 / delta) + ")");
 
-			Input.update();
+			input.update();
+			System.out.println(input.isCursorHidden());
 
 			displayManager.clearDisplay();
 
@@ -95,7 +100,7 @@ public class Grapa {
 
 			displayManager.updateDisplay();
 			
-			if (Input.getKey(GLFW.GLFW_KEY_ESCAPE)) Input.showCursor();
+			if (input.getKey(GLFW.GLFW_KEY_ESCAPE)) input.toggleCursor();
 		}
 	}
 

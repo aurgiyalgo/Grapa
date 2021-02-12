@@ -21,12 +21,15 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+import lombok.Getter;
+
 /**
  * Handles basic display and window functions.
  */
 public class DisplayManager {
 
-	public long windowId;
+	@Getter
+	private static long windowId;
 	
 	private static int width, height;
 	

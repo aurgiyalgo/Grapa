@@ -42,6 +42,10 @@ public class Chunk {
 		this.worldPosition = new Vector3f(gridPosition.x, gridPosition.y, gridPosition.z).mul(Chunk.CHUNK_WIDTH);
 		this.data = new int[CHUNK_WIDTH][CHUNK_WIDTH][CHUNK_WIDTH];
 		
+		updateNextFrame();
+	}
+	
+	public void generateChunk() {
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
 			for (int y = 0; y < CHUNK_WIDTH; y++) {
 				for (int z = 0; z < CHUNK_WIDTH; z++) {
@@ -49,7 +53,7 @@ public class Chunk {
 						data[x][y][z] = 5;
 						continue;
 					}
-					if (y == 7) {
+					if (y == CHUNK_WIDTH-1) {
 						data[x][y][z] = 4;
 						continue;
 					}
@@ -57,8 +61,6 @@ public class Chunk {
 				}
 			}
 		}
-		
-		updateNextFrame();
 	}
 	
 	/**
@@ -88,7 +90,7 @@ public class Chunk {
 	 * @return ID of the block at the coordinates, or 0 if the block is air or not found
 	 */
 	public int getBlock(int x, int y, int z) {
-		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return 0;
+		if (x < 0 || y < 0 || z < 0 || x > CHUNK_WIDTH-1 || y > CHUNK_WIDTH-1 || z > CHUNK_WIDTH-1) return 0;
 		return data[x][y][z];
 	}
 
@@ -100,7 +102,7 @@ public class Chunk {
 	 * @return <code>true</code> if block was successfully set, <code>false</code> if not
 	 */
 	public boolean setBlock(int id, int x, int y, int z) {
-		if (x < 0 || y < 0 || z < 0 || x > 7 || y > 7 || z > 7) return false;
+		if (x < 0 || y < 0 || z < 0 || x > CHUNK_WIDTH-1 || y > CHUNK_WIDTH-1 || z > CHUNK_WIDTH-1) return false;
 		if (data[x][y][z] == id) return false;
 		data[x][y][z] = id;
 		updateNextFrame();

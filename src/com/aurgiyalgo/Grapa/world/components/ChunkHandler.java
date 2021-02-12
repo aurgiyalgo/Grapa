@@ -23,14 +23,17 @@ public class ChunkHandler extends Component {
 		loadedChunks = new ArrayList<Chunk>();
 		chunksToMesh = new ArrayList<Chunk>();
 		
-		int sideX = 5;
-		int sideZ = 5;
+		int sideX = 10;
+		int sideY = 1;
+		int sideZ = 10;
 		
 		//Temporary stress test code
 		for (int i = 0; i < sideX; i++) {
-			for (int j = 0; j < 1; j++) {
+			for (int j = 0; j < sideY; j++) {
 				for (int k = 0; k < sideZ; k++) {
-					loadedChunks.add(new Chunk(new Vector3i(i - sideX/2, j, k - sideZ/2), this));
+					Chunk c = new Chunk(new Vector3i(i - sideX/2, j - sideY, k - sideZ/2), this);
+					c.generateChunk();
+					loadedChunks.add(c);
 				}
 			}
 		}
@@ -77,7 +80,13 @@ public class ChunkHandler extends Component {
 			if (!c.isInside(x, y, z)) continue;
 		    return c.setBlock(id, Math.abs(c.getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(c.getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(c.getGridPosition().z * Chunk.CHUNK_WIDTH - z));
 		}
-		return false;
+		Chunk c = new Chunk(getChunkPositionAt(x, y, z), this);
+		loadedChunks.add(c);
+		return c.setBlock(id, Math.abs(c.getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(c.getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(c.getGridPosition().z * Chunk.CHUNK_WIDTH - z));
+	}
+	
+	private Vector3i getChunkPositionAt(float x, float y, float z) {
+		return new Vector3i((int) Math.floor(x / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(y / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(z / (float) Chunk.CHUNK_WIDTH));
 	}
 	
 	public List<Chunk> getChunks() {

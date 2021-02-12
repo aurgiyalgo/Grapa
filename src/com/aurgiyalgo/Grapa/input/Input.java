@@ -1,10 +1,13 @@
 package com.aurgiyalgo.Grapa.input;
 
 import org.joml.Vector2d;
-import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.glfw.GLFWMouseButtonCallbackI;
+
+import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
+
+import lombok.Getter;
 
 /**
  * Handles and allows to get user input (temporary).
@@ -17,13 +20,16 @@ public class Input {
 	private boolean[] mouse;
 	private long windowId;
 	
+	@Getter
+	private boolean isCursorHidden;
+	
 	private static Input instance;
 	
 	private Input(long windowId) {
 		
 		this.windowId = windowId;
-		keys = new boolean[349];
-		mouse = new boolean[5];
+		this.keys = new boolean[349];
+		this.mouse = new boolean[5];
 		
 		GLFW.glfwSetKeyCallback(windowId, new GLFWKeyCallbackI() {
 			
@@ -45,55 +51,61 @@ public class Input {
 		});
 	}
 	
-	public static void createInstance(long window) {
-		instance = new Input(window);
+	public static Input getInstance() {
+		if (instance == null) {
+			instance = new Input(DisplayManager.getWindowId());
+		}
+		return instance;
 	}
 	
-	public static void update() {
+	public void update() {
 		double[] mouseX = new double[1];
 		double[] mouseY = new double[1];
-		GLFW.glfwGetCursorPos(instance.windowId, mouseX, mouseY);
+		GLFW.glfwGetCursorPos(windowId, mouseX, mouseY);
 		mouseX[0] /= 2;
 		mouseY[0] /= 2;
-		instance.deltaMouseX = mouseX[0] - instance.lastMouseX;
-		instance.deltaMouseY = mouseY[0] - instance.lastMouseY;
-		instance.lastMouseX = mouseX[0];
-		instance.lastMouseY = mouseY[0];
+		deltaMouseX = mouseX[0] - lastMouseX;
+		deltaMouseY = mouseY[0] - lastMouseY;
+		lastMouseX = mouseX[0];
+		lastMouseY = mouseY[0];
 	}
 	
-	public static Vector2d getMousePosition() {
+	public Vector2d getMousePosition() {
 		double[] mouseX = new double[1];
 		double[] mouseY = new double[1];
-		GLFW.glfwGetCursorPos(instance.windowId, mouseX, mouseY);
+		GLFW.glfwGetCursorPos(windowId, mouseX, mouseY);
 		return new Vector2d(mouseX[0], mouseY[0]);
 	}
 	
-	public static double getDeltaMouseX() {
+	public double getDeltaMouseX() {
+		if (!instance.isCursorHidden) return 0;
 		return instance.deltaMouseX;
 	}
 	
-	public static double getDeltaMouseY() {
+	public double getDeltaMouseY() {
+		if (!instance.isCursorHidden) return 0;
 		return instance.deltaMouseY;
 	}
 	
-	public static boolean getKey(int key) {
-		return instance.keys[key];
+	public boolean getKey(int key) {
+		return keys[key];
 	}
 	
-	public static Vector2f getRawInput() {
-		Vector2f input = new Vector2f();
-		if (getKey(GLFW.GLFW_KEY_W)) input.y++;
-		if (getKey(GLFW.GLFW_KEY_S)) input.y--;
-		if (getKey(GLFW.GLFW_KEY_A)) input.x--;
-		if (getKey(GLFW.GLFW_KEY_D)) input.x++;
-		return input;
+	public void toggleCursor() {
+		if (isCursorHidden) {
+			showCursor();
+			return;
+		}
+		hideCursor();
 	}
 	
-	public static void hideCursor() {
+	public void hideCursor() {
+		isCursorHidden = true;
 		GLFW.glfwSetInputMode(instance.windowId, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 	}
 	
-	public static void showCursor() {
+	public void showCursor() {
+		isCursorHidden = false;
 		GLFW.glfwSetInputMode(instance.windowId, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
 	}
 	

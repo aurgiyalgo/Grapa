@@ -1,9 +1,6 @@
 package com.aurgiyalgo.Grapa.graphics.generic;
 
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
-
-import com.aurgiyalgo.Grapa.input.Input;
 
 /**
  * A simple Light class (temporary).
@@ -17,21 +14,6 @@ public class Light {
 		super();
 		this.position = position;
 		this.color = color;
-	}
-	
-	public void move() {
-		if (Input.getKey(GLFW.GLFW_KEY_W)) {
-			position.z -= 0.01f;
-		}
-		if (Input.getKey(GLFW.GLFW_KEY_S)) {
-			position.z += 0.01f;
-		}
-		if (Input.getKey(GLFW.GLFW_KEY_A)) {
-			position.x -= 0.01f;
-		}
-		if (Input.getKey(GLFW.GLFW_KEY_D)) {
-			position.x += 0.01f;
-		}
 	}
 	
 	public Vector3f getPosition() {
