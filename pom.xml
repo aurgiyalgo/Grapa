@@ -9,96 +9,80 @@
 
 	<profiles>
 		<profile>
-			<id>windows</id>
+			<id>swt-unix</id>
 			<activation>
 				<os>
-					<family>Windows</family>
+					<family>unix</family>
 				</os>
 			</activation>
 			<properties>
-				<platform>windows</platform>
+				<swt.artifactId>org.eclipse.swt.gtk.linux.x86_64</swt.artifactId>
+				<env>linux</env>
 			</properties>
-		</profile>
-		<profile>
-			<id>windows-x86</id>
-			<activation>
-				<os>
-					<family>Windows</family>
-					<arch>x86</arch>
-				</os>
-			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.eclipse.swt</groupId>
-					<artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
-					<version>${swt.version}</version>
+					<groupId>org.eclipse.platform</groupId>
+					<artifactId>${swt.artifactId}</artifactId>
+					<version>3.108.0</version>
+					<optional>true</optional>
+					<exclusions>
+						<exclusion>
+							<groupId>org.eclipse.platform</groupId>
+							<artifactId>org.eclipse.swt</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
-			<id>linux</id>
+			<id>swt-mac</id>
 			<activation>
 				<os>
-					<family>Linux</family>
+					<family>mac</family>
 				</os>
 			</activation>
 			<properties>
-				<platform>linux</platform>
+				<swt.artifactId>org.eclipse.swt.cocoa.macosx.x86_64</swt.artifactId>
+				<env>mac</env>
 			</properties>
-		</profile>
-		<profile>
-			<id>linux-x86</id>
-			<activation>
-				<os>
-					<family>Linux</family>
-					<arch>x86</arch>
-				</os>
-			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.eclipse.swt</groupId>
-					<artifactId>org.eclipse.swt.gtk.linux.x86</artifactId>
-					<version>${swt.version}</version>
+					<groupId>org.eclipse.platform</groupId>
+					<artifactId>${swt.artifactId}</artifactId>
+					<version>3.108.0</version>
+					<optional>true</optional>
+					<exclusions>
+						<exclusion>
+							<groupId>org.eclipse.platform</groupId>
+							<artifactId>org.eclipse.swt</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
-			<id>linux-amd64</id>
+			<id>swt-windows</id>
 			<activation>
 				<os>
-					<family>Linux</family>
-					<arch>amd64</arch>
-				</os>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>org.eclipse.swt</groupId>
-					<artifactId>org.eclipse.swt.gtk.linux.x86_64</artifactId>
-					<version>${swt.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>mac</id>
-			<activation>
-				<os>
-					<family>Mac</family>
+					<family>windows</family>
 				</os>
 			</activation>
 			<properties>
-				<platform>macos</platform>
+				<swt.artifactId>org.eclipse.swt.win32.win32.x86_64</swt.artifactId>
+				<env>windows</env>
 			</properties>
 			<dependencies>
 				<dependency>
-					<groupId>org.eclipse.swt</groupId>
-					<artifactId>org.eclipse.swt.cocoa.macosx.x86_64</artifactId>
-					<version>${swt.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.lwjgl</groupId>
-					<artifactId>lwjgl-vulkan</artifactId>
-					<version>${lwjgl.version}</version>
-					<classifier>natives-macos</classifier>
+					<groupId>org.eclipse.platform</groupId>
+					<artifactId>${swt.artifactId}</artifactId>
+					<version>3.108.0</version>
+					<optional>true</optional>
+					<exclusions>
+						<exclusion>
+							<groupId>org.eclipse.platform</groupId>
+							<artifactId>org.eclipse.swt</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 			</dependencies>
 		</profile>
