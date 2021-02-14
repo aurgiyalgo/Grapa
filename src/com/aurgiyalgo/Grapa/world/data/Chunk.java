@@ -45,6 +45,9 @@ public class Chunk {
 		updateNextFrame();
 	}
 	
+	/**
+	 * Generates block data for the chunk (temporary until implementation of procedural generation)
+	 */
 	public void generateChunk() {
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
 			for (int y = 0; y < CHUNK_WIDTH; y++) {
@@ -109,6 +112,12 @@ public class Chunk {
 		return true;
 	}
 	
+	/**
+	 * @param x The X coordinate of the block in the chunk
+	 * @param y The Y coordinate of the block in the chunk
+	 * @param z The Z coordinate of the block in the chunk
+	 * @return <code>true</code> if the given coordinates are inside the chunk, <code>false</code> if not
+	 */
 	public boolean isInside(int x, int y, int z) {
 		if (Math.floor(x / (float) CHUNK_WIDTH) != gridPosition.x) return false;
 		if (Math.floor(y / (float) CHUNK_WIDTH) != gridPosition.y) return false;
@@ -116,6 +125,9 @@ public class Chunk {
 		return true;
 	}
 	
+	/**
+	 * Queue the chunk to update its model at the beginning of the next frame
+	 */
 	public void updateNextFrame() {
 		chunkHandler.addChunkForMeshing(this);
 	}

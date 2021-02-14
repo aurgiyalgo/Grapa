@@ -93,8 +93,8 @@ public class Grapa {
 
 			displayManager.clearDisplay();
 
-			worldEngine.update(delta);
 			worldEngine.updateChunkMeshes();
+			worldEngine.update(delta);
 
 			uiEngine.update(delta);
 

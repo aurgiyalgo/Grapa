@@ -43,6 +43,9 @@ public class ChunkHandler extends Component {
 	public void update(double delta) {
 	}
 	
+	/**
+	 * Update the meshes for all the loaded chunks
+	 */
 	public void updateChunkMeshes() {
 		for (Chunk chunk : chunksToMesh) {
 			chunk.updateModel();
@@ -50,6 +53,10 @@ public class ChunkHandler extends Component {
 		chunksToMesh.clear();
 	}
 	
+	/**
+	 * Add a chunk to the meshing queue
+	 * @param chunk Chunk to queue
+	 */
 	public void addChunkForMeshing(Chunk chunk) {
 		chunksToMesh.add(chunk);
 	}
@@ -85,6 +92,12 @@ public class ChunkHandler extends Component {
 		return c.setBlock(id, Math.abs(c.getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(c.getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(c.getGridPosition().z * Chunk.CHUNK_WIDTH - z));
 	}
 	
+	/**
+	 * @param x The X component of the coordinates
+	 * @param y The Y component of the coordinates
+	 * @param z The Z component of the coordinates
+	 * @return Chunk position in the world
+	 */
 	private Vector3i getChunkPositionAt(float x, float y, float z) {
 		return new Vector3i((int) Math.floor(x / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(y / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(z / (float) Chunk.CHUNK_WIDTH));
 	}

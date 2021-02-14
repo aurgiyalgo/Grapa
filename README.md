@@ -5,7 +5,7 @@ OpenGL Voxel Game Engine (Work in progress)
 #### Current features
 
 - Basic [ECS](https://en.wikipedia.org/wiki/Entity_component_system) architecture
-- Cubic chunks system 
+- Dynamic-sized cubic chunks system
 - Texture loading
 - Camera raycast
 - Block breaking/placing
