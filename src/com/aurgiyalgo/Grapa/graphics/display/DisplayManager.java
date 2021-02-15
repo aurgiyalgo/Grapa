@@ -27,6 +27,8 @@ import lombok.Getter;
  * Handles basic display and window functions.
  */
 public class DisplayManager {
+	
+	private static DisplayManager instance;
 
 	@Getter
 	private static long windowId;
@@ -34,6 +36,17 @@ public class DisplayManager {
 	private static int width, height;
 	
 	private Runnable onWindowResize;
+	
+	private DisplayManager() {
+		
+	}
+	
+	public static DisplayManager getInstance() {
+		if (instance == null) {
+			instance = new DisplayManager();
+		}
+		return instance;
+	}
 
 	/**
 	 * Creates display and GL context.
@@ -71,7 +84,7 @@ public class DisplayManager {
 				DisplayManager.width = width;
 				DisplayManager.height = height;
 				onWindowResize.run();
-				GL11.glViewport(50, 50, width, height);
+				GL11.glViewport(0, 0, width, height);
 			}
 
 		});

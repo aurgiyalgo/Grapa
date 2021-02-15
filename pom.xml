@@ -105,7 +105,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.aurgiyalgo.Grapa.Grapa</mainClass>
+							<mainClass>com.aurgiyalgo.Grapa.demo.Demo</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

@@ -23,9 +23,9 @@ public class ChunkHandler extends Component {
 		loadedChunks = new ArrayList<Chunk>();
 		chunksToMesh = new ArrayList<Chunk>();
 		
-		int sideX = 10;
-		int sideY = 1;
-		int sideZ = 10;
+		int sideX = 8;
+		int sideY = 8;
+		int sideZ = 8;
 		
 		//Temporary stress test code
 		for (int i = 0; i < sideX; i++) {

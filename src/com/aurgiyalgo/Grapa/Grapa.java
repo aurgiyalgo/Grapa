@@ -1,14 +1,11 @@
 package com.aurgiyalgo.Grapa;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWMouseButtonCallbackI;
-import org.lwjgl.opengl.GL30;
 
 import com.aurgiyalgo.Grapa.graphics.display.DisplayManager;
 import com.aurgiyalgo.Grapa.graphics.textures.Texture;
 import com.aurgiyalgo.Grapa.input.Input;
-import com.aurgiyalgo.Grapa.ui.UIEngine;
-import com.aurgiyalgo.Grapa.world.WorldEngine;
+import com.aurgiyalgo.Grapa.scenes.IScene;
 
 public class Grapa {
 
@@ -19,23 +16,20 @@ public class Grapa {
 	public static Texture TEXTURE;
 
 	private DisplayManager displayManager;
-
-	private UIEngine uiEngine;
-	private WorldEngine worldEngine;
 	
 	private Input input;
-
-	public static void main(String[] args) {
-		Grapa grapa = new Grapa();
-		grapa.init();
-		grapa.loop();
+	
+	private IScene currentScene;
+	
+	public Grapa() {
+		setup();
 	}
 
 	/**
 	 * Initializes the engine and the sub-systems.
 	 */
-	private void init() {
-		displayManager = new DisplayManager();
+	private void setup() {
+		displayManager = DisplayManager.getInstance();
 		displayManager.createDisplay(1280, 720);
 		displayManager.setClearColor(0.75f, 0.5f, 0.5f, 1);
 
@@ -43,41 +37,33 @@ public class Grapa {
 
 			@Override
 			public void run() {
-				System.out.println("Window was resized!");
-				worldEngine.updateProjectionMatrix();
+				currentScene.onResize();
 			}
 
 		});
 
+		//TODO Dynamic texture loading
 		TEXTURE = Texture.loadTexture("resources/textures/tileset.png");
 		
 		input = Input.getInstance();
 
-		uiEngine = new UIEngine();
-
-		worldEngine = new WorldEngine();
-
-		GLFW.glfwSetMouseButtonCallback(DisplayManager.getWindowId(), new GLFWMouseButtonCallbackI() {
-
-			@Override
-			public void invoke(long window, int button, int action, int mods) {
-				if (action == GLFW.GLFW_PRESS) worldEngine.onClick(button);
-			}
-
-		});
+//		GLFW.glfwSetMouseButtonCallback(DisplayManager.getWindowId(), new GLFWMouseButtonCallbackI() {
+//
+//			@Override
+//			public void invoke(long window, int button, int action, int mods) {
+//				if (action == GLFW.GLFW_PRESS) worldEngine.onClick(button);
+//			}
+//
+//		});
 	}
 
 	/**
 	 * Executes the main engine loop.
 	 */
-	private void loop() {
+	public void init() {
 		long lastTime = System.nanoTime();
-		GL30.glEnable(GL30.GL_DEPTH_TEST);
-		
-		GL30.glEnable(GL30.GL_CULL_FACE);
-		GL30.glCullFace(GL30.GL_FRONT_FACE);
-		
-		input.hideCursor();
+//		
+//		input.hideCursor();
 
 		while (!GLFW.glfwWindowShouldClose(DisplayManager.getWindowId())) {
 			long time = System.nanoTime();
@@ -86,22 +72,24 @@ public class Grapa {
 			System.out.println("Delta: " + delta / 1000 + "ms");
 			System.out.println("FPS: " + 1.0 / delta);
 			
-//			GLFW.glfwSetWindowTitle(DisplayManager.getWindowId(), "Grapa Voxel Test (FPS: " + (int) (1.0 / delta) + ")");
+			GLFW.glfwSetWindowTitle(DisplayManager.getWindowId(), "Grapa Voxel Test (FPS: " + (int) (1.0 / delta) + ")");
 
 			input.update();
-			System.out.println(input.isCursorHidden());
 
 			displayManager.clearDisplay();
-
-			worldEngine.updateChunkMeshes();
-			worldEngine.update(delta);
-
-			uiEngine.update(delta);
+			
+			if (currentScene != null) currentScene.update((float) delta);
 
 			displayManager.updateDisplay();
 			
 			if (input.getKey(GLFW.GLFW_KEY_ESCAPE)) input.toggleCursor();
 		}
+	}
+	
+	public void setScene(IScene scene) {
+		if (currentScene != null) currentScene.onHide();
+		this.currentScene = scene;
+		currentScene.onShow();
 	}
 
 }
