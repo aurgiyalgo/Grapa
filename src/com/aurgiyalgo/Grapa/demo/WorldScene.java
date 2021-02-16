@@ -1,5 +1,6 @@
 package com.aurgiyalgo.Grapa.demo;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL30;
 
 import com.aurgiyalgo.Grapa.input.Input;
@@ -27,7 +28,7 @@ public class WorldScene implements IScene {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(double delta) {
 		GL30.glEnable(GL30.GL_DEPTH_TEST);
 		
 		GL30.glEnable(GL30.GL_CULL_FACE);
@@ -35,6 +36,8 @@ public class WorldScene implements IScene {
 		
 		engine.updateChunkMeshes();
 		engine.update(delta);
+		
+		if (input.isKeyJustPressed(GLFW.GLFW_KEY_ESCAPE)) input.toggleCursor();
 	}
 
 	@Override

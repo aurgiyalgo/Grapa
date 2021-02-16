@@ -7,12 +7,12 @@ public interface IScene {
 	/**
 	 * Called when the scene is loaded through {@link Grapa#setScene(Scene)}
 	 */
-	public abstract void onShow();
+	public void onShow();
 	
-	public abstract void onHide();
+	public void onHide();
 	
-	public abstract void update(float delta);
+	public void update(double delta);
 	
-	public abstract void onResize();
+	public void onResize();
 
 }

@@ -58,7 +58,7 @@ public class ChunkRenderer extends Component {
 		
 		long timer = System.nanoTime();
 		for (Chunk c : chunkHandler.getChunks()) {
-			if (!c.isModelLoaded()) continue;
+			if (!c.isModelUpdated()) continue;
 			Model model = c.getModel();
 			GL30.glBindVertexArray(model.getData().getVaoId());
 			GL30.glEnableVertexAttribArray(Grapa.POSITION_VERTEX_ATTRIB_INDEX);
@@ -70,7 +70,7 @@ public class ChunkRenderer extends Component {
 			
 			GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, model.getData().getVertexCount());
 		}
-		System.out.println("Draw time (" + chunkHandler.getChunks().size() + " chunks rendered): " + (System.nanoTime() - timer)/1000000d + "ms");
+//		System.out.println("Draw time (" + chunkHandler.getChunks().size() + " chunks rendered): " + (System.nanoTime() - timer)/1000000d + "ms");
 		
 		GL30.glDisableVertexAttribArray(Grapa.POSITION_VERTEX_ATTRIB_INDEX);
 		GL30.glDisableVertexAttribArray(Grapa.TEXTURE_VERTEX_ATTRIB_INDEX);
@@ -85,7 +85,7 @@ public class ChunkRenderer extends Component {
 	 */
 	public void createProjectionMatrix() {
 		projectionMatrix = new Matrix4f();
-		RELATION = (float) DisplayManager.getWindowWidth() / (float) DisplayManager.getWindowHeight();
+		RELATION = (float) DisplayManager.getWidth() / (float) DisplayManager.getHeight();
 //		projectionMatrix.setOrtho(-SCREEN_LIMIT/2, SCREEN_LIMIT/2, -SCREEN_LIMIT * RELATION/2, SCREEN_LIMIT * RELATION/2, NEAR_PLANE, FAR_PLANE);
 		projectionMatrix.perspective((float) Math.toRadians(90), RELATION, NEAR_PLANE, FAR_PLANE);
 		

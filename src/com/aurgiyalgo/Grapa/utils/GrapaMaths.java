@@ -71,4 +71,8 @@ public class GrapaMaths {
 		return (value % modulus + modulus) % modulus;
 	}
 
+	public static int signum(float x) {
+		return x > 0 ? 1 : x < 0 ? -1 : 0;
+	}
+
 }

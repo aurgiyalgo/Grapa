@@ -33,6 +33,7 @@ public class DisplayManager {
 	@Getter
 	private static long windowId;
 	
+	@Getter
 	private static int width, height;
 	
 	private Runnable onWindowResize;
@@ -61,7 +62,6 @@ public class DisplayManager {
 		DisplayManager.height = height;
 
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-//		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
 		windowId = glfwCreateWindow(width, height, "Grapa Voxel Test", 0, 0);
 		if (windowId == 0)
 			throw new IllegalStateException("Window not created properly");
@@ -131,20 +131,6 @@ public class DisplayManager {
 	 */
 	public void setOnResize(Runnable onResize) {
 		this.onWindowResize = onResize;
-	}
-	
-	/**
-	 * @return Window width in pixels.
-	 */
-	public static int getWindowWidth() {
-		return width;
-	}
-
-	/**
-	 * @return Window height in pixels.
-	 */
-	public static int getWindowHeight() {
-		return height;
 	}
 
 }

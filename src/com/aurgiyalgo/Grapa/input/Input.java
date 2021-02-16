@@ -13,22 +13,30 @@ import lombok.Getter;
  * Handles and allows to get user input (temporary).
  */
 public class Input {
+	
+	private static Input instance;
+	
+	private long windowId;
+
+	private boolean[] internalKeys;
+	private boolean[] publicKeys;
+	private boolean[] mouse;
+	private boolean[] keysJustPressed;
+	private boolean[] publicKeysJustPressed;
 
 	private double lastMouseX = 0, lastMouseY = 0;
 	private double deltaMouseX = 0, deltaMouseY = 0;
-	private boolean[] keys;
-	private boolean[] mouse;
-	private long windowId;
 	
 	@Getter
 	private boolean isCursorHidden;
 	
-	private static Input instance;
-	
 	private Input(long windowId) {
 		
 		this.windowId = windowId;
-		this.keys = new boolean[349];
+		this.internalKeys = new boolean[349];
+		this.publicKeys = new boolean[349];
+		this.keysJustPressed = new boolean[349];
+		this.publicKeysJustPressed = new boolean[349];
 		this.mouse = new boolean[5];
 		
 		GLFW.glfwSetKeyCallback(windowId, new GLFWKeyCallbackI() {
@@ -36,7 +44,8 @@ public class Input {
 			@Override
 			public void invoke(long window, int key, int arg2, int action, int arg4) {
 				if(key != GLFW.GLFW_KEY_UNKNOWN) {
-					keys[key] = (action != GLFW.GLFW_RELEASE);
+					internalKeys[key] = (action != GLFW.GLFW_RELEASE);
+					keysJustPressed[key] = (action == GLFW.GLFW_PRESS);
 				}
 			}
 		});
@@ -68,6 +77,15 @@ public class Input {
 		deltaMouseY = mouseY[0] - lastMouseY;
 		lastMouseX = mouseX[0];
 		lastMouseY = mouseY[0];
+		
+		for (int i = 0; i < publicKeys.length; i++) {
+			publicKeys[i] = internalKeys[i];
+			if (publicKeysJustPressed[i]) publicKeysJustPressed[i] = false;
+			if (keysJustPressed[i]) {
+				publicKeysJustPressed[i] = true;
+				keysJustPressed[i] = false;
+			}
+		}
 	}
 	
 	public Vector2d getMousePosition() {
@@ -78,17 +96,21 @@ public class Input {
 	}
 	
 	public double getDeltaMouseX() {
-		if (!instance.isCursorHidden) return 0;
+		if (!isCursorHidden) return 0;
 		return instance.deltaMouseX;
 	}
 	
 	public double getDeltaMouseY() {
-		if (!instance.isCursorHidden) return 0;
+		if (!isCursorHidden) return 0;
 		return instance.deltaMouseY;
 	}
 	
 	public boolean getKey(int key) {
-		return keys[key];
+		return publicKeys[key];
+	}
+	
+	public boolean isKeyJustPressed(int key) {
+		return publicKeysJustPressed[key];
 	}
 	
 	public void toggleCursor() {

@@ -4,6 +4,7 @@ import org.joml.Vector3f;
 
 import lombok.Getter;
 
+@Deprecated
 public class CameraRaycast {
 	
 	@Getter

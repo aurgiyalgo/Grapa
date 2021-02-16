@@ -17,7 +17,7 @@ import lombok.Getter;
  */
 public class Chunk {
 	
-	public static final int CHUNK_WIDTH = 8;
+	public static final int CHUNK_WIDTH = 16;
 	public static final int TOTAL_BLOCKS = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
 	
 	@Getter
@@ -32,8 +32,9 @@ public class Chunk {
 	private boolean updateNextFrame;
 	
 	@Getter
-	private boolean isModelLoaded = false;
+	private boolean isModelUpdated = false;
 	
+	@Getter
 	private ChunkHandler chunkHandler;
 	
 	public Chunk(Vector3i gridPosition, ChunkHandler chunkHandler) {
@@ -42,7 +43,7 @@ public class Chunk {
 		this.worldPosition = new Vector3f(gridPosition.x, gridPosition.y, gridPosition.z).mul(Chunk.CHUNK_WIDTH);
 		this.data = new int[CHUNK_WIDTH][CHUNK_WIDTH][CHUNK_WIDTH];
 		
-		updateNextFrame();
+		forceUpdateNextFrame();
 	}
 	
 	/**
@@ -75,7 +76,7 @@ public class Chunk {
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
 			for (int y = 0; y < CHUNK_WIDTH; y++) {
 				for (int z = 0; z < CHUNK_WIDTH; z++) {
-					BlockRegister.getBlock(data[x][y][z]).createModel(modelBuilder, x, y, z, data);
+					BlockRegister.getBlock(data[x][y][z]).createModel(modelBuilder, x, y, z, data, this);
 				}
 			}
 		}
@@ -83,7 +84,7 @@ public class Chunk {
 		
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
-		isModelLoaded = true;
+		isModelUpdated = true;
 	}
 	
 	/**
@@ -129,7 +130,14 @@ public class Chunk {
 	 * Queue the chunk to update its model at the beginning of the next frame
 	 */
 	public void updateNextFrame() {
+		if (!isModelUpdated) return;
 		chunkHandler.addChunkForMeshing(this);
+		isModelUpdated = false;
+	}
+	
+	private void forceUpdateNextFrame() {
+		chunkHandler.addChunkForMeshing(this);
+		isModelUpdated = false;
 	}
 
 }

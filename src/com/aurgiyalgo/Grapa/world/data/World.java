@@ -23,21 +23,18 @@ public class World extends GameObject {
 
 	/**
 	 * @param position  Start position of the ray
-	 * @param direction Normalized {@link Vector3f} indicating the direction of the
-	 *                  ray
+	 * @param direction Normalized {@link Vector3f} indicating the direction of the ray
 	 * @param distance  Maximum distance of the ray
 	 * @param isPlace <code>True</code> for placing a block, <code>false</code> for breaking
 	 */
 	public void raycast(Vector3f position, Vector3f direction, float distance, boolean isPlace) {
-
-		long timer = System.nanoTime();
 		
 	    float xPos = (float) Math.floor(position.x);
 	    float yPos = (float) Math.floor(position.y);
 	    float zPos = (float) Math.floor(position.z);
-	    int stepX = signum(direction.x);
-	    int stepY = signum(direction.y);
-	    int stepZ = signum(direction.z);
+	    int stepX = GrapaMaths.signum(direction.x);
+	    int stepY = GrapaMaths.signum(direction.y);
+	    int stepZ = GrapaMaths.signum(direction.z);
 	    Vector3f tMax = new Vector3f(GrapaMaths.intbound(position.x, direction.x), GrapaMaths.intbound(position.y, direction.y), GrapaMaths.intbound(position.z, direction.z));
 	    Vector3f tDelta = new Vector3f((float)stepX / direction.x, (float)stepY / direction.y, (float)stepZ / direction.z);
 	    float faceX = 0;
@@ -86,12 +83,6 @@ public class World extends GameObject {
 	            }
 	        }
 	    } while (true);
-	    
-		System.out.println("Raycast time: " + (System.nanoTime() - timer) / 1000000d + "ms");
-	}
-
-	private int signum(float x) {
-		return x > 0 ? 1 : x < 0 ? -1 : 0;
 	}
 
 }

@@ -62,8 +62,6 @@ public class Grapa {
 	 */
 	public void init() {
 		long lastTime = System.nanoTime();
-//		
-//		input.hideCursor();
 
 		while (!GLFW.glfwWindowShouldClose(DisplayManager.getWindowId())) {
 			long time = System.nanoTime();
@@ -78,11 +76,9 @@ public class Grapa {
 
 			displayManager.clearDisplay();
 			
-			if (currentScene != null) currentScene.update((float) delta);
+			if (currentScene != null) currentScene.update(delta);
 
 			displayManager.updateDisplay();
-			
-			if (input.getKey(GLFW.GLFW_KEY_ESCAPE)) input.toggleCursor();
 		}
 	}
 	
