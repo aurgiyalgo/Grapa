@@ -37,6 +37,9 @@ public class WorldScene implements IScene {
 		engine.updateChunkMeshes();
 		engine.update(delta);
 		
+		if (input.isMouseJustPressed(0)) engine.onClick(0);
+		if (input.isMouseJustPressed(1)) engine.onClick(1);
+		
 		if (input.isKeyJustPressed(GLFW.GLFW_KEY_ESCAPE)) input.toggleCursor();
 	}
 

@@ -20,9 +20,15 @@ public class Input {
 
 	private boolean[] internalKeys;
 	private boolean[] publicKeys;
-	private boolean[] mouse;
-	private boolean[] keysJustPressed;
+	
+	private boolean[] internalKeysJustPressed;
 	private boolean[] publicKeysJustPressed;
+
+	private boolean[] internalMouse;
+	private boolean[] publicMouse;
+	
+	private boolean[] internalMouseJustPressed;
+	private boolean[] publicMouseJustPressed;
 
 	private double lastMouseX = 0, lastMouseY = 0;
 	private double deltaMouseX = 0, deltaMouseY = 0;
@@ -35,9 +41,12 @@ public class Input {
 		this.windowId = windowId;
 		this.internalKeys = new boolean[349];
 		this.publicKeys = new boolean[349];
-		this.keysJustPressed = new boolean[349];
+		this.internalKeysJustPressed = new boolean[349];
 		this.publicKeysJustPressed = new boolean[349];
-		this.mouse = new boolean[5];
+		this.internalMouse = new boolean[5];
+		this.publicMouse = new boolean[5];
+		this.internalMouseJustPressed = new boolean[5];
+		this.publicMouseJustPressed = new boolean[5];
 		
 		GLFW.glfwSetKeyCallback(windowId, new GLFWKeyCallbackI() {
 			
@@ -45,7 +54,7 @@ public class Input {
 			public void invoke(long window, int key, int arg2, int action, int arg4) {
 				if(key != GLFW.GLFW_KEY_UNKNOWN) {
 					internalKeys[key] = (action != GLFW.GLFW_RELEASE);
-					keysJustPressed[key] = (action == GLFW.GLFW_PRESS);
+					internalKeysJustPressed[key] = (action == GLFW.GLFW_PRESS);
 				}
 			}
 		});
@@ -54,7 +63,8 @@ public class Input {
 			
 			@Override
 			public void invoke(long window, int button, int action, int mods) {
-				mouse[button] = (action == GLFW.GLFW_PRESS);
+				internalMouse[button] = (action != GLFW.GLFW_RELEASE);
+				internalMouseJustPressed[button] = (action == GLFW.GLFW_PRESS);
 			}
 			
 		});
@@ -81,9 +91,18 @@ public class Input {
 		for (int i = 0; i < publicKeys.length; i++) {
 			publicKeys[i] = internalKeys[i];
 			if (publicKeysJustPressed[i]) publicKeysJustPressed[i] = false;
-			if (keysJustPressed[i]) {
+			if (internalKeysJustPressed[i]) {
 				publicKeysJustPressed[i] = true;
-				keysJustPressed[i] = false;
+				internalKeysJustPressed[i] = false;
+			}
+		}
+		
+		for (int i = 0; i < publicMouse.length; i++) {
+			publicMouse[i] = internalMouse[i];
+			if (publicMouseJustPressed[i]) publicMouseJustPressed[i] = false;
+			if (internalMouseJustPressed[i]) {
+				publicMouseJustPressed[i] = true;
+				internalMouseJustPressed[i] = false;
 			}
 		}
 	}
@@ -111,6 +130,10 @@ public class Input {
 	
 	public boolean isKeyJustPressed(int key) {
 		return publicKeysJustPressed[key];
+	}
+	
+	public boolean isMouseJustPressed(int key) {
+		return publicMouseJustPressed[key];
 	}
 	
 	public void toggleCursor() {

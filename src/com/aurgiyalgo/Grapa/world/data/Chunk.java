@@ -17,7 +17,7 @@ import lombok.Getter;
  */
 public class Chunk {
 	
-	public static final int CHUNK_WIDTH = 16;
+	public static final int CHUNK_WIDTH = 8;
 	public static final int TOTAL_BLOCKS = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
 	
 	@Getter
@@ -110,6 +110,14 @@ public class Chunk {
 		if (data[x][y][z] == id) return false;
 		data[x][y][z] = id;
 		updateNextFrame();
+		System.out.println(x + " " + y + " " + z);
+		// TODO Temporary code for updating neighbor chunks when a block is changed in a border
+		if (x == 0) chunkHandler.updateChunkNextFrame(gridPosition.x * CHUNK_WIDTH - 1, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH);
+		if (x == CHUNK_WIDTH - 1) chunkHandler.getChunk(gridPosition.x * CHUNK_WIDTH + 1, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH);
+		if (y == 0) chunkHandler.updateChunkNextFrame(gridPosition.x * CHUNK_WIDTH, gridPosition.y * CHUNK_WIDTH - 1, gridPosition.z * CHUNK_WIDTH);
+		if (y == CHUNK_WIDTH - 1) chunkHandler.getChunk(gridPosition.x * CHUNK_WIDTH, gridPosition.y * CHUNK_WIDTH + 1, gridPosition.z * CHUNK_WIDTH);
+		if (z == 0) chunkHandler.updateChunkNextFrame(gridPosition.x * CHUNK_WIDTH, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH - 1);
+		if (z == CHUNK_WIDTH - 1) chunkHandler.getChunk(gridPosition.x * CHUNK_WIDTH, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH + 1);
 		return true;
 	}
 	

@@ -67,8 +67,8 @@ public class Grapa {
 			long time = System.nanoTime();
 			double delta = (time - lastTime) / 1000000000d;
 			lastTime = time;
-			System.out.println("Delta: " + delta / 1000 + "ms");
-			System.out.println("FPS: " + 1.0 / delta);
+//			System.out.println("Delta: " + delta / 1000 + "ms");
+//			System.out.println("FPS: " + 1.0 / delta);
 			
 			GLFW.glfwSetWindowTitle(DisplayManager.getWindowId(), "Grapa Voxel Test (FPS: " + (int) (1.0 / delta) + ")");
 

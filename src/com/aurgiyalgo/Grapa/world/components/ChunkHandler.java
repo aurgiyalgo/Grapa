@@ -2,6 +2,7 @@ package com.aurgiyalgo.Grapa.world.components;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.joml.Vector3i;
 
@@ -100,6 +101,21 @@ public class ChunkHandler extends Component {
 	 */
 	private Vector3i getChunkPositionAt(float x, float y, float z) {
 		return new Vector3i((int) Math.floor(x / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(y / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(z / (float) Chunk.CHUNK_WIDTH));
+	}
+	
+	public void updateChunkNextFrame(int x, int y, int z) {
+		for (Chunk c : loadedChunks) {
+			if (!c.isInside(x, y, z)) continue;
+			c.updateNextFrame();
+		}
+	}
+	
+	public Optional<Chunk> getChunk(int x, int y, int z) {
+		for (Chunk c : loadedChunks) {
+			if (!c.isInside(x, y, z)) continue;
+			return Optional.of(c);
+		}
+		return Optional.empty();
 	}
 	
 	public List<Chunk> getChunks() {
