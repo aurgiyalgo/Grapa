@@ -110,7 +110,7 @@ public class Chunk {
 		if (data[x][y][z] == id) return false;
 		data[x][y][z] = id;
 		updateNextFrame();
-		System.out.println(x + " " + y + " " + z);
+		
 		// TODO Temporary code for updating neighbor chunks when a block is changed in a border
 		if (x == 0) chunkHandler.updateChunkNextFrame(gridPosition.x * CHUNK_WIDTH - 1, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH);
 		if (x == CHUNK_WIDTH - 1) chunkHandler.getChunk(gridPosition.x * CHUNK_WIDTH + 1, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH);

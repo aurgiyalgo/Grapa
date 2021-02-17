@@ -11,7 +11,8 @@ import com.aurgiyalgo.Grapa.world.blocks.materials.Stone;
 
 public class BlockRegister {
 	
-	private static List<Block> BLOCKS;
+	private static final List<Block> BLOCKS;
+	private static final int BLOCKS_SIZE;
 	
 	static {
 		BLOCKS = new ArrayList<Block>();
@@ -20,10 +21,12 @@ public class BlockRegister {
 		BLOCKS.add(new BaseRock());
 		BLOCKS.add(new Stone());
 		BLOCKS.add(new Brick());
+		
+		BLOCKS_SIZE = BLOCKS.size();
 	}
 	
 	public static Block getBlock(int id) {
-		for (int i = 0; i < BLOCKS.size(); i++) {
+		for (int i = 0; i < BLOCKS_SIZE; i++) {
 			if (BLOCKS.get(i).getId() == id) return BLOCKS.get(i);
 		}
 		return null;
