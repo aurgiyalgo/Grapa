@@ -7,6 +7,7 @@ import com.aurgiyalgo.Grapa.arch.Transform;
 import com.aurgiyalgo.Grapa.graphics.model.Model;
 import com.aurgiyalgo.Grapa.graphics.model.ModelBuilder;
 import com.aurgiyalgo.Grapa.graphics.model.ModelData;
+import com.aurgiyalgo.Grapa.utils.PerlinNoise;
 import com.aurgiyalgo.Grapa.world.blocks.BlockRegister;
 import com.aurgiyalgo.Grapa.world.components.ChunkHandler;
 
@@ -50,18 +51,25 @@ public class Chunk {
 	 * Generates block data for the chunk (temporary until implementation of procedural generation)
 	 */
 	public void generateChunk() {
+		PerlinNoise noise = new PerlinNoise(50);
+		double currentNoise;
+		
 		for (int x = 0; x < CHUNK_WIDTH; x++) {
 			for (int y = 0; y < CHUNK_WIDTH; y++) {
 				for (int z = 0; z < CHUNK_WIDTH; z++) {
-					if (y == 0) {
-						data[x][y][z] = 5;
-						continue;
+					currentNoise = noise.noise(x + gridPosition.x * CHUNK_WIDTH, z + gridPosition.z * CHUNK_WIDTH) * 20;
+					if (currentNoise > (gridPosition.y * CHUNK_WIDTH + y)) {
+						data[x][y][z] = 1;
 					}
-					if (y == CHUNK_WIDTH-1) {
+					if (Math.floor(currentNoise) == (gridPosition.y * CHUNK_WIDTH + y)) {
 						data[x][y][z] = 4;
-						continue;
 					}
-					data[x][y][z] = 1;
+					if (gridPosition.y * CHUNK_WIDTH + y < currentNoise - 5) {
+						data[x][y][z] = 5;
+					}
+					if (y + gridPosition.y * CHUNK_WIDTH < -20 && noise.noise(x + gridPosition.x * CHUNK_WIDTH, y + gridPosition.y * CHUNK_WIDTH, z + gridPosition.z * CHUNK_WIDTH) > 0.35) {
+						data[x][y][z] = 0;
+					}
 				}
 			}
 		}
@@ -112,12 +120,12 @@ public class Chunk {
 		updateNextFrame();
 		
 		// TODO Temporary code for updating neighbor chunks when a block is changed in a border
-		if (x == 0) chunkHandler.updateChunkNextFrame(gridPosition.x * CHUNK_WIDTH - 1, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH);
-		if (x == CHUNK_WIDTH - 1) chunkHandler.getChunk(gridPosition.x * CHUNK_WIDTH + 1, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH);
-		if (y == 0) chunkHandler.updateChunkNextFrame(gridPosition.x * CHUNK_WIDTH, gridPosition.y * CHUNK_WIDTH - 1, gridPosition.z * CHUNK_WIDTH);
-		if (y == CHUNK_WIDTH - 1) chunkHandler.getChunk(gridPosition.x * CHUNK_WIDTH, gridPosition.y * CHUNK_WIDTH + 1, gridPosition.z * CHUNK_WIDTH);
-		if (z == 0) chunkHandler.updateChunkNextFrame(gridPosition.x * CHUNK_WIDTH, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH - 1);
-		if (z == CHUNK_WIDTH - 1) chunkHandler.getChunk(gridPosition.x * CHUNK_WIDTH, gridPosition.y * CHUNK_WIDTH, gridPosition.z * CHUNK_WIDTH + 1);
+		if (x == 0) chunkHandler.updateChunkNextFrame(gridPosition.x - 1, gridPosition.y, gridPosition.z);
+		if (x == CHUNK_WIDTH - 1) chunkHandler.updateChunkNextFrame(gridPosition.x + 1, gridPosition.y, gridPosition.z);
+		if (y == 0) chunkHandler.updateChunkNextFrame(gridPosition.x, gridPosition.y - 1, gridPosition.z);
+		if (y == CHUNK_WIDTH - 1) chunkHandler.updateChunkNextFrame(gridPosition.x, gridPosition.y + 1, gridPosition.z);
+		if (z == 0) chunkHandler.updateChunkNextFrame(gridPosition.x, gridPosition.y, gridPosition.z - 1);
+		if (z == CHUNK_WIDTH - 1) chunkHandler.updateChunkNextFrame(gridPosition.x, gridPosition.y, gridPosition.z + 1);
 		return true;
 	}
 	

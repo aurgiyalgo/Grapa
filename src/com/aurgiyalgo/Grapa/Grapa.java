@@ -62,10 +62,12 @@ public class Grapa {
 	 */
 	public void init() {
 		long lastTime = System.nanoTime();
+		long time;
+		double delta;
 
 		while (!GLFW.glfwWindowShouldClose(DisplayManager.getWindowId())) {
-			long time = System.nanoTime();
-			double delta = (time - lastTime) / 1000000000d;
+			time = System.nanoTime();
+			delta = (time - lastTime) / 1000000000d;
 			lastTime = time;
 //			System.out.println("Delta: " + delta / 1000 + "ms");
 //			System.out.println("FPS: " + 1.0 / delta);

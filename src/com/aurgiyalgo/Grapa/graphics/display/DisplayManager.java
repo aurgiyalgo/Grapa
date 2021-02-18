@@ -1,19 +1,5 @@
 package com.aurgiyalgo.Grapa.graphics.display;
 
-import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
-import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
-import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
-import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
-import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
-import static org.lwjgl.glfw.GLFW.glfwInit;
-import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
-import static org.lwjgl.glfw.GLFW.glfwShowWindow;
-import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
-import static org.lwjgl.glfw.GLFW.glfwWindowHint;
-
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
@@ -55,29 +41,29 @@ public class DisplayManager {
 	 * @param height Window height in pixels
 	 */
 	public void createDisplay(int width, int height) {
-		if (!glfwInit())
+		if (!GLFW.glfwInit())
 			throw new IllegalStateException("Unable to initiate GLFW");
 		
 		DisplayManager.width = width;
 		DisplayManager.height = height;
 
-		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-		windowId = glfwCreateWindow(width, height, "Grapa Voxel Test", 0, 0);
+		GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
+		windowId = GLFW.glfwCreateWindow(width, height, "Grapa Voxel Test", 0, 0);
 		if (windowId == 0)
 			throw new IllegalStateException("Window not created properly");
 
-		GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		glfwSetWindowPos(windowId, (videoMode.width() - width) / 2, (videoMode.height() - height) / 2);
+		GLFWVidMode videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
+		GLFW.glfwSetWindowPos(windowId, (videoMode.width() - width) / 2, (videoMode.height() - height) / 2);
 
-		glfwShowWindow(windowId);
+		GLFW.glfwShowWindow(windowId);
 
-		glfwMakeContextCurrent(windowId);
+		GLFW.glfwMakeContextCurrent(windowId);
 		
-		GLFW.glfwSwapInterval(0);
+		GLFW.glfwSwapInterval(1);
 
 		GL.createCapabilities();
 
-		glfwSetWindowSizeCallback(windowId, new GLFWWindowSizeCallback() {
+		GLFW.glfwSetWindowSizeCallback(windowId, new GLFWWindowSizeCallback() {
 
 			@Override
 			public void invoke(long windowsId, int width, int height) {
@@ -95,8 +81,8 @@ public class DisplayManager {
 	 * To be called at the end of every frame.
 	 */
 	public void updateDisplay() {
-		glfwSwapBuffers(windowId);
-		glfwPollEvents();
+		GLFW.glfwSwapBuffers(windowId);
+		GLFW.glfwPollEvents();
 	}
 
 	/**

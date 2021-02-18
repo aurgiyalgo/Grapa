@@ -32,7 +32,7 @@ public class ChunkHandler extends Component {
 		for (int i = 0; i < sideX; i++) {
 			for (int j = 0; j < sideY; j++) {
 				for (int k = 0; k < sideZ; k++) {
-					Chunk c = new Chunk(new Vector3i(i - sideX/2, j - sideY, k - sideZ/2), this);
+					Chunk c = new Chunk(new Vector3i(i - sideX/2, j - sideY/2, k - sideZ/2), this);
 					c.generateChunk();
 					loadedChunks.add(c);
 				}
@@ -104,15 +104,23 @@ public class ChunkHandler extends Component {
 	}
 	
 	public void updateChunkNextFrame(int x, int y, int z) {
+		Optional<Chunk> chunk = getChunk(x, y, z);
+		if (chunk.isPresent()) chunk.get().updateNextFrame();
+	}
+	
+	public Optional<Chunk> getChunkAt(int x, int y, int z) {
 		for (Chunk c : loadedChunks) {
 			if (!c.isInside(x, y, z)) continue;
-			c.updateNextFrame();
+			return Optional.of(c);
 		}
+		return Optional.empty();
 	}
 	
 	public Optional<Chunk> getChunk(int x, int y, int z) {
 		for (Chunk c : loadedChunks) {
-			if (!c.isInside(x, y, z)) continue;
+			if (x != c.getGridPosition().x) continue;
+			if (y != c.getGridPosition().y) continue;
+			if (z != c.getGridPosition().z) continue;
 			return Optional.of(c);
 		}
 		return Optional.empty();
