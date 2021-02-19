@@ -18,7 +18,7 @@ public abstract class Block {
 	
 	public void createModel(ModelBuilder modelBuilder, int x, int y, int z, int[][][] data, Chunk chunk) {
 		
-		ChunkHandler chunkHandler = chunk.getChunkHandler();
+		ChunkHandler chunkHandler = chunk.getBundle().getChunkHandler();
 		int chunkX = chunk.getGridPosition().x * Chunk.CHUNK_WIDTH;
 		int chunkY = chunk.getGridPosition().y * Chunk.CHUNK_WIDTH;
 		int chunkZ = chunk.getGridPosition().z * Chunk.CHUNK_WIDTH;

@@ -11,7 +11,7 @@ import com.aurgiyalgo.Grapa.graphics.generic.Camera;
 import com.aurgiyalgo.Grapa.graphics.model.Model;
 import com.aurgiyalgo.Grapa.graphics.shaders.StaticShader;
 import com.aurgiyalgo.Grapa.utils.GrapaMaths;
-import com.aurgiyalgo.Grapa.world.data.Chunk;
+import com.aurgiyalgo.Grapa.world.data.ChunkBundle;
 
 import lombok.Getter;
 
@@ -57,7 +57,7 @@ public class ChunkRenderer extends Component {
 		Grapa.TEXTURE.bind();
 		
 		long timer = System.nanoTime();
-		for (Chunk c : chunkHandler.getChunks()) {
+		for (ChunkBundle c : chunkHandler.getChunks()) {
 			if (!c.isModelUpdated()) continue;
 			Model model = c.getModel();
 			GL30.glBindVertexArray(model.getData().getVaoId());
@@ -65,7 +65,7 @@ public class ChunkRenderer extends Component {
 			GL30.glEnableVertexAttribArray(Grapa.TEXTURE_VERTEX_ATTRIB_INDEX);
 			GL30.glEnableVertexAttribArray(Grapa.NORMALS_VERTEX_ATTRIB_INDEX);
 			
-			Matrix4f transformationMatrix = GrapaMaths.createTransformationMatrix(c.getWorldPosition());
+			Matrix4f transformationMatrix = GrapaMaths.createTransformationMatrix(c.getChunk().getWorldPosition());
 			shader.loadTransformationMatrix(transformationMatrix);
 			
 			GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, model.getData().getVertexCount());
