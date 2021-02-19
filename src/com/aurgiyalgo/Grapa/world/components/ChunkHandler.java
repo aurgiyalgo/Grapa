@@ -9,6 +9,7 @@ import org.joml.Vector3i;
 import com.aurgiyalgo.Grapa.arch.Component;
 import com.aurgiyalgo.Grapa.arch.GameObject;
 import com.aurgiyalgo.Grapa.world.data.Chunk;
+import com.aurgiyalgo.Grapa.world.generation.ChunkPopulator;
 
 /**
  * Handles all the chunk data of a world.
@@ -17,12 +18,16 @@ public class ChunkHandler extends Component {
 	
 	private List<Chunk> loadedChunks;
 	private List<Chunk> chunksToMesh;
+	
+	private ChunkPopulator populator;
 
 	public ChunkHandler(GameObject object) {
 		super(object);
 		
 		loadedChunks = new ArrayList<Chunk>();
 		chunksToMesh = new ArrayList<Chunk>();
+		
+		populator = new ChunkPopulator();
 		
 		int sideX = 8;
 		int sideY = 8;
@@ -33,7 +38,7 @@ public class ChunkHandler extends Component {
 			for (int j = 0; j < sideY; j++) {
 				for (int k = 0; k < sideZ; k++) {
 					Chunk c = new Chunk(new Vector3i(i - sideX/2, j - sideY/2, k - sideZ/2), this);
-					c.generateChunk();
+					c.generateChunk(populator);
 					loadedChunks.add(c);
 				}
 			}

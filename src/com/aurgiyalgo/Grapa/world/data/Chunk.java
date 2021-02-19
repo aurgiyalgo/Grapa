@@ -7,9 +7,9 @@ import com.aurgiyalgo.Grapa.arch.Transform;
 import com.aurgiyalgo.Grapa.graphics.model.Model;
 import com.aurgiyalgo.Grapa.graphics.model.ModelBuilder;
 import com.aurgiyalgo.Grapa.graphics.model.ModelData;
-import com.aurgiyalgo.Grapa.utils.PerlinNoise;
 import com.aurgiyalgo.Grapa.world.blocks.BlockRegister;
 import com.aurgiyalgo.Grapa.world.components.ChunkHandler;
+import com.aurgiyalgo.Grapa.world.generation.ChunkPopulator;
 
 import lombok.Getter;
 
@@ -50,29 +50,8 @@ public class Chunk {
 	/**
 	 * Generates block data for the chunk (temporary until implementation of procedural generation)
 	 */
-	public void generateChunk() {
-		PerlinNoise noise = new PerlinNoise(50);
-		double currentNoise;
-		
-		for (int x = 0; x < CHUNK_WIDTH; x++) {
-			for (int y = 0; y < CHUNK_WIDTH; y++) {
-				for (int z = 0; z < CHUNK_WIDTH; z++) {
-					currentNoise = noise.noise(x + gridPosition.x * CHUNK_WIDTH, z + gridPosition.z * CHUNK_WIDTH) * 20;
-					if (currentNoise > (gridPosition.y * CHUNK_WIDTH + y)) {
-						data[x][y][z] = 1;
-					}
-					if (Math.floor(currentNoise) == (gridPosition.y * CHUNK_WIDTH + y)) {
-						data[x][y][z] = 4;
-					}
-					if (gridPosition.y * CHUNK_WIDTH + y < currentNoise - 5) {
-						data[x][y][z] = 5;
-					}
-					if (y + gridPosition.y * CHUNK_WIDTH < -20 && noise.noise(x + gridPosition.x * CHUNK_WIDTH, y + gridPosition.y * CHUNK_WIDTH, z + gridPosition.z * CHUNK_WIDTH) > 0.35) {
-						data[x][y][z] = 0;
-					}
-				}
-			}
-		}
+	public void generateChunk(ChunkPopulator populator) {
+		this.data = populator.populate(this);
 	}
 	
 	/**
@@ -93,6 +72,15 @@ public class Chunk {
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
 		isModelUpdated = true;
+	}
+	
+	/**
+	 * <b>Warning</b> This method is temporary for the {@link ChunkPopulator} class.
+	 * This just assigns new data to the chunk, does not update the model.
+	 * @param data The new chunk data
+	 */
+	public void _setData(int[][][] data) {
+		this.data = data;
 	}
 	
 	/**
