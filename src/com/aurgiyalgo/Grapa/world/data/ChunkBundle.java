@@ -28,6 +28,8 @@ public class ChunkBundle {
 	@Getter
 	private boolean isModelUpdated = false;
 	
+	private ModelBuilder modelBuilder;
+	
 	public ChunkBundle(Chunk chunk, ChunkHandler chunkHandler) {
 		this.chunkHandler = chunkHandler;
 		this.chunk = chunk;
@@ -41,7 +43,7 @@ public class ChunkBundle {
 	 */
 	public void updateModel() {
 		long timer = System.nanoTime();
-		ModelBuilder modelBuilder = new ModelBuilder();
+		modelBuilder = new ModelBuilder();
 		for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
 			for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
 				for (int z = 0; z < Chunk.CHUNK_WIDTH; z++) {
@@ -49,11 +51,16 @@ public class ChunkBundle {
 				}
 			}
 		}
-		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
-		
+//		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
+	}
+	
+	public boolean loadModelToGpu() {
+		if (modelBuilder == null) return false;
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
 		isModelUpdated = true;
+		modelBuilder = null;
+		return true;
 	}
 	
 	/**

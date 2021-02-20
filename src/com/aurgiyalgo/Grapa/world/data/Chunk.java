@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 public class Chunk {
 	
-	public static final int CHUNK_WIDTH = 8;
+	public static final int CHUNK_WIDTH = 16;
 	public static final int TOTAL_BLOCKS = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
 	
 	protected int[][][] data;

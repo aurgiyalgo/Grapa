@@ -14,6 +14,7 @@ public class WorldScene implements IScene {
 	
 	public WorldScene() {
 		engine = new WorldEngine();
+//		engine.enableChunkMeshing();
 		input = Input.getInstance();
 	}
 
@@ -35,6 +36,7 @@ public class WorldScene implements IScene {
 		GL30.glCullFace(GL30.GL_FRONT_FACE);
 		
 		engine.updateChunkMeshes();
+		engine.loadNewChunkMeshes();
 		engine.update(delta);
 		
 		if (input.isMouseJustPressed(0)) engine.onClick(0);
