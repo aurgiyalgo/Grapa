@@ -26,7 +26,11 @@ public class ChunkBundle {
 	private boolean updateNextFrame;
 	
 	@Getter
+	private boolean hasModel;
+	@Getter
 	private boolean isModelUpdated = false;
+	
+	private boolean readyToLoadToGpu = false;
 	
 	private ModelBuilder modelBuilder;
 	
@@ -42,6 +46,7 @@ public class ChunkBundle {
 	 * Updates the chunk model
 	 */
 	public void updateModel() {
+		readyToLoadToGpu = false;
 		long timer = System.nanoTime();
 		modelBuilder = new ModelBuilder();
 		for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
@@ -51,14 +56,18 @@ public class ChunkBundle {
 				}
 			}
 		}
-//		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
+		System.out.println("Model time: " + (System.nanoTime() - timer) / 1000000d + "ms");
+		readyToLoadToGpu = true;
 	}
 	
 	public boolean loadModelToGpu() {
+		if (!readyToLoadToGpu) return false;
 		if (modelBuilder == null) return false;
 		ModelData modelData = modelBuilder.getModelData();
 		model = new Model(modelData, new Transform());
 		isModelUpdated = true;
+		hasModel = true;
+		readyToLoadToGpu = true;
 		modelBuilder = null;
 		return true;
 	}

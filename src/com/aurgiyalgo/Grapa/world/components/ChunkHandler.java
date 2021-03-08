@@ -1,6 +1,7 @@
 package com.aurgiyalgo.Grapa.world.components;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -20,31 +21,18 @@ public class ChunkHandler extends Component {
 	
 	private List<ChunkBundle> loadedChunks;
 	private List<ChunkBundle> chunksToMesh;
+	private List<ChunkBundle> chunksToLoad;
 	
 	private ChunkPopulator populator;
 
 	public ChunkHandler(GameObject object) {
 		super(object);
 		
-		loadedChunks = new ArrayList<ChunkBundle>();
-		chunksToMesh = new ArrayList<ChunkBundle>();
+		loadedChunks = Collections.synchronizedList(new ArrayList<ChunkBundle>());
+		chunksToMesh = Collections.synchronizedList(new ArrayList<ChunkBundle>());
+		chunksToLoad = new ArrayList<ChunkBundle>();
 		
 		populator = new ChunkPopulator();
-		
-//		int sideX = 8;
-//		int sideY = 8;
-//		int sideZ = 8;
-//		
-//		//Temporary stress test code
-//		for (int i = 0; i < sideX; i++) {
-//			for (int j = 0; j < sideY; j++) {
-//				for (int k = 0; k < sideZ; k++) {
-//					Chunk c = new Chunk(new Vector3i(i - sideX/2, j - sideY/2, k - sideZ/2));
-//					c.generateChunk(populator);
-//					loadedChunks.add(new ChunkBundle(c, this));
-//				}
-//			}
-//		}
 	}
 
 	@Override
@@ -55,16 +43,35 @@ public class ChunkHandler extends Component {
 	 * Update the meshes for all the loaded chunks
 	 */
 	public void updateChunkMeshes() {
-		for (int i = 0; i < Math.min(chunksToMesh.size(), 1); i++) {
-			chunksToMesh.get(i).updateModel();
+		synchronized (chunksToMesh) {
+			Iterator<ChunkBundle> iterator = chunksToMesh.iterator();
+			while (iterator.hasNext()) {
+				ChunkBundle bundle = iterator.next();
+				bundle.updateModel();
+				synchronized (chunksToLoad) {
+					chunksToLoad.add(bundle);
+				}
+				iterator.remove();
+			}
+		}
+		
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			System.err.println("Fatal error on the meshing thread");
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
 	public void loadChunkMeshesToGpu() {
-		Iterator<ChunkBundle> iterator = chunksToMesh.iterator();
-		for (int i = 0; iterator.hasNext() && i < 4; i++) {
-			ChunkBundle bundle = iterator.next();
-			if (bundle.loadModelToGpu()) iterator.remove();
+		synchronized (chunksToLoad) {
+			Iterator<ChunkBundle> iterator = chunksToLoad.iterator();
+			while (iterator.hasNext()) {
+				ChunkBundle bundle = iterator.next();
+				if (bundle.loadModelToGpu()) iterator.remove();
+				System.out.println("Loading");
+			}
 		}
 	}
 	
@@ -91,7 +98,9 @@ public class ChunkHandler extends Component {
 	 * @param chunk Chunk to queue
 	 */
 	public void addChunkForMeshing(ChunkBundle chunkBundle) {
-		chunksToMesh.add(chunkBundle);
+		synchronized (chunksToMesh) {
+			chunksToMesh.add(chunkBundle);
+		}
 	}
 	
 	/**
@@ -101,9 +110,11 @@ public class ChunkHandler extends Component {
 	 * @return ID of the block at the coordinates, or 0 if the block is air or not found
 	 */
 	public int getBlock(int x, int y, int z) {
-		for (ChunkBundle bundle : loadedChunks) {
-			if (!bundle.getChunk().isInside(x, y, z)) continue;
-		    return bundle.getChunk().getBlock(Math.abs(bundle.getChunk().getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(bundle.getChunk().getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(bundle.getChunk().getGridPosition().z * Chunk.CHUNK_WIDTH - z));
+		synchronized (loadedChunks) {
+			for (ChunkBundle bundle : loadedChunks) {
+				if (!bundle.getChunk().isInside(x, y, z)) continue;
+			    return bundle.getChunk().getBlock(Math.abs(bundle.getChunk().getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(bundle.getChunk().getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(bundle.getChunk().getGridPosition().z * Chunk.CHUNK_WIDTH - z));
+			}
 		}
 		return 0;
 	}

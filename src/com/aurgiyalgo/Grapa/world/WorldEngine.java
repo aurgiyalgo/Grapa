@@ -32,9 +32,9 @@ public class WorldEngine extends Engine {
 		world.getComponent(ChunkRenderer.class).get().createProjectionMatrix();
 	}
 	
-	public void updateChunkMeshes() {
-		world.getComponent(ChunkHandler.class).get().updateChunkMeshes();
-	}
+//	public void updateChunkMeshes() {
+//		world.getComponent(ChunkHandler.class).get().updateChunkMeshes();
+//	}
 	
 	public void loadNewChunkMeshes() {
 		world.getComponent(ChunkHandler.class).get().loadChunkMeshesToGpu();

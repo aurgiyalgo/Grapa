@@ -82,6 +82,8 @@ public class Grapa {
 
 			displayManager.updateDisplay();
 		}
+		
+		currentScene.onHide();
 	}
 	
 	public void setScene(IScene scene) {

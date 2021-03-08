@@ -14,7 +14,7 @@ public class WorldScene implements IScene {
 	
 	public WorldScene() {
 		engine = new WorldEngine();
-//		engine.enableChunkMeshing();
+		engine.enableChunkMeshing();
 		input = Input.getInstance();
 	}
 
@@ -25,7 +25,7 @@ public class WorldScene implements IScene {
 
 	@Override
 	public void onHide() {
-		
+		engine.disableChunkMeshing();
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class WorldScene implements IScene {
 		GL30.glEnable(GL30.GL_CULL_FACE);
 		GL30.glCullFace(GL30.GL_FRONT_FACE);
 		
-		engine.updateChunkMeshes();
+//		engine.updateChunkMeshes();
 		engine.loadNewChunkMeshes();
 		engine.update(delta);
 		

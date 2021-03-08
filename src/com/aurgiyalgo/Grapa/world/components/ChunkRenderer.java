@@ -66,8 +66,7 @@ public class ChunkRenderer extends Component {
 		
 		setRenderOrigin(camera.transform.position);
 		
-		long timer = System.nanoTime();
-		renderAround(renderOrigin, 4);
+		renderAround(renderOrigin, 3);
 //		System.out.println("Draw time (" + chunkHandler.getChunks().size() + " chunks rendered): " + (System.nanoTime() - timer)/1000000d + "ms");
 		
 		GL30.glDisableVertexAttribArray(Grapa.POSITION_VERTEX_ATTRIB_INDEX);
@@ -98,7 +97,7 @@ public class ChunkRenderer extends Component {
 				iterator.remove();
 				continue;
 			}
-			if (!bundle.isModelUpdated()) continue;
+			if (!bundle.isHasModel()) continue;
 			
 			Model model = bundle.getModel();
 			GL30.glBindVertexArray(model.getData().getVaoId());
