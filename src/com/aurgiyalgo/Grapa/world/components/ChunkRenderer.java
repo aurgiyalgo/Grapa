@@ -3,6 +3,7 @@ package com.aurgiyalgo.Grapa.world.components;
 import java.util.Iterator;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.lwjgl.opengl.GL30;
@@ -82,7 +83,7 @@ public class ChunkRenderer extends Component {
 	}
 	
 	private Vector3i getChunkPositionAt(float x, float y, float z) {
-		return new Vector3i((int) Math.floor(x / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(y / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(z / (float) Chunk.CHUNK_WIDTH));
+		return new Vector3i((int) Math.floor(x / (float) Chunk.CHUNK_SIDE), (int) Math.floor(y / (float) Chunk.CHUNK_SIDE), (int) Math.floor(z / (float) Chunk.CHUNK_SIDE));
 	}
 	
 	private void renderAround(Vector3i position, int distance) {
@@ -90,10 +91,9 @@ public class ChunkRenderer extends Component {
 		
 		while (iterator.hasNext()) {
 			ChunkBundle bundle = iterator.next();
-			Vector3i gridPosition = bundle.getChunk().getGridPosition();
+			Vector2i gridPosition = bundle.getChunk().getGridPosition();
 			if (Math.abs(gridPosition.x - position.x) > distance
-					|| Math.abs(gridPosition.y - position.y) > distance
-					|| Math.abs(gridPosition.z - position.z) > distance) {
+					|| Math.abs(gridPosition.y - position.y) > distance) {
 				iterator.remove();
 				continue;
 			}
@@ -114,7 +114,7 @@ public class ChunkRenderer extends Component {
 		for (int x = -distance; x <= distance; x++) {
 			for (int y = -distance; y <= distance; y++) {
 				for (int z = -distance; z <= distance; z++) {
-					chunkHandler.generateChunk(position.x + x, position.y + y, position.z + z);
+					chunkHandler.generateChunk(position.x + x, position.z + z);
 				}
 			}
 		}

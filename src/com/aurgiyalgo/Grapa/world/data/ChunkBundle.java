@@ -49,9 +49,9 @@ public class ChunkBundle {
 		readyToLoadToGpu = false;
 		long timer = System.nanoTime();
 		modelBuilder = new ModelBuilder();
-		for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-			for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
-				for (int z = 0; z < Chunk.CHUNK_WIDTH; z++) {
+		for (int x = 0; x < Chunk.CHUNK_SIDE; x++) {
+			for (int y = 0; y < Chunk.CHUNK_SIDE; y++) {
+				for (int z = 0; z < Chunk.CHUNK_SIDE; z++) {
 					BlockRegister.getBlock(chunk.data[x][y][z]).createModel(modelBuilder, x, y, z, chunk.data, chunk);
 				}
 			}

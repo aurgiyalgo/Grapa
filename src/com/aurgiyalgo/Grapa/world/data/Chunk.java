@@ -1,33 +1,34 @@
 package com.aurgiyalgo.Grapa.world.data;
 
-import org.joml.Vector3f;
-import org.joml.Vector3i;
+import org.joml.Vector2f;
+import org.joml.Vector2i;
 
 import com.aurgiyalgo.Grapa.world.generation.ChunkPopulator;
 
 import lombok.Getter;
 
 /**
- * Object to hold the data and model of a single chunk ({@value Chunk#CHUNK_WIDTH} blocks ^ 3).
+ * Object to hold the data and model of a single chunk ({@value Chunk#CHUNK_SIDE} blocks ^ 3).
  */
 public class Chunk {
 	
-	public static final int CHUNK_WIDTH = 16;
-	public static final int TOTAL_BLOCKS = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
+	public static final int CHUNK_SIDE = 16;
+	public static final int CHUNK_HEIGHT = 16;
+	public static final int TOTAL_BLOCKS = CHUNK_SIDE * CHUNK_HEIGHT * CHUNK_SIDE;
 	
 	protected int[][][] data;
 	@Getter
-	private Vector3i gridPosition;
+	private Vector2i gridPosition;
 	@Getter
-	private Vector3f worldPosition;
+	private Vector2f worldPosition;
 	
 	@Getter
 	private ChunkBundle bundle;
 	
-	public Chunk(Vector3i gridPosition) {
+	public Chunk(Vector2i gridPosition) {
 		this.gridPosition = gridPosition;
-		this.worldPosition = new Vector3f(gridPosition.x, gridPosition.y, gridPosition.z).mul(Chunk.CHUNK_WIDTH);
-		this.data = new int[CHUNK_WIDTH][CHUNK_WIDTH][CHUNK_WIDTH];
+		this.worldPosition = new Vector2f(gridPosition.x, gridPosition.y).mul(Chunk.CHUNK_SIDE);
+		this.data = new int[CHUNK_SIDE][CHUNK_SIDE][CHUNK_SIDE];
 	}
 	
 	/**
@@ -44,7 +45,7 @@ public class Chunk {
 	 * @return ID of the block at the coordinates, or 0 if the block is air or not found
 	 */
 	public int getBlock(int x, int y, int z) {
-		if (x < 0 || y < 0 || z < 0 || x > CHUNK_WIDTH-1 || y > CHUNK_WIDTH-1 || z > CHUNK_WIDTH-1) return 0;
+		if (x < 0 || y < 0 || z < 0 || x > CHUNK_SIDE -1 || y > CHUNK_SIDE -1 || z > CHUNK_SIDE -1) return 0;
 		return data[x][y][z];
 	}
 
@@ -56,18 +57,16 @@ public class Chunk {
 	 * @return <code>true</code> if block was successfully set, <code>false</code> if not
 	 */
 	public boolean setBlock(int id, int x, int y, int z) {
-		if (x < 0 || y < 0 || z < 0 || x > CHUNK_WIDTH-1 || y > CHUNK_WIDTH-1 || z > CHUNK_WIDTH-1) return false;
+		if (x < 0 || y < 0 || z < 0 || x > CHUNK_SIDE -1 || y > CHUNK_SIDE -1 || z > CHUNK_SIDE -1) return false;
 		if (data[x][y][z] == id) return false;
 		data[x][y][z] = id;
 		bundle.updateNextFrame();
 		
 		// TODO Temporary code for updating neighbor chunks when a block is changed in a border
-		if (x == 0) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x - 1, gridPosition.y, gridPosition.z);
-		if (x == CHUNK_WIDTH - 1) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x + 1, gridPosition.y, gridPosition.z);
-		if (y == 0) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x, gridPosition.y - 1, gridPosition.z);
-		if (y == CHUNK_WIDTH - 1) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x, gridPosition.y + 1, gridPosition.z);
-		if (z == 0) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x, gridPosition.y, gridPosition.z - 1);
-		if (z == CHUNK_WIDTH - 1) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x, gridPosition.y, gridPosition.z + 1);
+		if (x == 0) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x - 1, gridPosition.y);
+		if (x == CHUNK_SIDE - 1) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x + 1, gridPosition.y);
+		if (z == 0) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x, gridPosition.y- 1);
+		if (z == CHUNK_SIDE - 1) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x, gridPosition.y + 1);
 		return true;
 	}
 	
@@ -78,9 +77,9 @@ public class Chunk {
 	 * @return <code>true</code> if the given coordinates are inside the chunk, <code>false</code> if not
 	 */
 	public boolean isInside(int x, int y, int z) {
-		if (Math.floor(x / (float) CHUNK_WIDTH) != gridPosition.x) return false;
-		if (Math.floor(y / (float) CHUNK_WIDTH) != gridPosition.y) return false;
-		if (Math.floor(z / (float) CHUNK_WIDTH) != gridPosition.z) return false;
+		if (Math.floor(x / (float) CHUNK_SIDE) != gridPosition.x) return false;
+		if (y < 0 || y >= CHUNK_HEIGHT) return false;
+		if (Math.floor(z / (float) CHUNK_SIDE) != gridPosition.y) return false;
 		return true;
 	}
 	

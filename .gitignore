@@ -4,4 +4,6 @@
 /.settings
 /target
 Export.bat
+.idea/
+Grapa.iml
 

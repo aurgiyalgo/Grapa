@@ -1,6 +1,7 @@
 package com.aurgiyalgo.Grapa.utils;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -19,6 +20,13 @@ public class GrapaMaths {
 		matrix.rotate((float)Math.toRadians(ry), new Vector3f(0, 1, 0));
 		matrix.rotate((float)Math.toRadians(rz), new Vector3f(0, 0, 1));
 		matrix.scale(scale);
+		return matrix;
+	}
+
+	public static Matrix4f createTransformationMatrix(Vector2f translation) {
+		Matrix4f matrix = new Matrix4f();
+		matrix.identity();
+		matrix.translate(translation.x, 0, translation.y);
 		return matrix;
 	}
 	

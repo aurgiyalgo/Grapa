@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import org.joml.Vector2i;
 import org.joml.Vector3i;
 
 import com.aurgiyalgo.Grapa.arch.Component;
@@ -76,18 +77,17 @@ public class ChunkHandler extends Component {
 	}
 	
 	protected void loadChunk(int x, int y, int z) {
-		Chunk chunk = new Chunk(new Vector3i(x, y, z));
+		Chunk chunk = new Chunk(new Vector2i(x, y));
 		chunk.generateChunk(populator);
 		loadedChunks.add(new ChunkBundle(chunk, this));
 	}
 	
-	protected void unloadChunk(int x, int y, int z) {
+	protected void unloadChunk(int x, int y) {
 		Iterator<ChunkBundle> iterator = loadedChunks.iterator();
 		while (iterator.hasNext()) {
 			ChunkBundle bundle = iterator.next();
 			if (x != bundle.getChunk().getGridPosition().x) continue;
 			if (y != bundle.getChunk().getGridPosition().y) continue;
-			if (z != bundle.getChunk().getGridPosition().z) continue;
 			iterator.remove();
 			break;
 		}
@@ -95,7 +95,7 @@ public class ChunkHandler extends Component {
 	
 	/**
 	 * Add a chunk to the meshing queue
-	 * @param chunk Chunk to queue
+	 * @param chunkBundle Chunk to queue
 	 */
 	public void addChunkForMeshing(ChunkBundle chunkBundle) {
 		synchronized (chunksToMesh) {
@@ -113,7 +113,7 @@ public class ChunkHandler extends Component {
 		synchronized (loadedChunks) {
 			for (ChunkBundle bundle : loadedChunks) {
 				if (!bundle.getChunk().isInside(x, y, z)) continue;
-			    return bundle.getChunk().getBlock(Math.abs(bundle.getChunk().getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(bundle.getChunk().getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(bundle.getChunk().getGridPosition().z * Chunk.CHUNK_WIDTH - z));
+			    return bundle.getChunk().getBlock(Math.abs(bundle.getChunk().getGridPosition().x * Chunk.CHUNK_SIDE - x), Math.abs(Chunk.CHUNK_HEIGHT - y), Math.abs(bundle.getChunk().getGridPosition().y * Chunk.CHUNK_SIDE - z));
 			}
 		}
 		return 0;
@@ -129,25 +129,24 @@ public class ChunkHandler extends Component {
 	public boolean setBlock(int id, int x, int y, int z) {
 		for (ChunkBundle bundle : loadedChunks) {
 			if (!bundle.getChunk().isInside(x, y, z)) continue;
-		    return bundle.getChunk().setBlock(id, Math.abs(bundle.getChunk().getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(bundle.getChunk().getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(bundle.getChunk().getGridPosition().z * Chunk.CHUNK_WIDTH - z));
+		    return bundle.getChunk().setBlock(id, Math.abs(bundle.getChunk().getGridPosition().x * Chunk.CHUNK_SIDE - x), Math.abs(Chunk.CHUNK_HEIGHT - y), Math.abs(bundle.getChunk().getGridPosition().y * Chunk.CHUNK_SIDE - z));
 		}
-		Chunk c = new Chunk(getChunkPositionAt(x, y, z));
+		Chunk c = new Chunk(getChunkPositionAt(x, y));
 		loadedChunks.add(new ChunkBundle(c, this));
-		return c.setBlock(id, Math.abs(c.getGridPosition().x * Chunk.CHUNK_WIDTH - x), Math.abs(c.getGridPosition().y * Chunk.CHUNK_WIDTH - y), Math.abs(c.getGridPosition().z * Chunk.CHUNK_WIDTH - z));
+		return c.setBlock(id, Math.abs(c.getGridPosition().x * Chunk.CHUNK_SIDE - x), Math.abs(Chunk.CHUNK_HEIGHT - y), Math.abs(c.getGridPosition().y * Chunk.CHUNK_SIDE - z));
 	}
 	
 	/**
 	 * @param x The X component of the coordinates
 	 * @param y The Y component of the coordinates
-	 * @param z The Z component of the coordinates
 	 * @return Chunk position in the world
 	 */
-	private Vector3i getChunkPositionAt(float x, float y, float z) {
-		return new Vector3i((int) Math.floor(x / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(y / (float) Chunk.CHUNK_WIDTH), (int) Math.floor(z / (float) Chunk.CHUNK_WIDTH));
+	private Vector2i getChunkPositionAt(float x, float y) {
+		return new Vector2i((int) Math.floor(x / (float) Chunk.CHUNK_SIDE), (int) Math.floor(y / (float) Chunk.CHUNK_SIDE));
 	}
 	
-	public void updateChunkNextFrame(int x, int y, int z) {
-		Optional<ChunkBundle> chunk = getChunk(x, y, z);
+	public void updateChunkNextFrame(int x, int y) {
+		Optional<ChunkBundle> chunk = getChunk(x, y);
 		if (chunk.isPresent()) chunk.get().updateNextFrame();
 	}
 	
@@ -159,24 +158,22 @@ public class ChunkHandler extends Component {
 		return Optional.empty();
 	}
 	
-	public Optional<ChunkBundle> getChunk(int x, int y, int z) {
+	public Optional<ChunkBundle> getChunk(int x, int y) {
 		for (ChunkBundle bundle : loadedChunks) {
 			if (x != bundle.getChunk().getGridPosition().x) continue;
 			if (y != bundle.getChunk().getGridPosition().y) continue;
-			if (z != bundle.getChunk().getGridPosition().z) continue;
 			return Optional.of(bundle);
 		}
 		return Optional.empty();
 	}
 	
-	public void generateChunk(int x, int y, int z) {
+	public void generateChunk(int x, int y) {
 		for (ChunkBundle bundle : loadedChunks) {
 			if (x != bundle.getChunk().getGridPosition().x) continue;
 			if (y != bundle.getChunk().getGridPosition().y) continue;
-			if (z != bundle.getChunk().getGridPosition().z) continue;
 			return;
 		}
-		Chunk chunk = new Chunk(new Vector3i(x, y, z));
+		Chunk chunk = new Chunk(new Vector2i(x, y));
 		chunk.generateChunk(populator);
 		ChunkBundle bundle = new ChunkBundle(chunk, this);
 		loadedChunks.add(bundle);

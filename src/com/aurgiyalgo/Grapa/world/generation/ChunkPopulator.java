@@ -21,25 +21,25 @@ public class ChunkPopulator {
 	}
 
 	public int[][][] populate(Chunk chunk) {
-		int[][][] data = new int[Chunk.CHUNK_WIDTH][Chunk.CHUNK_WIDTH][Chunk.CHUNK_WIDTH];
+		int[][][] data = new int[Chunk.CHUNK_SIDE][Chunk.CHUNK_SIDE][Chunk.CHUNK_SIDE];
 
 		double currentNoise;
 
-		for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-			for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
-				for (int z = 0; z < Chunk.CHUNK_WIDTH; z++) {
-					currentNoise = noise.noise(x + chunk.getGridPosition().x * Chunk.CHUNK_WIDTH, z + chunk.getGridPosition().z * Chunk.CHUNK_WIDTH) * 20;
-					if (currentNoise > (chunk.getGridPosition().y * Chunk.CHUNK_WIDTH + y)) {
+		for (int x = 0; x < Chunk.CHUNK_SIDE; x++) {
+			for (int y = 0; y < Chunk.CHUNK_SIDE; y++) {
+				for (int z = 0; z < Chunk.CHUNK_SIDE; z++) {
+					currentNoise = noise.noise(x + chunk.getGridPosition().x * Chunk.CHUNK_SIDE, z + chunk.getGridPosition().y * Chunk.CHUNK_SIDE) * 50;
+					if (currentNoise > y) {
 						data[x][y][z] = 1;
 					}
-					if (Math.floor(currentNoise) == (chunk.getGridPosition().y * Chunk.CHUNK_WIDTH + y)) {
+					if (Math.floor(currentNoise) == y) {
 						data[x][y][z] = 4;
 					}
-					if (chunk.getGridPosition().y * Chunk.CHUNK_WIDTH + y < currentNoise - 5) {
+					if (y < currentNoise - 5) {
 						data[x][y][z] = 5;
 					}
-					if (noise.noise(x + chunk.getGridPosition().x * Chunk.CHUNK_WIDTH, y + chunk.getGridPosition().y * Chunk.CHUNK_WIDTH,
-							z + chunk.getGridPosition().z * Chunk.CHUNK_WIDTH) > 0.35) {
+					if (noise.noise(x + chunk.getGridPosition().x * Chunk.CHUNK_SIDE, y,
+							z + chunk.getGridPosition().y * Chunk.CHUNK_SIDE) > 0.35) {
 						data[x][y][z] = 0;
 					}
 				}
