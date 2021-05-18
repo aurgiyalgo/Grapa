@@ -13,7 +13,7 @@ public class InputComponent extends Component {
 	
 	private Input input;
 	
-	private static final float SPEED = 5f;
+	private static final float SPEED = 25f;
 	private static final float SENSIVITY = 10f;
 
 	public InputComponent(GameObject object) {

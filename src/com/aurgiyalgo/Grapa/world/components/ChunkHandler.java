@@ -13,6 +13,8 @@ import com.aurgiyalgo.Grapa.world.data.Chunk;
 import com.aurgiyalgo.Grapa.world.data.ChunkBundle;
 import com.aurgiyalgo.Grapa.world.generation.ChunkPopulator;
 
+import lombok.Getter;
+
 /**
  * Handles all the chunk data of a world.
  */
@@ -21,6 +23,7 @@ public class ChunkHandler extends Component {
 	private List<ChunkBundle> loadedChunks;
 	private List<ChunkBundle> chunksToMesh;
 	
+	@Getter
 	private ChunkPopulator populator;
 
 	public ChunkHandler(GameObject object) {
@@ -55,9 +58,13 @@ public class ChunkHandler extends Component {
 	 * Update the meshes for all the loaded chunks
 	 */
 	public void updateChunkMeshes() {
-		for (int i = 0; i < Math.min(chunksToMesh.size(), 1); i++) {
-			chunksToMesh.get(i).updateModel();
+		synchronized (chunksToMesh) {
+			for (int i = 0; i < Math.min(chunksToMesh.size(), 1); i++) {
+				chunksToMesh.get(i).updateModel();
+			}
 		}
+//		System.out.println(chunksToMesh.size());
+		
 	}
 	
 	public void loadChunkMeshesToGpu() {
@@ -91,7 +98,9 @@ public class ChunkHandler extends Component {
 	 * @param chunk Chunk to queue
 	 */
 	public void addChunkForMeshing(ChunkBundle chunkBundle) {
-		chunksToMesh.add(chunkBundle);
+		synchronized (chunksToMesh) {
+			chunksToMesh.add(chunkBundle);
+		}
 	}
 	
 	/**
@@ -137,7 +146,7 @@ public class ChunkHandler extends Component {
 	
 	public void updateChunkNextFrame(int x, int y, int z) {
 		Optional<ChunkBundle> chunk = getChunk(x, y, z);
-		if (chunk.isPresent()) chunk.get().updateNextFrame();
+		if (chunk.isPresent()) chunk.get().forceUpdateNextFrame();
 	}
 	
 	public Optional<ChunkBundle> getChunkAt(int x, int y, int z) {
@@ -166,9 +175,9 @@ public class ChunkHandler extends Component {
 			return;
 		}
 		Chunk chunk = new Chunk(new Vector3i(x, y, z));
-		chunk.generateChunk(populator);
 		ChunkBundle bundle = new ChunkBundle(chunk, this);
 		loadedChunks.add(bundle);
+		addChunkForMeshing(bundle);
 		return;
 	}
 	
