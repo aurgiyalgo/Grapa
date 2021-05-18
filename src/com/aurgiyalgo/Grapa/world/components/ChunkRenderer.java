@@ -54,6 +54,16 @@ public class ChunkRenderer extends Component {
 		shader.stop();
 		
 		chunkHandler = object.getComponent(ChunkHandler.class).get();
+		
+		int distance = 4;
+
+		for (int x = -distance; x <= distance; x++) {
+			for (int y = -distance; y <= distance; y++) {
+				for (int z = -distance; z <= distance; z++) {
+					chunkHandler.generateChunk(0 + x, 0 + y, 0 + z);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -66,7 +76,11 @@ public class ChunkRenderer extends Component {
 		
 		setRenderOrigin(camera.transform.position);
 		
+<<<<<<< HEAD
 		renderAround(renderOrigin, 3);
+=======
+		renderAround(renderOrigin, 2);
+>>>>>>> 1c608d7
 //		System.out.println("Draw time (" + chunkHandler.getChunks().size() + " chunks rendered): " + (System.nanoTime() - timer)/1000000d + "ms");
 		
 		GL30.glDisableVertexAttribArray(Grapa.POSITION_VERTEX_ATTRIB_INDEX);
@@ -90,14 +104,18 @@ public class ChunkRenderer extends Component {
 		
 		while (iterator.hasNext()) {
 			ChunkBundle bundle = iterator.next();
+			if (!bundle.isModelUpdated()) continue;
 			Vector3i gridPosition = bundle.getChunk().getGridPosition();
 			if (Math.abs(gridPosition.x - position.x) > distance
 					|| Math.abs(gridPosition.y - position.y) > distance
 					|| Math.abs(gridPosition.z - position.z) > distance) {
-				iterator.remove();
+//				iterator.remove();
 				continue;
 			}
+<<<<<<< HEAD
 			if (!bundle.isHasModel()) continue;
+=======
+>>>>>>> 1c608d7
 			
 			Model model = bundle.getModel();
 			GL30.glBindVertexArray(model.getData().getVaoId());
@@ -110,7 +128,7 @@ public class ChunkRenderer extends Component {
 			
 			GL30.glDrawArrays(GL30.GL_TRIANGLES, 0, model.getData().getVertexCount());
 		}
-
+		
 		for (int x = -distance; x <= distance; x++) {
 			for (int y = -distance; y <= distance; y++) {
 				for (int z = -distance; z <= distance; z++) {
@@ -118,6 +136,7 @@ public class ChunkRenderer extends Component {
 				}
 			}
 		}
+		
 	}
 	
 	/**

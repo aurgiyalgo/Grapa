@@ -30,7 +30,11 @@ public class ChunkBundle {
 	@Getter
 	private boolean isModelUpdated = false;
 	
+<<<<<<< HEAD
 	private boolean readyToLoadToGpu = false;
+=======
+	private boolean isGenerated = false;
+>>>>>>> 1c608d7
 	
 	private ModelBuilder modelBuilder;
 	
@@ -39,7 +43,7 @@ public class ChunkBundle {
 		this.chunk = chunk;
 		this.chunk.setBundle(this);
 		
-		forceUpdateNextFrame();
+//		updateNextFrame();
 	}
 	
 	/**
@@ -48,6 +52,11 @@ public class ChunkBundle {
 	public void updateModel() {
 		readyToLoadToGpu = false;
 		long timer = System.nanoTime();
+		isModelUpdated = false;
+		if (!isGenerated) {
+			chunk.generateChunk(chunkHandler.getPopulator());
+			isGenerated = true;
+		}
 		modelBuilder = new ModelBuilder();
 		for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
 			for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
@@ -76,14 +85,12 @@ public class ChunkBundle {
 	 * Queue the chunk to update its model at the beginning of the next frame
 	 */
 	public void updateNextFrame() {
-		if (!isModelUpdated) return;
 		chunkHandler.addChunkForMeshing(this);
-		isModelUpdated = false;
 	}
 	
-	protected void forceUpdateNextFrame() {
-		chunkHandler.addChunkForMeshing(this);
-		isModelUpdated = false;
+	public void forceUpdateNextFrame() {
+		updateModel();
+		loadModelToGpu();
 	}
 
 }

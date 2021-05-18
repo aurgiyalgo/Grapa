@@ -59,7 +59,7 @@ public class Chunk {
 		if (x < 0 || y < 0 || z < 0 || x > CHUNK_WIDTH-1 || y > CHUNK_WIDTH-1 || z > CHUNK_WIDTH-1) return false;
 		if (data[x][y][z] == id) return false;
 		data[x][y][z] = id;
-		bundle.updateNextFrame();
+		bundle.forceUpdateNextFrame();
 		
 		// TODO Temporary code for updating neighbor chunks when a block is changed in a border
 		if (x == 0) bundle.getChunkHandler().updateChunkNextFrame(gridPosition.x - 1, gridPosition.y, gridPosition.z);

@@ -3,5 +3,7 @@
 /bin
 /.settings
 /target
+/.idea
+Grapa.iml
 Export.bat
 
